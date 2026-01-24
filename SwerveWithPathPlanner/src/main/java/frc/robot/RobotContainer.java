@@ -27,6 +27,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Superstructure;
+import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.Constants;
@@ -53,7 +56,12 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final Intake s_Intake;
     public final Kicker s_Kicker;
+    public final ShooterSubsystem s_Shooter = new ShooterSubsystem(30, "Shooter");
     public final Spindexer s_Spindexer;
+    public final TurretSubsystem s_Turret = new TurretSubsystem(29, "Turret");
+    public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter, 
+    ()->drivetrain.getState().Pose,
+    ()->drivetrain.getState().Speeds);
     public final VisionSubsystem s_Vision;
     
 
@@ -90,6 +98,8 @@ public class RobotContainer {
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
+
+        superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.

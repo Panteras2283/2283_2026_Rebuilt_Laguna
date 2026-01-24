@@ -64,7 +64,7 @@ public class VisionSubsystem extends SubsystemBase {
         //Load field layout and set up pose estimator
         AprilTagFieldLayout fieldLayout = null;
         try {
-            fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+            fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
         } catch (Exception e) {
             System.out.println("Failed to load AprilTagFieldLayout: " + e.getMessage());
         }

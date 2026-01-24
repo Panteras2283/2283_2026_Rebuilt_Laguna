@@ -16,21 +16,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.ShootingTables;
 
-public class Shooter extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new Shooter. */
 
   private final TalonFX Flywheel;
 
   private final VelocityVoltage flywheelRequest = new VelocityVoltage(0); 
 
-  private String Turret;
+  private String Shooter;
 
   private double flywheelTargetRPM = 0;
   
   private static final double RPM_TOLERANCE_PERCENT = 0.03;
 
-  public Shooter(int flywheelCanID, String Turret) {
-    this.Turret = Turret;
+  public ShooterSubsystem(int flywheelCanID, String Shooter) {
+    this.Shooter = Shooter;
 
     Flywheel = new TalonFX(flywheelCanID, "rio");
     configureKraken();
@@ -77,7 +77,7 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-  SmartDashboard.putNumber(Turret + "/FlywheelRPM", Flywheel.getVelocity().getValueAsDouble() * 60.0);
-  SmartDashboard.putBoolean(Turret + "/Ready", isReadyToFire());
+  SmartDashboard.putNumber(Shooter + "/FlywheelRPM", Flywheel.getVelocity().getValueAsDouble() * 60.0);
+  SmartDashboard.putBoolean(Shooter + "/Ready", isReadyToFire());
   }
 }
