@@ -54,15 +54,15 @@ public class RobotContainer {
 
     //Subsystems
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    public final Intake s_Intake;
-    public final Kicker s_Kicker;
-    public final ShooterSubsystem s_Shooter = new ShooterSubsystem(30, "Shooter");
-    public final Spindexer s_Spindexer;
-    public final TurretSubsystem s_Turret = new TurretSubsystem(29, "Turret");
-    public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter, 
+  //  public final Intake s_Intake;
+  //  public final Kicker s_Kicker;
+   // public final ShooterSubsystem s_Shooter = new ShooterSubsystem(30, "Shooter");
+   // public final Spindexer s_Spindexer;
+    //public final TurretSubsystem s_Turret = new TurretSubsystem(29, "Turret");
+   /*  public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter, 
     ()->drivetrain.getState().Pose,
     ()->drivetrain.getState().Speeds);
-    public final VisionSubsystem s_Vision;
+    public final VisionSubsystem s_Vision;*/
     
 
 
@@ -72,10 +72,10 @@ public class RobotContainer {
     public RobotContainer() {
         
         //Subsystems
-        s_Intake = new Intake();
+       /*  s_Intake = new Intake();
         s_Kicker = new Kicker();
         s_Spindexer = new Spindexer();
-        s_Vision = new VisionSubsystem(drivetrain);
+        s_Vision = new VisionSubsystem(drivetrain);*/
         
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
@@ -99,7 +99,7 @@ public class RobotContainer {
             )
         );
 
-        superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
+       // superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -150,13 +150,13 @@ public class RobotContainer {
         
       
 
-        joystick.x().onTrue(new InstantCommand(()-> s_Kicker.Kick(-0.4)));
+       /*  joystick.x().onTrue(new InstantCommand(()-> s_Kicker.Kick(-0.4)));
         joystick.x().onFalse(new InstantCommand(()-> s_Kicker.stop()));
         
         joystick.y().onTrue(new InstantCommand(()-> s_Spindexer.SpinWI(-0.4)));
         joystick.y().onFalse(new InstantCommand(()-> s_Spindexer.stop()));
         joystick.y().onTrue(new InstantCommand(() -> s_Intake.feed(-0.70)));
-        joystick.y().onFalse(new InstantCommand(() -> s_Intake.stop()));
+        joystick.y().onFalse(new InstantCommand(() -> s_Intake.stop()));*/
 
         
 

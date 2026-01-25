@@ -39,13 +39,15 @@ public class VisionSubsystem extends SubsystemBase {
     private PhotonPoseEstimator photonPoseEstimator2;
     private static final String kPhotonCameraName1 = "arducam_left";
     private static final String kPhotonCameraName2 = "arducam_right";
+
+    
     private static final Transform3d kRobotToCam1 = new Transform3d(
-        new Translation3d (0,0,0), 
-        new Rotation3d(0,0,0)
+        new Translation3d (-14.5,1,13), 
+        new Rotation3d(0,60,0)
     );
     private static final Transform3d kRobotToCam2 = new Transform3d(
-        new Translation3d (0,0,0), 
-        new Rotation3d(0,0,0)
+        new Translation3d (14.5,1,13), 
+        new Rotation3d(0,60,0)
     );
 
 
