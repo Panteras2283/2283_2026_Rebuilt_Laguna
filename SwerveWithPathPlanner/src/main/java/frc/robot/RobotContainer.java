@@ -61,8 +61,9 @@ public class RobotContainer {
     //public final TurretSubsystem s_Turret = new TurretSubsystem(29, "Turret");
    /*  public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter, 
     ()->drivetrain.getState().Pose,
-    ()->drivetrain.getState().Speeds);
-    public final VisionSubsystem s_Vision;*/
+    ()->drivetrain.getState().Speeds);*/
+    
+    public final VisionSubsystem s_Vision;
     
 
 
@@ -74,8 +75,8 @@ public class RobotContainer {
         //Subsystems
        /*  s_Intake = new Intake();
         s_Kicker = new Kicker();
-        s_Spindexer = new Spindexer();
-        s_Vision = new VisionSubsystem(drivetrain);*/
+        s_Spindexer = new Spindexer();*/
+        s_Vision = new VisionSubsystem(drivetrain);
         
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
