@@ -190,7 +190,7 @@ public class VisionSubsystem extends SubsystemBase {
         if (count > 0) avgDist /= count;
 
         // Trust scales with distance, even for multi-tag
-        if (count >= 2) {
+        if (count >= 2){
             // Start at 0.1m trust, add more uncertainty as distance increases
             xyStds = 0.1 + (0.1 * avgDist * avgDist); 
         } else {
