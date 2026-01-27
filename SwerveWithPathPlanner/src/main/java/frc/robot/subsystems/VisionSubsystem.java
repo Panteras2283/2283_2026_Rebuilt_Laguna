@@ -42,12 +42,12 @@ public class VisionSubsystem extends SubsystemBase {
 
     
     private static final Transform3d kRobotToCam1 = new Transform3d(
-        new Translation3d (-14.5,1,13), 
-        new Rotation3d(0,60,0)
+        new Translation3d (-0.3683,0.0254,0.3302), 
+        new Rotation3d(0,1.0472,3.14159)
     );
     private static final Transform3d kRobotToCam2 = new Transform3d(
-        new Translation3d (14.5,1,13), 
-        new Rotation3d(0,60,0)
+        new Translation3d (0.3683,0.0254,0.3302), 
+        new Rotation3d(0,1.0472,3.14159)
     );
 
 
@@ -191,7 +191,7 @@ public class VisionSubsystem extends SubsystemBase {
             count++;
         
         }
-        if(count > 0)avgDist /= count;
+        if(count > 1)avgDist /= count;
 
         if (count >= 2){
             xyStds = 0.5;
