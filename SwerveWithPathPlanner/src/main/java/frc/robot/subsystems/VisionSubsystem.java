@@ -177,34 +177,30 @@ public class VisionSubsystem extends SubsystemBase {
         return VecBuilder.fill(xyStds, xyStds, Units.degreesToRadians(degStds));
     }
 
-    private Matrix<N3, N1> getPhotonStdDevs(EstimatedRobotPose estimate){
+    private Matrix<N3, N1> getPhotonStdDevs(EstimatedRobotPose estimate) {
         double xyStds;
-        double degStds;
-
-        //Calculate average distace to tag for this measurement
+        
+        // Calculate average distance
         double avgDist = 0;
         int count = 0;
-        var targets = estimate.targetsUsed;
-
-        for (var target: targets){
+        for (var target : estimate.targetsUsed) {
             avgDist += target.getBestCameraToTarget().getTranslation().getNorm();
             count++;
-        
         }
-        if(count > 1)avgDist /= count;
+        if (count > 0) avgDist /= count;
 
-        if (count >= 2){
-            xyStds = 0.5;
-            degStds = 6;
+        // Trust scales with distance, even for multi-tag
+        if (count >= 2) {
+            // Start at 0.1m trust, add more uncertainty as distance increases
+            xyStds = 0.1 + (0.1 * avgDist * avgDist); 
         } else {
-            if (avgDist > 4.0){
-                xyStds = 3.0;
-                degStds = 30;
-            } else {
-                xyStds = 0.9 + (0.3 * avgDist);
-                degStds = 10 + (5 * avgDist);
-            }
+            // Single tag is much less trustworthy
+            xyStds = 0.5 + (0.5 * avgDist * avgDist);
         }
+
+        // Use a massive number for rotation to trust the Pigeon (Gyro) exclusively
+        double degStds = 999.0; 
+
         return VecBuilder.fill(xyStds, xyStds, Units.degreesToRadians(degStds));
     }
 }
