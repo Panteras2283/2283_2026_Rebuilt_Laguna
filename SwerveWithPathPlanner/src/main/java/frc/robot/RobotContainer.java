@@ -125,7 +125,7 @@ public class RobotContainer {
 
 
         //Drive to Pose (Precise Positioning)
-        joystick.leftStick().whileTrue(
+        joystick.rightBumper().whileTrue(
             new Precise_DriveToPose_cmd(
                 drivetrain, 
                 Constants.AutopilotConstants.kPathConstraints, 
@@ -137,7 +137,7 @@ public class RobotContainer {
         );
 
         //Drive to Pose (Fast Positioning)
-        joystick.rightStick().whileTrue(
+        joystick.leftBumper().whileTrue(
             new Fast_DriveToPose_cmd(
                 drivetrain, 
                 Constants.AutopilotConstants.kPathConstraints, 

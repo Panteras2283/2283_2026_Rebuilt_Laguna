@@ -18,10 +18,10 @@ public class Constants {
         // Max Velocity (m/s), Max Acceleration (m/s^2), 
         // Max Angular Velocity (rad/s), Max Angular Acceleration (rad/s^2)
         public static final PathConstraints kPathConstraints = new PathConstraints(
-            4.0, 
-            10.0, 
-            Units.degreesToRadians(540), 
-            Units.degreesToRadians(720)
+            4, 
+            40, 
+            Units.degreesToRadians(6), 
+            Units.degreesToRadians(6)
         );
 
        // Field Dimensions (Standard FRC Field)
