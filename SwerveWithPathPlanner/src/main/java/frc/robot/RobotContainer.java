@@ -56,12 +56,15 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
   //  public final Intake s_Intake;
   //  public final Kicker s_Kicker;
-   // public final ShooterSubsystem s_Shooter = new ShooterSubsystem(30, "Shooter");
-   // public final Spindexer s_Spindexer;
-    //public final TurretSubsystem s_Turret = new TurretSubsystem(29, "Turret");
-   /*  public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter, 
+    //public final ShooterSubsystem s_Shooter = new ShooterSubsystem(30, "Shooter");
+    //public final Spindexer s_Spindexer;
+    public final TurretSubsystem s_Turret = new TurretSubsystem(29, "Turret");
+
+//public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter, ()->drivetrain.getState().Pose,()->drivetrain.getState().Speeds);
+
+    public final Superstructure superstructure = new Superstructure(s_Turret, 
     ()->drivetrain.getState().Pose,
-    ()->drivetrain.getState().Speeds);*/
+    ()->drivetrain.getState().Speeds);
     
     public final VisionSubsystem s_Vision;
     
@@ -100,7 +103,7 @@ public class RobotContainer {
             )
         );
 
-       // superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
+       superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.

@@ -25,7 +25,7 @@ public class Superstructure extends SubsystemBase {
   /** Creates a new Superstructure. */
 
   private final TurretSubsystem turret;
-  private final ShooterSubsystem shooter;
+  //private final ShooterSubsystem shooter;
 
   private final Supplier<Pose2d> poseSupplier;
   private final Supplier<ChassisSpeeds> speedSupplier;
@@ -38,7 +38,16 @@ public class Superstructure extends SubsystemBase {
 
   private final StructPublisher<Pose2d> turretTargetPub;
 
-  public Superstructure(TurretSubsystem turret, ShooterSubsystem shooter, Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier) {
+  public Superstructure(TurretSubsystem turret, Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier) {
+    this.turret = turret;
+    this.poseSupplier = poseSupplier;
+    this.speedSupplier = speedSupplier;
+    
+    var table = NetworkTableInstance.getDefault().getTable("Superstructure");
+    turretTargetPub = table.getStructTopic("Turret", Pose2d.struct).publish();
+  }
+
+  /*public Superstructure(TurretSubsystem turret, ShooterSubsystem shooter, Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier) {
     this.turret = turret;
     this.shooter = shooter;
     this.poseSupplier = poseSupplier;
@@ -46,7 +55,8 @@ public class Superstructure extends SubsystemBase {
     
     var table = NetworkTableInstance.getDefault().getTable("Superstructure");
     turretTargetPub = table.getStructTopic("Turret", Pose2d.struct).publish();
-  }
+  } */
+
 
   @Override
   public void periodic() {
@@ -61,12 +71,40 @@ public class Superstructure extends SubsystemBase {
     }
 
     isTurretLockedOn = runAimingLoop(
-      turret, shooter, robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, "Turret", turretTargetPub
+      turret, robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, "Turret", turretTargetPub
     );
+
+    /* isTurretLockedOn = runAimingLoop(
+      turret, shooter, robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, "Turret", turretTargetPub
+    ); */
 
     }
 
-    private boolean runAimingLoop(TurretSubsystem turret, ShooterSubsystem shooter, Pose2d robotPose, ChassisSpeeds robotSpeeds, Translation2d offset, Translation2d targetLocation, String sideName, StructPublisher<Pose2d> publisher){
+    private boolean runAimingLoop(TurretSubsystem turret, Pose2d robotPose, ChassisSpeeds robotSpeeds, Translation2d offset, Translation2d targetLocation, String sideName, StructPublisher<Pose2d> publisher){
+      double rawDistance = robotPose.getTranslation().getDistance(targetLocation);
+      double estimatedExitVel = ShootingTables.ExitVelocityMap.get(rawDistance);
+      AimingSolution solution = ShootingPhysics.calculateAimingSolution(robotPose, robotSpeeds, offset, targetLocation, estimatedExitVel);
+
+      publisher.set(solution.virtualTarget());
+
+      double targetRPM = ShootingTables.FlywheelMap.get(solution.effectiveDistance());
+
+      SmartDashboard.putNumber(sideName + "/Aim/Dist_Effective", solution.effectiveDistance());
+      SmartDashboard.putNumber(sideName + "/Aim/Target_Angle", solution.turretAngle().getDegrees());
+      SmartDashboard.putNumber(sideName + "/Aim/RPM/_Top", targetRPM);
+
+      turret.setTargetAngle(solution.turretAngle());
+
+
+      boolean turretAtTarget = Math.abs(turret.getErrorDegrees()) < 2.0;
+
+      boolean locked = turretAtTarget;
+      SmartDashboard.putBoolean(sideName + "/Locked", locked);
+
+      return locked;
+  }
+
+  /*private boolean runAimingLoop(TurretSubsystem turret, ShooterSubsystem shooter, Pose2d robotPose, ChassisSpeeds robotSpeeds, Translation2d offset, Translation2d targetLocation, String sideName, StructPublisher<Pose2d> publisher){
       double rawDistance = robotPose.getTranslation().getDistance(targetLocation);
       double estimatedExitVel = ShootingTables.ExitVelocityMap.get(rawDistance);
       AimingSolution solution = ShootingPhysics.calculateAimingSolution(robotPose, robotSpeeds, offset, targetLocation, estimatedExitVel);
@@ -90,7 +128,7 @@ public class Superstructure extends SubsystemBase {
       SmartDashboard.putBoolean(sideName + "/Locked", locked);
 
       return locked;
-  }
+  } */
 
   public boolean canShoot(){return isTurretLockedOn;}
 }

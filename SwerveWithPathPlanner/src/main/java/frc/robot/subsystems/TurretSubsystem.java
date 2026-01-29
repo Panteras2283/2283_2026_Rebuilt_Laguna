@@ -12,58 +12,83 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.revrobotics.RelativeEncoder;
+
+import com.revrobotics.sim.SparkMaxSim;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.ClosedLoopConfig;
+
+
 
 public class TurretSubsystem extends SubsystemBase {
   /** Creates a new Turret. */
 
-  private final TalonFX turretMotor;
+  private final SparkFlex turretMotor;
   private final String Turret;
+  private final RelativeEncoder turretEncoder;
+  private final SparkClosedLoopController turretController;
+  private final SparkFlexConfig turretConfig = new SparkFlexConfig();
 
-  private final MotionMagicVoltage mmRequest = new MotionMagicVoltage(0);
 
   // Check with CAD
-  private static final double GEAR_RATIO = 15.0;
+  private static final double GEAR_RATIO = 3.5;
 
   private static final double SOFT_LIMIT_FWD_ROT = 0.48;
   private static final double SOFT_LIMIT_BWD_ROT = -0.48;
 
   private static final double AIM_TOLERANCE_DEG = 2.0;
 
+  private static final double kP = 2;
+  private static final double kI = 0.0;
+  private static final double kD = 0.0;
+  private static final double kFF = 0.00015;
+
+  private static final double maxVel_RPM = 10;
+  private static final double maxAcc_RPMps = 200;
+
   public TurretSubsystem(int canId, String Turret) {
      this.Turret = Turret;
 
-     this.turretMotor = new TalonFX(canId, "rio");
+     this.turretMotor = new SparkFlex(canId, MotorType.kBrushless);
+     this.turretEncoder = turretMotor.getEncoder();
+     this.turretController = turretMotor.getClosedLoopController();
 
      configureTurret();
   }
 
+  
+
   private void configureTurret(){
-    TalonFXConfiguration cfg = new TalonFXConfiguration();
+    SparkFlexConfig config = new SparkFlexConfig();
 
-    cfg.Feedback.SensorToMechanismRatio = GEAR_RATIO;
-    cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = SOFT_LIMIT_FWD_ROT;
-    cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-    cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = SOFT_LIMIT_BWD_ROT;
-    cfg.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    config.encoder.positionConversionFactor(1.0/GEAR_RATIO);
+    config.encoder.velocityConversionFactor(1.0/GEAR_RATIO * 60.0);
+    config.softLimit.forwardSoftLimitEnabled(true);
+    config.softLimit.forwardSoftLimit(SOFT_LIMIT_FWD_ROT);
+    config.softLimit.reverseSoftLimitEnabled(true);
+    config.softLimit.reverseSoftLimit(SOFT_LIMIT_BWD_ROT);
+    config.closedLoop.maxMotion.maxVelocity(maxVel_RPM);
+    config.closedLoop.maxMotion.maxAcceleration(maxAcc_RPMps);
+    config.closedLoop.maxMotion.allowedClosedLoopError(0.06);
+    config.closedLoop.pidf(kP, kI, kD, kFF);
+    config.idleMode(IdleMode.kBrake);
+    config.smartCurrentLimit(60);
+    config.voltageCompensation(12.0);
 
-    cfg.MotionMagic.MotionMagicCruiseVelocity = 2.5;
-    cfg.MotionMagic.MotionMagicAcceleration = 5.0;
-    cfg.MotionMagic.MotionMagicJerk = 0.0;
 
-    cfg.Slot0.kP = 40.0;
-    cfg.Slot0.kI = 0;
-    cfg.Slot0.kD = 0.5;
-    cfg.Slot0.kV = 0.12;
-    cfg.Slot0.kS = 0.25;
 
-    cfg.CurrentLimits.StatorCurrentLimit = 60.0;
-    cfg.CurrentLimits.StatorCurrentLimitEnable = true;
+    turretMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    turretMotor.getConfigurator().apply(cfg);
-
-    turretMotor.setNeutralMode(NeutralModeValue.Brake);
-
-    turretMotor.setPosition(0);
+    turretEncoder.setPosition(0);
 
   }
 
@@ -71,24 +96,22 @@ public class TurretSubsystem extends SubsystemBase {
     double targetRotations = targetAngle.getRotations();
 
     targetRotations = MathUtil.inputModulus(targetRotations, -0.5, 0.5);
-
     targetRotations = MathUtil.clamp(targetRotations, SOFT_LIMIT_BWD_ROT, SOFT_LIMIT_FWD_ROT);
 
-    turretMotor.setControl(mmRequest.withPosition(targetRotations));
+    turretController.setReference(targetRotations, ControlType.kMAXMotionPositionControl);
   }
 
   public Rotation2d getCurrentAngle(){
-    double rotations = turretMotor.getPosition().getValueAsDouble();
+    double rotations = turretEncoder.getPosition();
     return Rotation2d.fromRotations(rotations);
   }
 
   public double getErrorDegrees(){
-    double errorRotations = turretMotor.getClosedLoopError().getValueAsDouble();
-    return Rotation2d.fromRotations(errorRotations).getDegrees();
+    return 1.0;
   }
 
   public void resetPosition(){
-    turretMotor.setPosition(0);
+    turretEncoder.setPosition(0);
   }
 
   @Override

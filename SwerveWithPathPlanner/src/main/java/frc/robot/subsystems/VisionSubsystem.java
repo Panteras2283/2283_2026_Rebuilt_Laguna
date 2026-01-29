@@ -31,7 +31,7 @@ import frc.robot.LimelightHelpers.PoseEstimate;
 public class VisionSubsystem extends SubsystemBase {
     private final CommandSwerveDrivetrain drivetrain;
     
-    private static final String kLimelightName = "limelight";
+    private static final String kLimelightName = "limelight-three";
 
     private final PhotonCamera photon1; 
     private final PhotonCamera photon2;
@@ -92,7 +92,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        //updateLimelight();
+        updateLimelight();
         updatePhotonVision(photonPoseEstimator1, photon1);
         updatePhotonVision(photonPoseEstimator2, photon2);
 
