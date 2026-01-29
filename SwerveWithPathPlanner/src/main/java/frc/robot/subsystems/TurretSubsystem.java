@@ -76,9 +76,9 @@ public class TurretSubsystem extends SubsystemBase {
     config.softLimit.forwardSoftLimit(SOFT_LIMIT_FWD_ROT);
     config.softLimit.reverseSoftLimitEnabled(true);
     config.softLimit.reverseSoftLimit(SOFT_LIMIT_BWD_ROT);
-    config.closedLoop.maxMotion.maxVelocity(maxVel_RPM);
+    config.closedLoop.maxMotion.cruiseVelocity(maxVel_RPM);
     config.closedLoop.maxMotion.maxAcceleration(maxAcc_RPMps);
-    config.closedLoop.maxMotion.allowedClosedLoopError(0.06);
+    config.closedLoop.maxMotion.allowedProfileError(0.06);
     config.closedLoop.pidf(kP, kI, kD, kFF);
     config.idleMode(IdleMode.kBrake);
     config.smartCurrentLimit(60);
