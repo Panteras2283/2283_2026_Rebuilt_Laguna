@@ -20,8 +20,8 @@ public class Constants {
         public static final PathConstraints kPathConstraints = new PathConstraints(
             4, 
             40, 
-            Units.degreesToRadians(6), 
-            Units.degreesToRadians(6)
+            Units.degreesToRadians(54), 
+            Units.degreesToRadians(72)
         );
 
        // Field Dimensions (Standard FRC Field)
