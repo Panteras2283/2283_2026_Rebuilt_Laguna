@@ -47,7 +47,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   private static final double AIM_TOLERANCE_DEG = 2.0;
 
-  private static final double kP = 2;
+  private static final double kP = 20;
   private static final double kI = 0.0;
   private static final double kD = 0.0;
   private static final double kFF = 0.00015;
@@ -78,7 +78,7 @@ public class TurretSubsystem extends SubsystemBase {
     config.softLimit.reverseSoftLimit(SOFT_LIMIT_BWD_ROT);
     config.closedLoop.maxMotion.cruiseVelocity(maxVel_RPM);
     config.closedLoop.maxMotion.maxAcceleration(maxAcc_RPMps);
-    config.closedLoop.maxMotion.allowedProfileError(0.06);
+    config.closedLoop.maxMotion.allowedProfileError(0.04);
     config.closedLoop.pidf(kP, kI, kD, kFF);
     config.idleMode(IdleMode.kBrake);
     config.smartCurrentLimit(60);
