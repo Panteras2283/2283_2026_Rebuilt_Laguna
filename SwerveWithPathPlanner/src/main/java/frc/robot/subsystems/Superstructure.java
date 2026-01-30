@@ -30,8 +30,8 @@ public class Superstructure extends SubsystemBase {
   private final Supplier<Pose2d> poseSupplier;
   private final Supplier<ChassisSpeeds> speedSupplier;
 
-  private final Translation2d TURRET_OFFSET = new Translation2d(0.0, 0.25);
-  private final Translation2d BLUE_TARGET = new Translation2d(4.6, 4);
+  private final Translation2d TURRET_OFFSET = new Translation2d(-0.28, 0.9);
+  private final Translation2d BLUE_TARGET = new Translation2d(4.554, 4.068);
   private final Translation2d RED_TARGET = new Translation2d(11.9, 4);
 
   private boolean isTurretLockedOn = false;

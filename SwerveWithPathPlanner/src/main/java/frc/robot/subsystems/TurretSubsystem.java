@@ -40,20 +40,20 @@ public class TurretSubsystem extends SubsystemBase {
 
 
   // Check with CAD
-  private static final double GEAR_RATIO = 3.5;
+  private static final double GEAR_RATIO = 9;
 
   private static final double SOFT_LIMIT_FWD_ROT = 0.48;
   private static final double SOFT_LIMIT_BWD_ROT = -0.48;
 
-  private static final double AIM_TOLERANCE_DEG = 2.0;
+  private static final double AIM_TOLERANCE_DEG = 2;
 
-  private static final double kP = 20;
+  private static final double kP = 10;
   private static final double kI = 0.0;
   private static final double kD = 0.0;
-  private static final double kFF = 0.00015;
+  private static final double kFF = 12/380;
 
-  private static final double maxVel_RPM = 10;
-  private static final double maxAcc_RPMps = 200;
+  private static final double maxVel_RPM = 650;
+  private static final double maxAcc_RPMps = 750;
 
   public TurretSubsystem(int canId, String Turret) {
      this.Turret = Turret;
@@ -71,15 +71,16 @@ public class TurretSubsystem extends SubsystemBase {
     SparkFlexConfig config = new SparkFlexConfig();
 
     config.encoder.positionConversionFactor(1.0/GEAR_RATIO);
-    config.encoder.velocityConversionFactor(1.0/GEAR_RATIO * 60.0);
+    config.encoder.velocityConversionFactor(1.0/GEAR_RATIO);
     config.softLimit.forwardSoftLimitEnabled(true);
     config.softLimit.forwardSoftLimit(SOFT_LIMIT_FWD_ROT);
     config.softLimit.reverseSoftLimitEnabled(true);
     config.softLimit.reverseSoftLimit(SOFT_LIMIT_BWD_ROT);
     config.closedLoop.maxMotion.cruiseVelocity(maxVel_RPM);
     config.closedLoop.maxMotion.maxAcceleration(maxAcc_RPMps);
-    config.closedLoop.maxMotion.allowedProfileError(0.04);
-    config.closedLoop.pidf(kP, kI, kD, kFF);
+    config.closedLoop.maxMotion.allowedProfileError(0.008);
+    config.closedLoop.feedForward.kV(kFF);
+    config.closedLoop.pid(kP, kI, kD);
     config.idleMode(IdleMode.kBrake);
     config.smartCurrentLimit(60);
     config.voltageCompensation(12.0);
