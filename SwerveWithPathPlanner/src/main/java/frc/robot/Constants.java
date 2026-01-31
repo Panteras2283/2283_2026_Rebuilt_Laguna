@@ -18,10 +18,10 @@ public class Constants {
         // Max Velocity (m/s), Max Acceleration (m/s^2), 
         // Max Angular Velocity (rad/s), Max Angular Acceleration (rad/s^2)
         public static final PathConstraints kPathConstraints = new PathConstraints(
+            3, 
             4, 
-            40, 
-            Units.degreesToRadians(54), 
-            Units.degreesToRadians(72)
+            Units.degreesToRadians(540), 
+            Units.degreesToRadians(720)
         );
 
        // Field Dimensions (Standard FRC Field)
@@ -38,7 +38,7 @@ public class Constants {
             Rotation2d three = Rotation2d.fromDegrees(-60);
 
             // --- SIDE 1 (Example: Neutral Zone) ---
-            POSES[0][0] = new Pose2d(7, 6.767, Rotation2d.fromDegrees(-45)); // Side 1, Slot 0 (Left)
+            POSES[0][0] = new Pose2d(7, 6.767, Rotation2d.fromDegrees(0)); // Side 1, Slot 0 (Left)
             POSES[0][1] = new Pose2d(4.0, 3.5, one); // Side 1, Slot 1 (Center)
             POSES[0][2] = new Pose2d(7, 1.127, Rotation2d.fromDegrees(45)); // Side 1, Slot 2 (Right)
 
