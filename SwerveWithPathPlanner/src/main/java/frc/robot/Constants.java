@@ -18,8 +18,9 @@ public class Constants {
         // Max Velocity (m/s), Max Acceleration (m/s^2), 
         // Max Angular Velocity (rad/s), Max Angular Acceleration (rad/s^2)
         public static final PathConstraints kPathConstraints = new PathConstraints(
-            3, 
+            2.5, 
             4, 
+            
             Units.degreesToRadians(540), 
             Units.degreesToRadians(720)
         );
