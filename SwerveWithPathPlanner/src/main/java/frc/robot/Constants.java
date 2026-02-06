@@ -37,7 +37,6 @@ public class Constants {
             Rotation2d one = Rotation2d.fromDegrees(0);
             Rotation2d two = Rotation2d.fromDegrees(-120);
             Rotation2d three = Rotation2d.fromDegrees(-60);
-            Rotation2d four = Rotation2d.fromDegrees(180);
 
             // --- SIDE 1 (Example: Neutral Zone) ---
             POSES[0][0] = new Pose2d(7, 6.767, Rotation2d.fromDegrees(0)); // Side 1, Slot 0 (Left)
@@ -54,9 +53,6 @@ public class Constants {
              POSES[2][1] = new Pose2d(5.5, 2.5, three);
              POSES[2][2] = new Pose2d(6.0, 3.0, three);
 
-             /* Auto poses */
-             // --- Depot ---
-             POSES[3][0] = new Pose2d(0.433, 5.990, four);
 
  
        }
