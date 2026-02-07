@@ -19,6 +19,7 @@ import frc.robot.Utils.ShootingPhysics.AimingSolution;
 import frc.robot.Utils.ShootingTables;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.math.geometry.Rotation2d;
 
 import java.util.function.Supplier;
 
@@ -105,7 +106,7 @@ public class Superstructure extends SubsystemBase {
 
       var adjustedAngle =
       solution.turretAngle().plus(
-        edu.wpi.first.math.geometry.Rotation2d.fromDegrees(operatorOffset)
+        Rotation2d.fromDegrees(operatorOffset)
       );
 
       turret.setTargetAngle(adjustedAngle);
