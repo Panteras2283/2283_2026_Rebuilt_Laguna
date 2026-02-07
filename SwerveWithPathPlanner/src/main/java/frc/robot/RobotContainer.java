@@ -51,6 +51,7 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController joystick = new CommandXboxController(0);
+    private final CommandXboxController operator = new CommandXboxController(1);
 
     //Subsystems
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
@@ -62,9 +63,10 @@ public class RobotContainer {
 
 //public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter, ()->drivetrain.getState().Pose,()->drivetrain.getState().Speeds);
 
+
     public final Superstructure superstructure = new Superstructure(s_Turret, 
     ()->drivetrain.getState().Pose,
-    ()->drivetrain.getState().Speeds);
+    ()->drivetrain.getState().Speeds, operator);
     
     public final VisionSubsystem s_Vision;
     
@@ -105,7 +107,7 @@ public class RobotContainer {
             )
         );
 
-       //superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
+       superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.

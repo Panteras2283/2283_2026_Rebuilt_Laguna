@@ -11,6 +11,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -37,7 +38,7 @@ public class Superstructure extends SubsystemBase {
   private final Translation2d BLUE_TARGET = new Translation2d(4.554, 4.068);
   private final Translation2d RED_TARGET = new Translation2d(11.9, 4);
 
-  private final CommandXboxController operator = new CommandXboxController(1);
+  private final CommandXboxController operator;
 
   private boolean isTurretLockedOn = false;
 
@@ -45,10 +46,17 @@ public class Superstructure extends SubsystemBase {
 
   private double operatorOffset = 0;
 
-  public Superstructure(TurretSubsystem turret, Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier) {
+
+  
+
+
+
+  public Superstructure(TurretSubsystem turret, Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier, CommandXboxController operator) {
     this.turret = turret;
     this.poseSupplier = poseSupplier;
     this.speedSupplier = speedSupplier;
+    this.operator = operator;
+
     
     var table = NetworkTableInstance.getDefault().getTable("Superstructure");
     turretTargetPub = table.getStructTopic("Turret", Pose2d.struct).publish();
@@ -70,8 +78,8 @@ public class Superstructure extends SubsystemBase {
     // This method will be called once per scheduler run
     Pose2d robotPose = poseSupplier.get();
     ChassisSpeeds robotSpeeds = speedSupplier.get();
-
-    operatorOffset = operator.getLeftX() * 10;
+    
+    operatorOffset = operator.getLeftX();
 
     Translation2d currentTarget = BLUE_TARGET;
     var alliance = DriverStation.getAlliance();
@@ -98,25 +106,34 @@ public class Superstructure extends SubsystemBase {
 
       double targetRPM = ShootingTables.FlywheelMap.get(solution.effectiveDistance());
 
-      SmartDashboard.putNumber(sideName + "/Aim/Dist_Effective", solution.effectiveDistance());
-      SmartDashboard.putNumber(sideName + "/Aim/Target_Angle", solution.turretAngle().getDegrees());
-      SmartDashboard.putNumber(sideName + "/Aim/RPM/_Top", targetRPM);
+      
 
       //turret.setTargetAngle(solution.turretAngle());
 
-      var adjustedAngle =
-      solution.turretAngle().plus(
-        Rotation2d.fromDegrees(operatorOffset)
-      );
+      Rotation2d targetAngle = solution.turretAngle();
 
-      turret.setTargetAngle(adjustedAngle);
+      // Check deadband
+      if(Math.abs(operatorOffset) > 0.05 || Math.abs(operatorOffset) < 0.05) {
+          // Invert logic: Left stick (negative) usually means "Aim Left" (Positive Rotation in standard math)
+          // Adjust the sign (- or +) depending on your specific turret wiring
+          targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
 
+          turret.setTargetAngle(targetAngle);
+      }else{
+        turret.setTargetAngle(targetAngle);
+      }
+        
+      
 
 
       boolean turretAtTarget = Math.abs(turret.getErrorDegrees()) < 2.0;
 
       boolean locked = turretAtTarget;
       SmartDashboard.putBoolean(sideName + "/Locked", locked);
+
+      SmartDashboard.putNumber(sideName + "/Aim/Dist_Effective", solution.effectiveDistance());
+      SmartDashboard.putNumber(sideName + "/Aim/Target_Angle", solution.turretAngle().getDegrees());
+      SmartDashboard.putNumber(sideName + "/Aim/RPM/_Top", targetRPM);
 
       return locked;
   }
