@@ -17,6 +17,8 @@ import frc.robot.Constants;
 import frc.robot.Utils.ShootingPhysics;
 import frc.robot.Utils.ShootingPhysics.AimingSolution;
 import frc.robot.Utils.ShootingTables;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import java.util.function.Supplier;
 
@@ -34,9 +36,13 @@ public class Superstructure extends SubsystemBase {
   private final Translation2d BLUE_TARGET = new Translation2d(4.554, 4.068);
   private final Translation2d RED_TARGET = new Translation2d(11.9, 4);
 
+  private final CommandXboxController operator = new CommandXboxController(1);
+
   private boolean isTurretLockedOn = false;
 
   private final StructPublisher<Pose2d> turretTargetPub;
+
+  private double operatorOffset = 0;
 
   public Superstructure(TurretSubsystem turret, Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier) {
     this.turret = turret;
@@ -63,6 +69,8 @@ public class Superstructure extends SubsystemBase {
     // This method will be called once per scheduler run
     Pose2d robotPose = poseSupplier.get();
     ChassisSpeeds robotSpeeds = speedSupplier.get();
+
+    operatorOffset = operator.getLeftX() * 10;
 
     Translation2d currentTarget = BLUE_TARGET;
     var alliance = DriverStation.getAlliance();
@@ -93,7 +101,15 @@ public class Superstructure extends SubsystemBase {
       SmartDashboard.putNumber(sideName + "/Aim/Target_Angle", solution.turretAngle().getDegrees());
       SmartDashboard.putNumber(sideName + "/Aim/RPM/_Top", targetRPM);
 
-      turret.setTargetAngle(solution.turretAngle());
+      //turret.setTargetAngle(solution.turretAngle());
+
+      var adjustedAngle =
+      solution.turretAngle().plus(
+        edu.wpi.first.math.geometry.Rotation2d.fromDegrees(operatorOffset)
+      );
+
+      turret.setTargetAngle(adjustedAngle);
+
 
 
       boolean turretAtTarget = Math.abs(turret.getErrorDegrees()) < 2.0;
