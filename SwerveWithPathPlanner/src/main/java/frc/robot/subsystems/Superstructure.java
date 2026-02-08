@@ -42,6 +42,8 @@ public class Superstructure extends SubsystemBase {
 
   private boolean isTurretLockedOn = false;
 
+  public boolean shooting = false;
+
   private final StructPublisher<Pose2d> turretTargetPub;
 
   private double operatorOffset = 0;
@@ -112,14 +114,13 @@ public class Superstructure extends SubsystemBase {
 
       Rotation2d targetAngle = solution.turretAngle();
 
-      // Check deadband
-      if(Math.abs(operatorOffset) > 0.05 || Math.abs(operatorOffset) < 0.05) {
-          // Invert logic: Left stick (negative) usually means "Aim Left" (Positive Rotation in standard math)
-          // Adjust the sign (- or +) depending on your specific turret wiring
-          targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
+      
 
-          turret.setTargetAngle(targetAngle);
-      }else{
+
+      if(Math.abs(operatorOffset) > 0.05) {
+        targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
+        turret.setTargetAngle(targetAngle);
+      } else {
         turret.setTargetAngle(targetAngle);
       }
         
@@ -132,7 +133,7 @@ public class Superstructure extends SubsystemBase {
       SmartDashboard.putBoolean(sideName + "/Locked", locked);
 
       SmartDashboard.putNumber(sideName + "/Aim/Dist_Effective", solution.effectiveDistance());
-      SmartDashboard.putNumber(sideName + "/Aim/Target_Angle", solution.turretAngle().getDegrees());
+      SmartDashboard.putNumber(sideName + "/Aim/Target_Angle", solution.turretAngle().plus(Rotation2d.fromDegrees(operatorOffset * 10)).getDegrees());
       SmartDashboard.putNumber(sideName + "/Aim/RPM/_Top", targetRPM);
 
       return locked;

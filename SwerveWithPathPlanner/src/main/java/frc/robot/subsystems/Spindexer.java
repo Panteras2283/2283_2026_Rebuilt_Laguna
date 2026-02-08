@@ -12,6 +12,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.FeedbackSensor;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -19,48 +27,37 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 
 public class Spindexer extends SubsystemBase {
 
-  private TalonFX SpindexerMotor = new TalonFX(Constants.Spindexer.motorID);
+  private SparkFlex SpindexerMotor = new SparkFlex(Constants.Spindexer.motorID, MotorType.kBrushless);
+  private SparkFlexConfig SpindexerConfig = new SparkFlexConfig();
+  private SparkClosedLoopController spindexerClosedLoopController = SpindexerMotor.getClosedLoopController();
+  private RelativeEncoder SpindexerEncoder = SpindexerMotor.getEncoder();
 
-  private VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+  public double SpindexerCurrent = 0;
 
-  public final StatusSignal<Voltage> SpindexerVoltage = SpindexerMotor.getMotorVoltage();
+  public boolean jammed = false;
  
 
   /** Creates a new Spindexer. */
   public Spindexer() {
 
-    var talonFXConfigs = new TalonFXConfiguration();
-
-    var slot0Configs = new Slot0Configs();
-    slot0Configs.kP = Constants.Spindexer.slot0P;
-    slot0Configs.kI = Constants.Spindexer.slot0I;
-    slot0Configs.kD = Constants.Spindexer.slot0D;
-    slot0Configs.kS = Constants.Spindexer.slot0S;
-    slot0Configs.kV = Constants.Spindexer.slot0V;
-    slot0Configs.kA = Constants.Spindexer.slot0A;
-
-    SpindexerMotor.getConfigurator().apply(slot0Configs);
+    SpindexerConfig.closedLoop.pid(Constants.Spindexer.kP, Constants.Spindexer.kI, Constants.Spindexer.kD);
+    SpindexerConfig.closedLoop.feedForward.kV(Constants.Spindexer.kFF);
+    SpindexerConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double SpindexerRPM = SpindexerMotor.getVelocity().getValueAsDouble() * 60;
+    double SpindexerRPM = SpindexerEncoder.getVelocity();
     
-    double volts = SpindexerVoltage.getValueAsDouble();
-    SpindexerVoltage.refresh();
-    
-
-    if (volts > 12 && SpindexerRPM < 6000){
-      SpindexerMotor.setControl(m_request.withVelocity(-100));
-    } else{
-
-    }
+    double SpindexerCurrent = SpindexerMotor.getOutputCurrent();    
   }
 
-  public void SpinWI(){
-    SpindexerMotor.setControl(m_request.withVelocity(100));
+  public void SpinCW(){
+  }
 
+  public void SpinCCW(){
+    SpindexerMotor.setSetpoint(3000, ControlType.kVelocity, ClosedLoopSlot.kSlot0);
   }
 
   public void stop(){
