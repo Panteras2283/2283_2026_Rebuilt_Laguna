@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
+import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -43,21 +45,42 @@ public class Spindexer extends SubsystemBase {
     SpindexerConfig.closedLoop.pid(Constants.Spindexer.kP, Constants.Spindexer.kI, Constants.Spindexer.kD);
     SpindexerConfig.closedLoop.feedForward.kV(Constants.Spindexer.kFF);
     SpindexerConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
-  }
+
+    SpindexerMotor.configure(SpindexerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+}
+  
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     double SpindexerRPM = SpindexerEncoder.getVelocity();
     
-    double SpindexerCurrent = SpindexerMotor.getOutputCurrent();    
+    double SpindexerCurrent = SpindexerMotor.getOutputCurrent(); 
+    
+    if(SpindexerCurrent > 80 && SpindexerRPM < 3000){
+      jammed = true;
+    }else{
+      jammed = false;
+    }
+  }
+
+  
+  // In frc.robot.subsystems.Spindexer.java
+  public void setVelocity(double rpm) {
+    // Use kVelocity control type to maintain a specific speed
+    spindexerClosedLoopController.setSetpoint(
+        rpm, 
+        ControlType.kVelocity, 
+        ClosedLoopSlot.kSlot0
+    );
   }
 
   public void SpinCW(){
+    this.setVelocity(3000);
   }
 
   public void SpinCCW(){
-    SpindexerMotor.setSetpoint(3000, ControlType.kVelocity, ClosedLoopSlot.kSlot0);
+    this.setVelocity(-3000);
   }
 
   public void stop(){

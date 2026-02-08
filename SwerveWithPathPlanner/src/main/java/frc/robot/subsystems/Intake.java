@@ -14,26 +14,27 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
  /** Creates a new Intake_demo. */
-  private TalonFX IntakeMotor = new TalonFX(Constants.Intake.motorID);
+  private TalonFX Feeder = new TalonFX(Constants.Intake.motorID);
 
+  public boolean feeding = false;
 
+  public boolean outake = false;
   
   public Intake() {}
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    double IntakeMotorRPS = IntakeMotor.getVelocity().getValueAsDouble();
-    double IntakeMotorRPM = IntakeMotorRPS*60;
     
-    SmartDashboard.putNumber("Intake RPMs", IntakeMotorRPM);
+  
   }
 
-  public void feed(double speed){
-    IntakeMotor.set(speed);
+  public void feed(){
+    Feeder.set(0.5);
+    feeding = true;
   } 
 
   public void stop(){
-    IntakeMotor.set(0);
+    Feeder.set(0);
+    feeding = false;
   }
 }
