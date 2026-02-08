@@ -57,7 +57,7 @@ public class Spindexer extends SubsystemBase {
     
     double SpindexerCurrent = SpindexerMotor.getOutputCurrent(); 
     
-    if(SpindexerCurrent > 80 && SpindexerRPM < 3000){
+    if(SpindexerCurrent > 200 && SpindexerRPM < 20){
       jammed = true;
     }else{
       jammed = false;
