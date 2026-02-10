@@ -29,6 +29,7 @@ public class Superstructure extends SubsystemBase {
   /** Creates a new Superstructure. */
 
   private final TurretSubsystem turret;
+  private final ShooterSubsystem shooter;
   //private final ShooterSubsystem shooter;
 
   private final Supplier<Pose2d> poseSupplier;
@@ -53,11 +54,12 @@ public class Superstructure extends SubsystemBase {
 
 
 
-  public Superstructure(TurretSubsystem turret, Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier, CommandXboxController operator) {
+  public Superstructure(TurretSubsystem turret, ShooterSubsystem shooter, Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier, CommandXboxController operator) {
     this.turret = turret;
     this.poseSupplier = poseSupplier;
     this.speedSupplier = speedSupplier;
     this.operator = operator;
+    this.shooter = shooter;
 
     
     var table = NetworkTableInstance.getDefault().getTable("Superstructure");
@@ -90,7 +92,7 @@ public class Superstructure extends SubsystemBase {
     }
 
     isTurretLockedOn = runAimingLoop(
-      turret, robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, "Turret", turretTargetPub
+      turret, shooter, robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, "Turret", turretTargetPub
     );
 
     /* isTurretLockedOn = runAimingLoop(
@@ -99,7 +101,7 @@ public class Superstructure extends SubsystemBase {
 
     }
 
-    private boolean runAimingLoop(TurretSubsystem turret, Pose2d robotPose, ChassisSpeeds robotSpeeds, Translation2d offset, Translation2d targetLocation, String sideName, StructPublisher<Pose2d> publisher){
+    private boolean runAimingLoop(TurretSubsystem turret, ShooterSubsystem shooter, Pose2d robotPose, ChassisSpeeds robotSpeeds, Translation2d offset, Translation2d targetLocation, String sideName, StructPublisher<Pose2d> publisher){
       double rawDistance = robotPose.getTranslation().getDistance(targetLocation);
       double estimatedExitVel = ShootingTables.ExitVelocityMap.get(rawDistance);
       AimingSolution solution = ShootingPhysics.calculateAimingSolution(robotPose, robotSpeeds, offset, targetLocation, estimatedExitVel);
@@ -123,13 +125,16 @@ public class Superstructure extends SubsystemBase {
       } else {
         turret.setTargetAngle(targetAngle);
       }
+
+      shooter.setTargetDistance(solution.effectiveDistance());
         
       
 
 
       boolean turretAtTarget = Math.abs(turret.getErrorDegrees()) < 2.0;
+      boolean shooterAtSpeed = shooter.isReadyToFire();
 
-      boolean locked = turretAtTarget;
+      boolean locked = turretAtTarget && shooterAtSpeed;
       SmartDashboard.putBoolean(sideName + "/Locked", locked);
 
       SmartDashboard.putNumber(sideName + "/Aim/Dist_Effective", solution.effectiveDistance());

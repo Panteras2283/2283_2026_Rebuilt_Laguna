@@ -56,15 +56,16 @@ public class RobotContainer {
     //Subsystems
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final Intake s_Intake;
-  //  public final Kicker s_Kicker;
+    public final Kicker s_Kicker;
     //public final ShooterSubsystem s_Shooter = new ShooterSubsystem(30, "Shooter");
     public final Spindexer s_Spindexer;
     public final TurretSubsystem s_Turret = new TurretSubsystem(29, "Turret");
+    public final ShooterSubsystem s_Shooter = new ShooterSubsystem(Constants.Shooter.motorID, "Shooter");
 
 //public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter, ()->drivetrain.getState().Pose,()->drivetrain.getState().Speeds);
 
 
-    public final Superstructure superstructure = new Superstructure(s_Turret, 
+    public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter,
     ()->drivetrain.getState().Pose,
     ()->drivetrain.getState().Speeds, operator);
     
@@ -80,8 +81,7 @@ public class RobotContainer {
         
         
         //Subsystems
-       /*  
-        s_Kicker = new Kicker();*/
+        s_Kicker = new Kicker();
         s_Intake = new Intake();
         s_Spindexer = new Spindexer();
         s_Vision = new VisionSubsystem(drivetrain);
@@ -145,6 +145,12 @@ public class RobotContainer {
             )
         );
 
+        joystick.rightTrigger().toggleOnTrue(new shootCommand(s_Kicker, s_Shooter));
+        joystick.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Kicker.stop()));
+        joystick.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Shooter.stop()));
+        
+        
+
         //Drive to Pose (Fast Positioning)
         joystick.leftBumper().whileTrue(
             new Fast_DriveToPose_cmd(
@@ -160,9 +166,7 @@ public class RobotContainer {
         
       
 
-       /*  joystick.x().onTrue(new InstantCommand(()-> s_Kicker.Kick(-0.4)));
-        joystick.x().onFalse(new InstantCommand(()-> s_Kicker.stop()));
-        
+       /* 
         joystick.y().onTrue(new InstantCommand(()-> s_Spindexer.SpinWI(-0.4)));
         joystick.y().onFalse(new InstantCommand(()-> s_Spindexer.stop()));
         joystick.y().onTrue(new InstantCommand(() -> s_Intake.feed(-0.70)));
