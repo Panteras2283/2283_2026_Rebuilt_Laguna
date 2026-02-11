@@ -35,11 +35,11 @@ public class SpindexerDefaultCommand extends Command {
     if(s_Intake.feeding == true || s_Spindexer.jammed == true){
       new AntijamCommand(s_Spindexer);
     }else if(s_Superstructure.shooting == true){
-      new InstantCommand(()-> s_Spindexer.SpinCW());
+      s_Spindexer.SpinCW();
     }else if(s_Intake.outake == true){
-      new InstantCommand(()-> s_Spindexer.SpinCCW());
+      s_Spindexer.SpinCCW();
     }else{
-      new InstantCommand(()-> s_Spindexer.stop());
+      s_Spindexer.stop();
     }
   }
 

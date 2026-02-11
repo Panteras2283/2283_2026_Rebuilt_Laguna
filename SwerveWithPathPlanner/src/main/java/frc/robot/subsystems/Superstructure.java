@@ -133,7 +133,7 @@ public class Superstructure extends SubsystemBase {
 
       boolean turretAtTarget = Math.abs(turret.getErrorDegrees()) < 2.0;
       boolean shooterAtSpeed = shooter.isReadyToFire();
-      shooting = shooter.isReadyToFire();
+      
 
       boolean locked = turretAtTarget && shooterAtSpeed;
       SmartDashboard.putBoolean(sideName + "/Locked", locked);

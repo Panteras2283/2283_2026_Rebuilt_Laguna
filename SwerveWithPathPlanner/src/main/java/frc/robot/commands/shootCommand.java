@@ -7,18 +7,21 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.Superstructure;
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class shootCommand extends Command {
   private Kicker s_Kicker;
   private ShooterSubsystem s_ShooterSubsystem;
+  private Superstructure superstructure;
   /** Creates a new shootCommand. */
-  public shootCommand(Kicker s_Kicker, ShooterSubsystem s_ShooterSubsystem) {
+  public shootCommand(Kicker s_Kicker, ShooterSubsystem s_ShooterSubsystem, Superstructure superstructure) {
     this.s_Kicker = s_Kicker;
     this.s_ShooterSubsystem = s_ShooterSubsystem;
+    this.superstructure = superstructure;
 
-    addRequirements(s_Kicker, s_ShooterSubsystem);
+    addRequirements(s_Kicker, s_ShooterSubsystem, superstructure);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -31,6 +34,7 @@ public class shootCommand extends Command {
   public void execute() {
     if(s_ShooterSubsystem.isReadyToFire() == true){
       s_Kicker.Kick(0.5);
+      superstructure.shooting = true;
     }
   }
 

@@ -145,7 +145,7 @@ public class RobotContainer {
             )
         );
 
-        operator.rightTrigger().toggleOnTrue(new shootCommand(s_Kicker, s_Shooter));
+        operator.rightTrigger().toggleOnTrue(new shootCommand(s_Kicker, s_Shooter, superstructure));
         operator.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Kicker.stop()));
         operator.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Shooter.stop()));
 
