@@ -14,7 +14,7 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
  /** Creates a new Intake_demo. */
-  private TalonFX Feeder = new TalonFX(Constants.Intake.motorID);
+  private TalonFX Feeder = new TalonFX(Constants.Intake.FeederID);
 
   public boolean feeding = false;
 

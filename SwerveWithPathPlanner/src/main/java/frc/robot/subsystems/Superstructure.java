@@ -119,12 +119,12 @@ public class Superstructure extends SubsystemBase {
       
 
 
-      if(Math.abs(operatorOffset) > 0.05) {
+      /*if(Math.abs(operatorOffset) > 0.05) {
         targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
         turret.setTargetAngle(targetAngle);
       } else {
         turret.setTargetAngle(targetAngle);
-      }
+      }*/
 
       shooter.setTargetDistance(solution.effectiveDistance());
         

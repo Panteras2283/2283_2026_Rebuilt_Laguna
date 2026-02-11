@@ -59,8 +59,8 @@ public class RobotContainer {
     public final Kicker s_Kicker;
     //public final ShooterSubsystem s_Shooter = new ShooterSubsystem(30, "Shooter");
     public final Spindexer s_Spindexer;
-    public final TurretSubsystem s_Turret = new TurretSubsystem(29, "Turret");
-    public final ShooterSubsystem s_Shooter = new ShooterSubsystem(Constants.Shooter.motorID, "Shooter");
+    public final TurretSubsystem s_Turret = new TurretSubsystem(25, "Turret");
+    public final ShooterSubsystem s_Shooter = new ShooterSubsystem(Constants.Shooter.motorID, Constants.Shooter.motor2ID, "Shooter");
 
 //public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter, ()->drivetrain.getState().Pose,()->drivetrain.getState().Speeds);
 
@@ -145,9 +145,12 @@ public class RobotContainer {
             )
         );
 
-        joystick.rightTrigger().toggleOnTrue(new shootCommand(s_Kicker, s_Shooter));
-        joystick.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Kicker.stop()));
-        joystick.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Shooter.stop()));
+        operator.rightTrigger().toggleOnTrue(new shootCommand(s_Kicker, s_Shooter));
+        operator.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Kicker.stop()));
+        operator.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Shooter.stop()));
+
+        operator.pov(180).onTrue(new InstantCommand(()-> s_Intake.feed()));
+        operator.pov(180).onFalse(new InstantCommand(()-> s_Intake.stop()));
         
         
 

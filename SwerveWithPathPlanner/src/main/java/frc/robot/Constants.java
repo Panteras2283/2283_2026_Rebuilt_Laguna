@@ -98,23 +98,26 @@ public class Constants {
 
     // Subsystems
     public static final class Intake {
-        public static final int motorID = 23;
+        public static final int PivotLeftID = 23;
+        public static final int PivotRightID = 30;
+        public static final int FeederID = 31;
     }
 
     public static final class Kicker {
         public static final int motorID = 26;
-        public static final int rollerID = 27;
+    }
+
+    public static final class Shooter{
+        public static final int motorID = 27;
+        public static final int motor2ID = 29;
     }
 
     public static final class Spindexer{
         public static final int motorID = 28;
-
-        public static final double slot0S = 0.0;
-        public static final double slot0V = 0.0;
-        public static final double slot0A = 0.0;
-        public static final double slot0P = 0.0;
-        public static final double slot0I = 0.0;
-        public static final double slot0D = 0.0;
+        public static final double kP = 0.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kFF = 12/380;
 
         public static final double gearRatio = 20.0;
     }
