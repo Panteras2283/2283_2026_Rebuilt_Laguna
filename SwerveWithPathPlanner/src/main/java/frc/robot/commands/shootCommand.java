@@ -34,7 +34,7 @@ public class shootCommand extends Command {
   public void execute() {
     if(s_ShooterSubsystem.isReadyToFire() == true){
       s_Kicker.Kick(0.5);
-      superstructure.shooting = true;
+      //superstructure.shooting = true;
     }
   }
 

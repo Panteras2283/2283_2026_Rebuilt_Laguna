@@ -24,9 +24,9 @@ public class AntijamCommand extends SequentialCommandGroup {
     addRequirements(s_Spindexer);
     addCommands(
       new InstantCommand(()-> s_Spindexer.SpinCW()),
-      new WaitCommand(0.5),
+      new WaitCommand(0.7),
       new InstantCommand(()-> s_Spindexer.SpinCCW()),
-      new WaitCommand(0.5)
+      new WaitCommand(0.2)
     );
   }
 }

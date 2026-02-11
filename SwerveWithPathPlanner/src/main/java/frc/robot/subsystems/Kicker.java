@@ -15,6 +15,7 @@ import frc.robot.Constants;
 public class Kicker extends SubsystemBase {
 
   private TalonFX KickerMotor = new TalonFX(Constants.Kicker.KickermotorID);
+  public boolean shooting = false;
   /** Creates a new Kicker. */
   public Kicker() {}
 
@@ -25,10 +26,12 @@ public class Kicker extends SubsystemBase {
 
   public void Kick(double speed){
     KickerMotor.set(-speed);
+    shooting = true;
   }
 
   public void stop(){
     KickerMotor.set(0);
+    shooting = false;
 
   }
 }

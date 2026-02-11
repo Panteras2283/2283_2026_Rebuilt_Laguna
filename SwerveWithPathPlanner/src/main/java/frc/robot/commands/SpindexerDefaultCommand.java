@@ -10,18 +10,21 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Spindexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Superstructure;
+import frc.robot.subsystems.Kicker;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class SpindexerDefaultCommand extends Command {
   private Spindexer s_Spindexer;
   private Intake s_Intake;
   private Superstructure s_Superstructure;
+  private Kicker s_Kicker;
   /** Creates a new SpindexerDefaultCommand. */
-  public SpindexerDefaultCommand(Spindexer s_Spindexer, Intake s_Intake, Superstructure s_Superstructure) {
+  public SpindexerDefaultCommand(Spindexer s_Spindexer, Intake s_Intake, Superstructure s_Superstructure, Kicker s_Kicker) {
     this.s_Intake = s_Intake;
     this.s_Spindexer = s_Spindexer;
     this.s_Superstructure = s_Superstructure;
-    addRequirements(s_Intake, s_Spindexer, s_Superstructure);
+    this.s_Kicker = s_Kicker;
+    addRequirements(s_Intake, s_Spindexer, s_Superstructure, s_Kicker);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -33,8 +36,9 @@ public class SpindexerDefaultCommand extends Command {
   @Override
   public void execute() {
     if(s_Intake.feeding == true || s_Spindexer.jammed == true){
-      new AntijamCommand(s_Spindexer);
-    }else if(s_Superstructure.shooting == true){
+      //new AntijamCommand(s_Spindexer).schedule();
+      s_Spindexer.SpinCW();
+    }else if(s_Kicker.shooting == true){
       s_Spindexer.SpinCW();
     }else if(s_Intake.outake == true){
       s_Spindexer.SpinCCW();

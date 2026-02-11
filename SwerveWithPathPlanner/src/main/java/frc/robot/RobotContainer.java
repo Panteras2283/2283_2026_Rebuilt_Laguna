@@ -110,7 +110,7 @@ public class RobotContainer {
 
        superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
 
-       s_Spindexer.setDefaultCommand(new SpindexerDefaultCommand(s_Spindexer, s_Intake, superstructure));
+       s_Spindexer.setDefaultCommand(new SpindexerDefaultCommand(s_Spindexer, s_Intake, superstructure, s_Kicker));
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
         final var idle = new SwerveRequest.Idle();
@@ -145,10 +145,10 @@ public class RobotContainer {
             )
         );
 
-        operator.rightTrigger().toggleOnTrue(new shootCommand(s_Kicker, s_Shooter, superstructure));
-        operator.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Kicker.stop()));
-        operator.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Shooter.stop()));
-         operator.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Spindexer.stop()));
+        operator.rightBumper().toggleOnTrue(new shootCommand(s_Kicker, s_Shooter, superstructure));
+        operator.rightBumper().toggleOnFalse(new InstantCommand(()-> s_Kicker.stop()));
+        operator.rightBumper().toggleOnFalse(new InstantCommand(()-> s_Shooter.stop()));
+         operator.rightBumper().toggleOnFalse(new InstantCommand(()-> s_Spindexer.stop()));
 
         operator.pov(180).onTrue(new InstantCommand(()-> s_Intake.feed()));
         operator.pov(180).onFalse(new InstantCommand(()-> s_Intake.stop()));

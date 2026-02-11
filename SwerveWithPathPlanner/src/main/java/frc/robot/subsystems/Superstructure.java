@@ -43,7 +43,7 @@ public class Superstructure extends SubsystemBase {
 
   private boolean isTurretLockedOn = false;
 
-  public boolean shooting = false;
+  //public boolean shooting = false;
 
   private final StructPublisher<Pose2d> turretTargetPub;
 
