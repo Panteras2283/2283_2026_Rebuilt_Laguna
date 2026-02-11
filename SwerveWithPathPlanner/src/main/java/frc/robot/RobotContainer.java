@@ -148,6 +148,7 @@ public class RobotContainer {
         operator.rightTrigger().toggleOnTrue(new shootCommand(s_Kicker, s_Shooter, superstructure));
         operator.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Kicker.stop()));
         operator.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Shooter.stop()));
+         operator.rightTrigger().toggleOnFalse(new InstantCommand(()-> s_Spindexer.stop()));
 
         operator.pov(180).onTrue(new InstantCommand(()-> s_Intake.feed()));
         operator.pov(180).onFalse(new InstantCommand(()-> s_Intake.stop()));

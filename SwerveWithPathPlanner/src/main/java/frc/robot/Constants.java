@@ -114,10 +114,10 @@ public class Constants {
 
     public static final class Spindexer{
         public static final int SpindexermotorID = 28;
-        public static final double kP = 0.0;
+        public static final double kP = 2;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double kFF = 12/380;
+        public static final double kFF = 12.0/380.0;
 
         public static final double gearRatio = 20.0;
     }
