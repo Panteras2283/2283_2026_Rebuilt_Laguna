@@ -29,11 +29,19 @@ public class Intake extends SubsystemBase {
   }
 
   public void feed(){
-    Feeder.set(0.5);
     feeding = true;
+    Feeder.set(0.5);
+    outake = false;
+  } 
+
+  public void outake(){
+    outake = true;
+    Feeder.set(-0.5);
+    feeding = false;
   } 
 
   public void stop(){
+    outake = false;
     Feeder.set(0);
     feeding = false;
   }

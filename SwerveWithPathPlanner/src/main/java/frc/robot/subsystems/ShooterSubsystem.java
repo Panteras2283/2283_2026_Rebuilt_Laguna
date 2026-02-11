@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.StrictFollower;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkBase.ControlType;
 
@@ -62,11 +64,10 @@ public class ShooterSubsystem extends SubsystemBase {
     cfg2.CurrentLimits.StatorCurrentLimitEnable = true;
     cfg2.Slot0.kP = 0.1;
     cfg2.Slot0.kV = 0.12;
-    cfg2.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
     Flywheel2.getConfigurator().apply(cfg2);
     Flywheel2.setNeutralMode(NeutralModeValue.Coast);
-    Flywheel2.setControl(new StrictFollower(Constants.Shooter.motorID));
+    Flywheel2.setControl(new Follower(Constants.Shooter.motorID, MotorAlignmentValue.Opposed));
     }
 
   public void setTargetDistance(double distanceMeters){

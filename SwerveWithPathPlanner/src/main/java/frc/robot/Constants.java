@@ -104,7 +104,7 @@ public class Constants {
     }
 
     public static final class Kicker {
-        public static final int motorID = 26;
+        public static final int KickermotorID = 26;
     }
 
     public static final class Shooter{
@@ -113,7 +113,7 @@ public class Constants {
     }
 
     public static final class Spindexer{
-        public static final int motorID = 28;
+        public static final int SpindexermotorID = 28;
         public static final double kP = 0.0;
         public static final double kI = 0.0;
         public static final double kD = 0.0;

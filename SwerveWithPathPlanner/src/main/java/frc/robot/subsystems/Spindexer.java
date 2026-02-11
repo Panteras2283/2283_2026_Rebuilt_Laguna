@@ -29,7 +29,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 
 public class Spindexer extends SubsystemBase {
 
-  private SparkFlex SpindexerMotor = new SparkFlex(Constants.Spindexer.motorID, MotorType.kBrushless);
+  private SparkFlex SpindexerMotor = new SparkFlex(Constants.Spindexer.SpindexermotorID, MotorType.kBrushless);
   private SparkFlexConfig SpindexerConfig = new SparkFlexConfig();
   private SparkClosedLoopController spindexerClosedLoopController = SpindexerMotor.getClosedLoopController();
   private RelativeEncoder SpindexerEncoder = SpindexerMotor.getEncoder();
