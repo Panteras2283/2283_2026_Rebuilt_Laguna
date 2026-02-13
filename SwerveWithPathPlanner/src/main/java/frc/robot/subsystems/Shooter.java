@@ -15,7 +15,8 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkBase.ControlType;
-import frc.robot.commands.Warm_up;
+import com.ctre.phoenix6.controls.VoltageOut;
+
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,6 +33,7 @@ public class Shooter extends SubsystemBase {
 
 
   private final VelocityVoltage flywheelRequest = new VelocityVoltage(0); 
+  private final VoltageOut voltageRequest = new VoltageOut(0);
 
   private String Shooter;
 
@@ -74,19 +76,22 @@ public class Shooter extends SubsystemBase {
     FlywheelLeft.setControl(new Follower(Constants.Shooter.motorID, MotorAlignmentValue.Opposed));
     }
 
-  public void setTargetRPM(double targetRPM, boolean forcePrecise){
-    double targetRPS = targetRPM/60.0;
+  public void setTargetRPM(boolean forcePrecise, double distanceMeters){
+    flywheelTargetRPM = ShootingTables.FlywheelMap.get(distanceMeters);
+    double targetRPS = flywheelTargetRPM/60.0;
     if(forcePrecise){
       FlywheelRight.setControl(flywheelRequest.withVelocity(targetRPS));
     }else{
-      if(currentRPM > targetRPM + 100){
-        FlywheelRight.set(0);
+      if(currentRPM > flywheelTargetRPM + 100){
+        FlywheelRight.setControl(voltageRequest.withOutput(0));
+      }else{
+         FlywheelRight.setControl(flywheelRequest.withVelocity(targetRPS)); 
       }
     }
   }
 
-  public void setTargetDistance(double distanceMeters){
-    flywheelTargetRPM = ShootingTables.FlywheelMap.get(distanceMeters);
+  /*public void setTargetDistance(double distanceMeters){
+
 
     if (flywheelTargetRPM > 100){ 
       double targetRPS = flywheelTargetRPM / 60;
@@ -94,7 +99,7 @@ public class Shooter extends SubsystemBase {
     } else{
       stop();
     }
-  }
+  }*/
 
   public void stop(){
     FlywheelRight.stopMotor();

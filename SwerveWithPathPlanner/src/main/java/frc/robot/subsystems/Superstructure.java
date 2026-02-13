@@ -29,7 +29,9 @@ public class Superstructure extends SubsystemBase {
   /** Creates a new Superstructure. */
 
   private final TurretSubsystem turret;
-  private final ShooterSubsystem shooter;
+  private final Shooter shooter;
+  private final Kicker kicker;
+  private final Spindexer spindexer;
   //private final ShooterSubsystem shooter;
 
   private final Supplier<Pose2d> poseSupplier;
@@ -41,7 +43,10 @@ public class Superstructure extends SubsystemBase {
 
   private final CommandXboxController operator;
 
-  private boolean isTurretLockedOn = false;
+  public boolean isTurretLockedOn = false;
+
+  public boolean wantsIDLE = false;
+  public boolean wantsShoot = false;
 
   //public boolean shooting = false;
 
@@ -49,21 +54,41 @@ public class Superstructure extends SubsystemBase {
 
   private double operatorOffset = 0;
 
+  public final double IDLERPM = 1500;
+
+  public enum States{
+    OFF,
+    IDLE,
+    SHOOTING
+  }
+
 
   
 
 
 
-  public Superstructure(TurretSubsystem turret, ShooterSubsystem shooter, Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier, CommandXboxController operator) {
+  public Superstructure(TurretSubsystem turret, Shooter shooter, 
+  Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier, 
+  CommandXboxController operator, Kicker kicker, Spindexer spindexer) {
     this.turret = turret;
     this.poseSupplier = poseSupplier;
     this.speedSupplier = speedSupplier;
     this.operator = operator;
     this.shooter = shooter;
+    this.kicker = kicker;
+    this.spindexer = spindexer;
 
     
     var table = NetworkTableInstance.getDefault().getTable("Superstructure");
     turretTargetPub = table.getStructTopic("Turret", Pose2d.struct).publish();
+  }
+
+  public void toggleIdle(){
+    wantsIDLE = !wantsIDLE;
+  }
+
+  public void toggleShooting(){
+    wantsShoot = !wantsShoot;
   }
 
   /*public Superstructure(TurretSubsystem turret, ShooterSubsystem shooter, Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier) {
@@ -80,6 +105,31 @@ public class Superstructure extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    States state = States.OFF;
+    if(wantsShoot){
+      state = States.OFF;
+    }else if(wantsIDLE){
+      state = States.SHOOTING;
+    }else{
+      state = States.OFF;
+    }
+
+    SmartDashboard.putString("Superstructure-state", state.toString());
+
+    switch (state){
+      case OFF:
+        handleOFF();
+        break;
+      case IDLE:
+        handleIDLE();
+        break;
+      case SHOOTING:
+        handleSHOOTING();
+        break;
+    }
+
+
     Pose2d robotPose = poseSupplier.get();
     ChassisSpeeds robotSpeeds = speedSupplier.get();
     
@@ -100,8 +150,77 @@ public class Superstructure extends SubsystemBase {
     ); */
 
     }
+    public void handleOFF(){
+      turret.setTargetAngle(new Rotation2d(0));
+      shooter.stop();
+      kicker.stop();
+      kicker.stop();
+    }
 
-    private boolean runAimingLoop(TurretSubsystem turret, ShooterSubsystem shooter, Pose2d robotPose, ChassisSpeeds robotSpeeds, Translation2d offset, Translation2d targetLocation, String sideName, StructPublisher<Pose2d> publisher){
+    public void handleIDLE(){
+      AimingSolution solution = calculateAiming();
+      turret.setTargetAngle(solution.turretAngle());
+
+      shooter.setTargetRPM(false, IDLERPM);
+
+      spindexer.stop();
+      kicker.stop();
+    }
+
+    private void handleSHOOTING(){
+      AimingSolution solution = calculateAiming();
+      Rotation2d targetAngle = solution.turretAngle();
+      if(Math.abs(operatorOffset) > 0.05) {
+        targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
+        turret.setTargetAngle(targetAngle);
+      } else {
+        turret.setTargetAngle(targetAngle);
+      }
+
+      shooter.setTargetRPM(true, solution.effectiveDistance());
+
+      boolean shooterReady = shooter.isReadyToFire();
+      boolean turretLocked = Math.abs(turret.getErrorDegrees()) < 2.0;
+      boolean locked = turretLocked && shooterReady;
+
+      SmartDashboard.putBoolean("Superstructure-Locked", locked);
+
+      if (locked) {
+        kicker.Kick(0.5);
+        if (spindexer.jammed) {
+            spindexer.SpinCCW();
+        } else {
+            spindexer.SpinCW();
+        }
+    } else {
+        kicker.stop();
+        spindexer.stop();
+    }
+      
+    }
+
+    private AimingSolution calculateAiming(){
+    Pose2d robotPose = poseSupplier.get();
+    ChassisSpeeds robotSpeeds = speedSupplier.get();
+
+    Translation2d currentTarget = BLUE_TARGET;
+    var alliance = DriverStation.getAlliance();
+    if(alliance.isPresent() && alliance.get() == Alliance.Red){
+      currentTarget = RED_TARGET;
+    }
+    double rawDistance = robotPose.getTranslation().getDistance(currentTarget);
+    double estimatedExitVel = ShootingTables.ExitVelocityMap.get(rawDistance);
+    AimingSolution solution = ShootingPhysics.calculateAimingSolution(
+        robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, estimatedExitVel
+    );
+
+    turretTargetPub.set(solution.virtualTarget());
+    
+    return solution;
+  }
+
+
+    private boolean runAimingLoop(TurretSubsystem turret, Shooter shooter, Pose2d robotPose, ChassisSpeeds robotSpeeds, Translation2d offset, Translation2d targetLocation, String sideName, StructPublisher<Pose2d> publisher){
       double rawDistance = robotPose.getTranslation().getDistance(targetLocation);
       double estimatedExitVel = ShootingTables.ExitVelocityMap.get(rawDistance);
       AimingSolution solution = ShootingPhysics.calculateAimingSolution(robotPose, robotSpeeds, offset, targetLocation, estimatedExitVel);
@@ -114,19 +233,14 @@ public class Superstructure extends SubsystemBase {
 
       //turret.setTargetAngle(solution.turretAngle());
 
-      Rotation2d targetAngle = solution.turretAngle();
+      
 
       
 
 
-      /*if(Math.abs(operatorOffset) > 0.05) {
-        targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
-        turret.setTargetAngle(targetAngle);
-      } else {
-        turret.setTargetAngle(targetAngle);
-      }*/
+      
 
-      shooter.setTargetDistance(solution.effectiveDistance());
+      shooter.setTargetRPM(false, solution.effectiveDistance());
         
       
 
