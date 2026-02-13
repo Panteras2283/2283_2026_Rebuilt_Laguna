@@ -89,7 +89,7 @@ public class Superstructure extends SubsystemBase {
 
   /*public Superstructure(TurretSubsystem turret, ShooterSubsystem shooter, Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier) {
     this.turret = turret;
-    this.shooter = shooter;
+    this.shooter = shooter;   
     this.poseSupplier = poseSupplier;
     this.speedSupplier = speedSupplier;
     
@@ -204,7 +204,6 @@ public class Superstructure extends SubsystemBase {
     if(alliance.isPresent() && alliance.get() == Alliance.Red){
       currentTarget = RED_TARGET;
     }
-
     double rawDistance = robotPose.getTranslation().getDistance(currentTarget);
     double estimatedExitVel = ShootingTables.ExitVelocityMap.get(rawDistance);
     AimingSolution solution = ShootingPhysics.calculateAimingSolution(
@@ -232,9 +231,15 @@ public class Superstructure extends SubsystemBase {
 
       
 
+      
+
+
+      
+
       shooter.setTargetRPM(false, solution.effectiveDistance());
         
       
+
 
       boolean turretAtTarget = Math.abs(turret.getErrorDegrees()) < 2.0;
       boolean shooterAtSpeed = shooter.isReadyToFire();
