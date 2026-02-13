@@ -15,6 +15,8 @@ import frc.robot.Constants;
 public class Intake extends SubsystemBase {
  /** Creates a new Intake_demo. */
   private TalonFX Feeder = new TalonFX(Constants.Intake.FeederID);
+  private TalonFX pivotLeft = new TalonFX(Constants.Intake.PivotLeftID);
+  private TalonFX pivotRight = new TalonFX(Constants.Intake.PivotRightID);
 
   public boolean feeding = false;
 
@@ -30,7 +32,7 @@ public class Intake extends SubsystemBase {
 
   public void feed(){
     feeding = true;
-    Feeder.set(0.5);
+    Feeder.set(1.0);
     
   } 
 
