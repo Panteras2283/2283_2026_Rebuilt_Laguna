@@ -11,24 +11,19 @@ public class ShootingTables {
 
     public static InterpolatingDoubleTreeMap FlywheelMap = new InterpolatingDoubleTreeMap();
 
-    public static InterpolatingDoubleTreeMap HoodAngleMap = new InterpolatingDoubleTreeMap();
-
     public static InterpolatingDoubleTreeMap ExitVelocityMap = new InterpolatingDoubleTreeMap();
 
     static{
         /*Close Range shot */
         FlywheelMap.put(1.5, 3000.0);
-        HoodAngleMap.put(1.5, 65.0);
         ExitVelocityMap.put(1.5, 12.0);
 
         /*Mid Range shot */
         FlywheelMap.put(3.5, 4500.0);
-        HoodAngleMap.put(3.5, 45.0);
         ExitVelocityMap.put(3.5, 20.0);
 
         /*Long Range shot */
         FlywheelMap.put(6.0, 6000.0);
-        HoodAngleMap.put(6.0, 28.0);
         ExitVelocityMap.put(6.0, 26.0);
     }
 }
