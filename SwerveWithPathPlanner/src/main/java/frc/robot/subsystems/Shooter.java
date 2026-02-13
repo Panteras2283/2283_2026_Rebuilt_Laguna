@@ -39,6 +39,8 @@ public class Shooter extends SubsystemBase {
 
   private double flywheelTargetRPM = 0;
 
+  private final VoltageOut coastRequest = new VoltageOut(0);
+
   
   
   private static final double RPM_TOLERANCE_PERCENT = 0.03;
@@ -79,6 +81,7 @@ public class Shooter extends SubsystemBase {
   public void setTargetRPM(boolean forcePrecise, double distanceMeters){
     flywheelTargetRPM = ShootingTables.FlywheelMap.get(distanceMeters);
     double targetRPS = flywheelTargetRPM/60.0;
+
     if(forcePrecise){
       FlywheelRight.setControl(flywheelRequest.withVelocity(targetRPS));
     }else{
@@ -102,8 +105,7 @@ public class Shooter extends SubsystemBase {
   }*/
 
   public void stop(){
-    FlywheelRight.stopMotor();
-    flywheelTargetRPM = 0;
+    setTargetRPM(false, 0);
   }
 
   public boolean isReadyToFire(){

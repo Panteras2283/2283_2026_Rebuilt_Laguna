@@ -106,9 +106,9 @@ public class RobotContainer {
             )
         );
 
-       superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
-
-        // Idle while the robot is disabled. This ensures the configured
+        superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
+      //s_Spindexer.setDefaultCommand(new SpindexerDefaultCommand(s_Spindexer, s_Intake, superstructure, s_Kicker));
+      // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
         final var idle = new SwerveRequest.Idle();
         RobotModeTriggers.disabled().whileTrue(
