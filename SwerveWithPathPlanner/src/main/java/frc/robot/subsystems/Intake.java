@@ -63,10 +63,16 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("RightPivotPos", pivotRight.getPosition().getValueAsDouble());
   }
 
-  public void feed(){
+  public void feedDown(){
     feeding = true;
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftFeedPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightFeedPos));
+    Feeder.set(1.0);
+    
+  } 
+
+  public void feedOnly(){
+    feeding = true;
     Feeder.set(1.0);
     
   } 
