@@ -78,20 +78,32 @@ public class Shooter extends SubsystemBase {
     FlywheelLeft.setControl(new Follower(Constants.Shooter.motorID, MotorAlignmentValue.Opposed));
     }
 
-  public void setTargetRPM(boolean forcePrecise, double distanceMeters){
-    flywheelTargetRPM = ShootingTables.FlywheelMap.get(distanceMeters);
-    double targetRPS = flywheelTargetRPM/60.0;
+  public void setRPM(boolean forcePrecise, double targetRPM){
+      this.flywheelTargetRPM = targetRPM;
+      double targetRPS = flywheelTargetRPM / 60.0;
 
-    if(forcePrecise){
-      FlywheelRight.setControl(flywheelRequest.withVelocity(targetRPS));
-    }else{
-      if(currentRPM > flywheelTargetRPM + 100){
-        FlywheelRight.setControl(voltageRequest.withOutput(0));
-      }else{
-         FlywheelRight.setControl(flywheelRequest.withVelocity(targetRPS)); 
+      // Ensure 0 RPM physically stops the motors
+      if (targetRPM == 0) {
+          FlywheelRight.setControl(voltageRequest.withOutput(0));
+          return;
       }
-    }
+
+      if(forcePrecise){
+        FlywheelRight.setControl(flywheelRequest.withVelocity(targetRPS));
+      }else{
+        if(currentRPM > flywheelTargetRPM + 100){
+          FlywheelRight.setControl(voltageRequest.withOutput(0));
+        }else{
+           FlywheelRight.setControl(flywheelRequest.withVelocity(targetRPS)); 
+        }
+      }
   }
+
+  public void setTargetRPM(boolean forcePrecise, double distanceMeters){
+    double mappedRPM = ShootingTables.FlywheelMap.get(distanceMeters);
+    setRPM(forcePrecise, mappedRPM);
+    }
+  
 
   /*public void setTargetDistance(double distanceMeters){
 
@@ -105,7 +117,7 @@ public class Shooter extends SubsystemBase {
   }*/
 
   public void stop(){
-    setTargetRPM(false, 0);
+    setRPM(false, 0);
   }
 
   public boolean isReadyToFire(){

@@ -104,9 +104,9 @@ public class Superstructure extends SubsystemBase {
 
     States state = States.OFF;
     if(wantsShoot){
-      state = States.OFF;
-    }else if(wantsIDLE){
       state = States.SHOOTING;
+    }else if(wantsIDLE){
+      state = States.IDLE;
     }else{
       state = States.OFF;
     }
@@ -157,7 +157,7 @@ public class Superstructure extends SubsystemBase {
       AimingSolution solution = calculateAiming();
       turret.setTargetAngle(solution.turretAngle());
 
-      shooter.setTargetRPM(false, IDLERPM);
+      shooter.setRPM(false, IDLERPM);
 
       spindexer.stop();
       kicker.stop();
@@ -236,7 +236,6 @@ public class Superstructure extends SubsystemBase {
 
       
 
-      shooter.setTargetRPM(false, solution.effectiveDistance());
         
       
 
