@@ -43,7 +43,7 @@ public class Shooter extends SubsystemBase {
 
   
   
-  private static final double RPM_TOLERANCE_PERCENT = 0.03;
+  private static final double RPM_TOLERANCE_PERCENT = 0.1;
 
   public Shooter(int flywheelCanID, int flywheelCanID2, String Shooter) {
     this.Shooter = Shooter;
@@ -56,9 +56,9 @@ public class Shooter extends SubsystemBase {
   }
   private void configureFlywheel(){
     TalonFXConfiguration cfg = new TalonFXConfiguration();
-    cfg.CurrentLimits.StatorCurrentLimit = 60.0;
+    cfg.CurrentLimits.StatorCurrentLimit = 150.0;
     cfg.CurrentLimits.StatorCurrentLimitEnable = true;
-    cfg.Slot0.kP = 0.1;
+    cfg.Slot0.kP = 0.60;
     cfg.Slot0.kV = 0.12;
     cfg.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
@@ -68,9 +68,9 @@ public class Shooter extends SubsystemBase {
 
     private void configureFlywheel2(){
     TalonFXConfiguration cfg2 = new TalonFXConfiguration();
-    cfg2.CurrentLimits.StatorCurrentLimit = 60.0;
+    cfg2.CurrentLimits.StatorCurrentLimit = 100.0;
     cfg2.CurrentLimits.StatorCurrentLimitEnable = true;
-    cfg2.Slot0.kP = 0.1;
+    cfg2.Slot0.kP = 0.33;
     cfg2.Slot0.kV = 0.12;
 
     FlywheelLeft.getConfigurator().apply(cfg2);
@@ -103,6 +103,8 @@ public class Shooter extends SubsystemBase {
     double mappedRPM = ShootingTables.FlywheelMap.get(distanceMeters);
     setRPM(forcePrecise, mappedRPM);
     }
+
+ 
   
 
   /*public void setTargetDistance(double distanceMeters){
@@ -137,6 +139,7 @@ public class Shooter extends SubsystemBase {
 
   SmartDashboard.putNumber(Shooter + "/FlywheelRightRPM", FlywheelRight.getVelocity().getValueAsDouble() * 60.0);
   SmartDashboard.putNumber(Shooter + "/FlywheelLeftRPM", FlywheelRight.getVelocity().getValueAsDouble() * 60.0);
+  SmartDashboard.putNumber(Shooter + "/ShooterTargetRPM", flywheelTargetRPM);
 
   SmartDashboard.putBoolean(Shooter + "/Ready", isReadyToFire());
   }

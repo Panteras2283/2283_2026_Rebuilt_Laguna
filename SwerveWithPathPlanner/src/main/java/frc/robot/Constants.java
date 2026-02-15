@@ -101,10 +101,10 @@ public class Constants {
         public static final int PivotLeftID = 23;
         public static final int PivotRightID = 30;
         public static final int FeederID = 31;
-        public static final int LeftFeedPos = 0;
-        public static final int RightFeedPos = 0;
-        public static final int LeftUpPos = 0;
-        public static final int RightUpPos = 0;
+        public static final double LeftFeedPos = 10;
+        public static final double RightFeedPos = -10;
+        public static final double LeftUpPos = 2;
+        public static final double RightUpPos = -2;
     }
 
     public static final class Kicker {

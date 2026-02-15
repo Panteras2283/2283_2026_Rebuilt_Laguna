@@ -7,10 +7,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+
 import frc.robot.Constants;
 
 
@@ -22,6 +25,7 @@ public class Intake extends SubsystemBase {
 
   private final MotionMagicVoltage leftPivotRequest = new MotionMagicVoltage(0);
   private final MotionMagicVoltage rightPivotRequest = new MotionMagicVoltage(0);
+  private final VelocityVoltage feederRequest = new VelocityVoltage(0); 
 
   public boolean feeding = false;
 
@@ -29,7 +33,19 @@ public class Intake extends SubsystemBase {
   
   public Intake() {
     configureMotionMagic();
+    configureFeeder();
   }
+
+  private void configureFeeder(){
+    TalonFXConfiguration cfgF = new TalonFXConfiguration();
+    cfgF.CurrentLimits.StatorCurrentLimit = 100.0;
+    cfgF.CurrentLimits.StatorCurrentLimitEnable = true;
+    cfgF.Slot0.kP = 0.33;
+    cfgF.Slot0.kV = 0.12;
+
+    Feeder.getConfigurator().apply(cfgF);
+    Feeder.setNeutralMode(NeutralModeValue.Coast);
+    }
 
   private void configureMotionMagic(){
     TalonFXConfiguration cfgMm = new TalonFXConfiguration();
@@ -61,19 +77,20 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("LeftPivotPos", pivotLeft.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("RightPivotPos", pivotRight.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("FeederVel", Feeder.getVelocity().getValueAsDouble());
   }
 
   public void feedDown(){
     feeding = true;
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftFeedPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightFeedPos));
-    Feeder.set(1.0);
+    Feeder.setControl(feederRequest.withVelocity(100));
     
-  } 
+  }  
 
   public void feedOnly(){
     feeding = true;
-    Feeder.set(1.0);
+    Feeder.setControl(feederRequest.withVelocity(100));
     
   } 
 

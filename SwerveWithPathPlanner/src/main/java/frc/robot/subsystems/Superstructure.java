@@ -147,7 +147,7 @@ public class Superstructure extends SubsystemBase {
 
     }
     public void handleOFF(){
-      turret.setTargetAngle(new Rotation2d(0));
+      //turret.setTargetAngle(new Rotation2d(0));
       shooter.stop();
       kicker.stop();
       kicker.stop();
@@ -155,7 +155,7 @@ public class Superstructure extends SubsystemBase {
 
     public void handleIDLE(){
       AimingSolution solution = calculateAiming();
-      turret.setTargetAngle(solution.turretAngle());
+      //turret.setTargetAngle(solution.turretAngle());
 
       shooter.setRPM(false, IDLERPM);
 
@@ -165,24 +165,27 @@ public class Superstructure extends SubsystemBase {
 
     private void handleSHOOTING(){
       AimingSolution solution = calculateAiming();
-      Rotation2d targetAngle = solution.turretAngle();
-      if(Math.abs(operatorOffset) > 0.05) {
+      // Rotation2d targetAngle = solution.turretAngle();
+      /*if(Math.abs(operatorOffset) > 0.05) {
         targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
         turret.setTargetAngle(targetAngle);
       } else {
         turret.setTargetAngle(targetAngle);
-      }
+      }*/
 
-      shooter.setTargetRPM(true, solution.effectiveDistance());
+      shooter.setRPM(true, 2250);
+      //shooter.setTargetRPM(true, solution.effectiveDistance());
 
       boolean shooterReady = shooter.isReadyToFire();
-      boolean turretLocked = Math.abs(turret.getErrorDegrees()) < 2.0;
-      boolean locked = turretLocked && shooterReady;
+      //boolean turretLocked = Math.abs(turret.getErrorDegrees()) < 2.0;
+      boolean locked = shooterReady;
+      //boolean locked = turretLocked && shooterReady;
+
 
       SmartDashboard.putBoolean("Superstructure-Locked", locked);
 
       if (locked) {
-        kicker.Kick(0.5);
+        kicker.Kick(0.75);
         if (spindexer.jammed) {
             spindexer.SpinCCW();
         } else {
@@ -240,11 +243,12 @@ public class Superstructure extends SubsystemBase {
       
 
 
-      boolean turretAtTarget = Math.abs(turret.getErrorDegrees()) < 2.0;
+      //boolean turretAtTarget = Math.abs(turret.getErrorDegrees()) < 2.0;
       boolean shooterAtSpeed = shooter.isReadyToFire();
       
 
-      boolean locked = turretAtTarget && shooterAtSpeed;
+      boolean locked = shooterAtSpeed;
+      //boolean locked = turretAtTarget && shooterAtSpeed;
       SmartDashboard.putBoolean(sideName + "/Locked", locked);
 
       SmartDashboard.putNumber(sideName + "/Aim/Dist_Effective", solution.effectiveDistance());
