@@ -50,11 +50,11 @@ public class Intake extends SubsystemBase {
   private void configureMotionMagic(){
     TalonFXConfiguration cfgMm = new TalonFXConfiguration();
 
-    cfgMm.Slot0.kP = 1.0;   
+    cfgMm.Slot0.kP = 2.0;   
     cfgMm.Slot0.kI = 0.0;
     cfgMm.Slot0.kD = 0.0;
-    cfgMm.Slot0.kV = 0.0;   
-    cfgMm.Slot0.kS = 0.0;
+    cfgMm.Slot0.kV = 0.12;   
+    cfgMm.Slot0.kS = 0.2;
 
     cfgMm.MotionMagic.MotionMagicCruiseVelocity = 20;
     cfgMm.MotionMagic.MotionMagicAcceleration = 40;
