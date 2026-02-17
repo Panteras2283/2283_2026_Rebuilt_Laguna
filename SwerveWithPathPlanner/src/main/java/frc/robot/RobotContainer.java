@@ -145,7 +145,7 @@ public class RobotContainer {
         operator.leftBumper().onTrue(new InstantCommand(superstructure::toggleIdle));
         operator.rightBumper().onTrue(new InstantCommand(superstructure::toggleShooting));
 
-        operator.pov(180).onTrue(new InstantCommand(()-> s_Intake.feedDown()));
+        operator.pov(180).onTrue(new feedDown(s_Intake));
         operator.pov(180).onFalse(new InstantCommand(()-> s_Intake.stop()));
 
         operator.pov(90).onTrue(new InstantCommand(()-> s_Intake.feedOnly()));
@@ -155,7 +155,6 @@ public class RobotContainer {
 
         operator.pov(0).onTrue(new InstantCommand(()-> s_Intake.outake()));
         operator.pov(0).onFalse(new InstantCommand(()-> s_Intake.stop()));
-
 
 
         

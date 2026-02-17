@@ -50,7 +50,7 @@ public class Intake extends SubsystemBase {
   private void configureMotionMagic(){
     TalonFXConfiguration cfgMm = new TalonFXConfiguration();
 
-    cfgMm.Slot0.kP = 0.01;   
+    cfgMm.Slot0.kP = 1.0;   
     cfgMm.Slot0.kI = 0.0;
     cfgMm.Slot0.kD = 0.0;
     cfgMm.Slot0.kV = 0.0;   
@@ -80,12 +80,9 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("FeederVel", Feeder.getVelocity().getValueAsDouble());
   }
 
-  public void feedDown(){
-    feeding = true;
+  public void Down(){
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftFeedPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightFeedPos));
-    Feeder.setControl(feederRequest.withVelocity(100));
-    
   }  
 
   public void feedOnly(){
