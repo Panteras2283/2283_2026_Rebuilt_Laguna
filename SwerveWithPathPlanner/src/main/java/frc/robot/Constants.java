@@ -101,8 +101,8 @@ public class Constants {
         public static final int PivotLeftID = 23;
         public static final int PivotRightID = 30;
         public static final int FeederID = 31;
-        public static final double LeftFeedPos = 12;
-        public static final double RightFeedPos = -12;
+        public static final double LeftFeedPos = 13.67;
+        public static final double RightFeedPos = -13.67;
         public static final double LeftUpPos = 2;
         public static final double RightUpPos = -2;
     }
