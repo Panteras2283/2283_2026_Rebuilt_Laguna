@@ -41,7 +41,7 @@ public class Intake extends SubsystemBase {
 
   private void configureFeeder(){
     TalonFXConfiguration cfgF = new TalonFXConfiguration();
-    cfgF.CurrentLimits.StatorCurrentLimit = 100.0;
+    cfgF.CurrentLimits.StatorCurrentLimit = 150.0;
     cfgF.CurrentLimits.StatorCurrentLimitEnable = true;
     cfgF.Slot0.kP = 0.33;
     cfgF.Slot0.kV = 0.12;
@@ -53,13 +53,13 @@ public class Intake extends SubsystemBase {
   private void configureMotionMagic(){
     TalonFXConfiguration cfgMm = new TalonFXConfiguration();
 
-    cfgMm.Slot0.kP = 2.0;   
+    cfgMm.Slot0.kP = 5.0;   
     cfgMm.Slot0.kI = 0.0;
     cfgMm.Slot0.kD = 0.0;
     cfgMm.Slot0.kV = 0.12;   
     cfgMm.Slot0.kS = 0.2;
 
-    cfgMm.MotionMagic.MotionMagicCruiseVelocity = 20;
+    cfgMm.MotionMagic.MotionMagicCruiseVelocity = 40;
     cfgMm.MotionMagic.MotionMagicAcceleration = 40;
     cfgMm.MotionMagic.MotionMagicJerk = 0;
 
@@ -80,23 +80,20 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("LeftPivotPos", pivotLeft.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("RightPivotPos", pivotRight.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("FeederVel", Feeder.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("FeederVel", Feeder.getVelocity().getValueAsDouble()*60);
+    SmartDashboard.putNumber("FeederCurrent", Feeder.getStatorCurrent().getValueAsDouble());
   }
 
-  public void setFeederRPM(double targetRPM){
-    this.intakeTargetRPM = targetRPM;
-    double targetRPS = intakeTargetRPM / 60.0;
-    Feeder.setControl(feederRequest.withVelocity(targetRPS));
-  }
+
 
   public void Down(){
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftFeedPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightFeedPos));
-    setFeederRPM(6000);
+    Feeder.setControl(feederRequest.withVelocity(100));
   }  
 
   public void feed(){
-    setFeederRPM(6000);
+    Feeder.setControl(feederRequest.withVelocity(100));
     
   } 
 
