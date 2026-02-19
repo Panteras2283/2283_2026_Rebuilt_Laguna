@@ -15,6 +15,7 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 
 import frc.robot.Constants;
+import frc.robot.Utils.ShootingTables;
 
 
 public class Intake extends SubsystemBase {
@@ -30,6 +31,8 @@ public class Intake extends SubsystemBase {
   public boolean feeding = false;
 
   public boolean outake = false;
+
+  private double intakeTargetRPM = 0;
   
   public Intake() {
     configureMotionMagic();
@@ -80,14 +83,20 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("FeederVel", Feeder.getVelocity().getValueAsDouble());
   }
 
+  public void setFeederRPM(double targetRPM){
+    this.intakeTargetRPM = targetRPM;
+    double targetRPS = intakeTargetRPM / 60.0;
+    Feeder.setControl(feederRequest.withVelocity(targetRPS));
+  }
+
   public void Down(){
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftFeedPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightFeedPos));
-    Feeder.setControl(feederRequest.withVelocity(100));
+    setFeederRPM(6000);
   }  
 
   public void feed(){
-    Feeder.setControl(feederRequest.withVelocity(100));
+    setFeederRPM(6000);
     
   } 
 
