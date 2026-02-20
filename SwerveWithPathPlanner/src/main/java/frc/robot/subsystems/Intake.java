@@ -59,8 +59,8 @@ public class Intake extends SubsystemBase {
     cfgMm.Slot0.kV = 0.12;   
     cfgMm.Slot0.kS = 0.2;
 
-    cfgMm.MotionMagic.MotionMagicCruiseVelocity = 40;
-    cfgMm.MotionMagic.MotionMagicAcceleration = 40;
+    cfgMm.MotionMagic.MotionMagicCruiseVelocity = 150;
+    cfgMm.MotionMagic.MotionMagicAcceleration = 150;
     cfgMm.MotionMagic.MotionMagicJerk = 0;
 
     cfgMm.CurrentLimits.StatorCurrentLimit = 60.0;
@@ -89,11 +89,11 @@ public class Intake extends SubsystemBase {
   public void Down(){
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftFeedPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightFeedPos));
-    Feeder.setControl(feederRequest.withVelocity(100));
+    Feeder.setControl(feederRequest.withVelocity(62));
   }  
 
   public void feed(){
-    Feeder.setControl(feederRequest.withVelocity(100));
+    Feeder.setControl(feederRequest.withVelocity(62));
     
   } 
 
