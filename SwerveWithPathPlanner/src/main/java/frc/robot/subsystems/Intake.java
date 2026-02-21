@@ -53,10 +53,10 @@ public class Intake extends SubsystemBase {
   private void configureMotionMagic(){
     TalonFXConfiguration cfgMm = new TalonFXConfiguration();
 
-    cfgMm.Slot0.kP = 5.0;   
+    cfgMm.Slot0.kP = 8.0;   
     cfgMm.Slot0.kI = 0.0;
     cfgMm.Slot0.kD = 0.0;
-    cfgMm.Slot0.kV = 0.12;   
+    cfgMm.Slot0.kV = 0.12;       
     cfgMm.Slot0.kS = 0.2;
 
     cfgMm.MotionMagic.MotionMagicCruiseVelocity = 150;
@@ -89,11 +89,11 @@ public class Intake extends SubsystemBase {
   public void Down(){
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftFeedPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightFeedPos));
-    Feeder.setControl(feederRequest.withVelocity(62));
+    Feeder.setControl(feederRequest.withVelocity(55));
   }  
 
   public void feed(){
-    Feeder.setControl(feederRequest.withVelocity(62));
+    Feeder.setControl(feederRequest.withVelocity(55));
     
   } 
 
