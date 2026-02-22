@@ -148,7 +148,6 @@ public class RobotContainer {
         operator.pov(180).onTrue(new InstantCommand(()-> s_Intake.Down()));
         operator.pov(180).onFalse(new InstantCommand(()-> s_Intake.stop()));
 
-
         operator.pov(90).onTrue(new InstantCommand(()-> s_Intake.feed()));
         operator.pov(90).onFalse(new InstantCommand(()-> s_Intake.stop()));
 
