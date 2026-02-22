@@ -9,12 +9,12 @@ import frc.robot.subsystems.Intake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class feedDown extends Command {
-  private Intake s_Intake;
+ // private Intake s_Intake;
   /** Creates a new feedDown. */
   public feedDown(Intake Intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.s_Intake = s_Intake;
-    addRequirements(s_Intake);
+   /*  this.s_Intake = s_Intake;
+    addRequirements(s_Intake);*/
   }
 
   // Called when the command is initially scheduled.
@@ -24,8 +24,8 @@ public class feedDown extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_Intake.feedOnly();
-    s_Intake.Down();
+   /*  s_Intake.feedOnly();
+    s_Intake.Down(); */
   }
 
   // Called once the command ends or is interrupted.
