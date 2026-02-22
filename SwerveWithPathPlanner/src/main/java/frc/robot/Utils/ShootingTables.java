@@ -15,8 +15,8 @@ public class ShootingTables {
 
     static{
         /*Close Range shot */
-        FlywheelMap.put(1.5, 3000.0);
-        ExitVelocityMap.put(1.5, 12.0);
+        FlywheelMap.put(2.0, 3000.0);
+        ExitVelocityMap.put(2.0, 12.0);
 
         /*Mid Range shot */
         FlywheelMap.put(3.5, 4500.0);

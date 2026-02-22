@@ -15,6 +15,7 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 
 import frc.robot.Constants;
+import frc.robot.Utils.ShootingTables;
 
 
 public class Intake extends SubsystemBase {
@@ -30,6 +31,8 @@ public class Intake extends SubsystemBase {
   public boolean feeding = false;
 
   public boolean outake = false;
+
+  private double intakeTargetRPM = 0;
   
   public Intake() {
     configureMotionMagic();
@@ -38,7 +41,7 @@ public class Intake extends SubsystemBase {
 
   private void configureFeeder(){
     TalonFXConfiguration cfgF = new TalonFXConfiguration();
-    cfgF.CurrentLimits.StatorCurrentLimit = 100.0;
+    cfgF.CurrentLimits.StatorCurrentLimit = 150.0;
     cfgF.CurrentLimits.StatorCurrentLimitEnable = true;
     cfgF.Slot0.kP = 0.33;
     cfgF.Slot0.kV = 0.12;
@@ -50,14 +53,14 @@ public class Intake extends SubsystemBase {
   private void configureMotionMagic(){
     TalonFXConfiguration cfgMm = new TalonFXConfiguration();
 
-    cfgMm.Slot0.kP = 1.0;   
+    cfgMm.Slot0.kP = 8.0;   
     cfgMm.Slot0.kI = 0.0;
     cfgMm.Slot0.kD = 0.0;
-    cfgMm.Slot0.kV = 0.0;   
-    cfgMm.Slot0.kS = 0.0;
+    cfgMm.Slot0.kV = 0.12;       
+    cfgMm.Slot0.kS = 0.2;
 
-    cfgMm.MotionMagic.MotionMagicCruiseVelocity = 20;
-    cfgMm.MotionMagic.MotionMagicAcceleration = 40;
+    cfgMm.MotionMagic.MotionMagicCruiseVelocity = 150;
+    cfgMm.MotionMagic.MotionMagicAcceleration = 150;
     cfgMm.MotionMagic.MotionMagicJerk = 0;
 
     cfgMm.CurrentLimits.StatorCurrentLimit = 60.0;
@@ -77,17 +80,20 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("LeftPivotPos", pivotLeft.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("RightPivotPos", pivotRight.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("FeederVel", Feeder.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("FeederVel", Feeder.getVelocity().getValueAsDouble()*60);
+    SmartDashboard.putNumber("FeederCurrent", Feeder.getStatorCurrent().getValueAsDouble());
   }
+
+
 
   public void Down(){
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftFeedPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightFeedPos));
+    Feeder.setControl(feederRequest.withVelocity(55));
   }  
 
-  public void feedOnly(){
-    feeding = true;
-    Feeder.setControl(feederRequest.withVelocity(100));
+  public void feed(){
+    Feeder.setControl(feederRequest.withVelocity(55));
     
   } 
 
@@ -97,7 +103,6 @@ public class Intake extends SubsystemBase {
   }
 
   public void outake(){
-    outake = true;
     Feeder.set(-0.5);
     
   } 
