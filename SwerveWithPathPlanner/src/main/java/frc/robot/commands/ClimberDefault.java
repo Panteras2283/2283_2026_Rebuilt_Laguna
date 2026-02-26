@@ -5,17 +5,25 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Climber;
+import frc.robot.Constants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ClimberDefaultCommand extends Command {
+public class ClimberDefault extends Command {
+
+  private Climber s_Climber;
   /** Creates a new ClimberDefaultCommand. */
-  public ClimberDefaultCommand() {
+  public ClimberDefault(Climber s_Climber) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(s_Climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    s_Climber.setElevatorPos(Constants.Climber.DefaultElevatorPos);
+    s_Climber.setFootPos(Constants.Climber.FootDefaultPos);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
