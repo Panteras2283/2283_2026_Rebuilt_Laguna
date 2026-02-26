@@ -130,13 +130,13 @@ public class Constants {
     public static final class Climber{
         public static final int elevatorRightID = 22;
         public static final int elevatorLeftID = 24;
-        public static final int FootID = 25;
+        //public static final int FootID = 25;
         public static final double DefaultElevatorPos = 0;
-        public static final double elevatorFootPos = 0;
+        //public static final double elevatorFootPos = 0;
         public static final double DownPos = 0;
         public static final double UpPos = 0;
-        public static final double FootDefaultPos = 0;
-        public static final double FootOutPos = 0;
-        public static final double FootInPos = 0;
+        //public static final double FootDefaultPos = 0;
+        //public static final double FootOutPos = 0;
+        //public static final double FootInPos = 0;
     }
 }

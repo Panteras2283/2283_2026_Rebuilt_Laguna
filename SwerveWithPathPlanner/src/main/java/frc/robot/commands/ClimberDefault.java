@@ -22,7 +22,7 @@ public class ClimberDefault extends Command {
   @Override
   public void initialize() {
     s_Climber.setElevatorPos(Constants.Climber.DefaultElevatorPos);
-    s_Climber.setFootPos(Constants.Climber.FootDefaultPos);
+    //s_Climber.setFootPos(Constants.Climber.FootDefaultPos);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

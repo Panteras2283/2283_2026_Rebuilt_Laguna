@@ -20,11 +20,11 @@ public class Climber extends SubsystemBase {
 
   private TalonFX elevatorRight = new TalonFX(Constants.Climber.elevatorRightID);
   private TalonFX elevatorLeft = new TalonFX(Constants.Climber.elevatorLeftID);
-  private TalonFX Foot = new TalonFX(Constants.Climber.FootID);
+ // private TalonFX Foot = new TalonFX(Constants.Climber.FootID);
 
   private final MotionMagicVoltage elevatorRightRequest = new MotionMagicVoltage(0); 
   private final MotionMagicVoltage elevatorLeftRequest = new MotionMagicVoltage(0);
-  private final MotionMagicVoltage FootRequest = new MotionMagicVoltage(0); 
+  //private final MotionMagicVoltage FootRequest = new MotionMagicVoltage(0); 
   /** Creates a new Climber. */
   public Climber() {
     configureMotionMagic();
@@ -69,30 +69,34 @@ public class Climber extends SubsystemBase {
     elevatorRight.setControl(elevatorRightRequest.withPosition(position));
   }
 
-  public void setFootPos(double position){
-    Foot.setControl(FootRequest.withPosition(position));
+  public double getElevatorPosition() {
+    return elevatorRight.getPosition().getValueAsDouble();
   }
 
-  public void FootOut(){
+ /*  public void setFootPos(double position){
+    Foot.setControl(FootRequest.withPosition(position));
+  }*/
+
+  /*public void FootOut(){
    Foot.setControl(FootRequest.withPosition(Constants.Climber.FootOutPos));
   }
 
   public void FootIn(){
    Foot.setControl(FootRequest.withPosition(Constants.Climber.FootInPos));
-  }
+  }*/
   
   public void resetEncoders(){
     elevatorRight.setControl(elevatorRightRequest.withPosition(0));
-    Foot.setControl(FootRequest.withPosition(0));
+    //Foot.setControl(FootRequest.withPosition(0));
   }
 
   public void fullDown(){
     elevatorRight.set(-0.1);
-    Foot.set(-0.1);
+    //Foot.set(-0.1);
     System.out.println("ELEVATOR DOWN");
   }
   public void fullStop(){
     elevatorRight.set(0);
-    Foot.set(0);
+    //Foot.set(0);
   }
 }
