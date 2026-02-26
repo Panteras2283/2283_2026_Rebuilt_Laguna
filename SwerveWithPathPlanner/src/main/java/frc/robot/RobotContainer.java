@@ -25,11 +25,7 @@ import frc.robot.commands.*;
 import frc.robot.generated.TunerConstants;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Superstructure;
-import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.Constants;
@@ -57,6 +53,7 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final Intake s_Intake;
     public final Kicker s_Kicker = new Kicker();
+    public final Climber s_Climber;
     //public final ShooterSubsystem s_Shooter = new ShooterSubsystem(30, "Shooter");
     public final Spindexer s_Spindexer = new Spindexer();
     public final TurretSubsystem s_Turret = new TurretSubsystem(25, "Turret");
@@ -83,6 +80,9 @@ public class RobotContainer {
         //Subsystems
         s_Intake = new Intake();
         s_Vision = new VisionSubsystem(drivetrain);
+        s_Climber = new Climber();
+
+        s_Climber.setDefaultCommand(new ClimberDefault(s_Climber));
         
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
@@ -142,9 +142,11 @@ public class RobotContainer {
             )
         );
 
+            /*Turret */
         operator.leftBumper().onTrue(new InstantCommand(superstructure::toggleIdle));
         operator.rightBumper().onTrue(new InstantCommand(superstructure::toggleShooting));
 
+            /*Intake */
         operator.pov(180).onTrue(new InstantCommand(()-> s_Intake.Down()));
         operator.pov(180).onFalse(new InstantCommand(()-> s_Intake.stop()));
 
@@ -155,6 +157,12 @@ public class RobotContainer {
 
         operator.pov(0).onTrue(new InstantCommand(()-> s_Intake.outake()));
         operator.pov(0).onFalse(new InstantCommand(()-> s_Intake.stop()));
+            
+            /*Climber */
+        operator.leftStick().onTrue(new InstantCommand(()-> s_Climber.fullDown(), s_Climber));
+        operator.leftStick().onFalse(s_Climber.getDefaultCommand());
+        operator.rightStick().onTrue(new InstantCommand(()-> s_Climber.resetEncoders(), s_Climber));
+        operator.rightStick().onFalse(s_Climber.getDefaultCommand());
 
 
         
