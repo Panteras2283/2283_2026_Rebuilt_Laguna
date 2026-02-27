@@ -164,6 +164,9 @@ public class RobotContainer {
         operator.rightStick().onTrue(new InstantCommand(()-> s_Climber.resetEncoders(), s_Climber));
         operator.rightStick().onFalse(s_Climber.getDefaultCommand());
 
+        operator.y().onTrue(new Climb(s_Climber));
+        operator.y().onFalse(s_Climber.getDefaultCommand());
+
 
         
         
