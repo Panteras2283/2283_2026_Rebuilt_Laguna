@@ -13,6 +13,7 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -98,5 +99,9 @@ public class Climber extends SubsystemBase {
   public void fullStop(){
     elevatorRight.set(0);
     //Foot.set(0);
+  }
+  // Add this method inside Climber.java
+  public Command fullDownCommand() {
+    return this.runOnce(this::fullDown);
   }
 }

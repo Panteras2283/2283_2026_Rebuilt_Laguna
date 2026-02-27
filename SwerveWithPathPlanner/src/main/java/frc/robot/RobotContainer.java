@@ -106,7 +106,7 @@ public class RobotContainer {
             )
         );
 
-        superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
+       // superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
       //s_Spindexer.setDefaultCommand(new SpindexerDefaultCommand(s_Spindexer, s_Intake, superstructure, s_Kicker));
       // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -147,19 +147,15 @@ public class RobotContainer {
         operator.rightBumper().onTrue(new InstantCommand(superstructure::toggleShooting));
 
             /*Intake */
-        operator.pov(180).onTrue(new InstantCommand(()-> s_Intake.Down()));
-        operator.pov(180).onFalse(new InstantCommand(()-> s_Intake.stop()));
+        operator.pov(180).whileTrue(s_Intake.startEnd(s_Intake::Down, s_Intake::stop));
 
-        operator.pov(90).onTrue(new InstantCommand(()-> s_Intake.feed()));
-        operator.pov(90).onFalse(new InstantCommand(()-> s_Intake.stop()));
+        operator.pov(90).whileTrue(s_Intake.startEnd(s_Intake::feed, s_Intake::stop));
+        operator.pov(0).whileTrue(s_Intake.startEnd(s_Intake::outake, s_Intake::stop));
 
-        operator.pov(270).onTrue(new InstantCommand(()-> s_Intake.up()));
-
-        operator.pov(0).onTrue(new InstantCommand(()-> s_Intake.outake()));
-        operator.pov(0).onFalse(new InstantCommand(()-> s_Intake.stop()));
+        operator.pov(270).onTrue(s_Intake.runOnce(s_Intake::up));
             
             /*Climber */
-        operator.leftStick().onTrue(new InstantCommand(()-> s_Climber.fullDown(), s_Climber));
+        operator.leftStick().whileTrue(s_Climber.fullDownCommand());
         operator.leftStick().onFalse(s_Climber.getDefaultCommand());
         operator.rightStick().onTrue(new InstantCommand(()-> s_Climber.resetEncoders(), s_Climber));
         operator.rightStick().onFalse(s_Climber.getDefaultCommand());
