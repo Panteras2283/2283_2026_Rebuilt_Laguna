@@ -11,6 +11,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 
@@ -20,7 +21,7 @@ import frc.robot.Utils.ShootingTables;
 
 public class Intake extends SubsystemBase {
  /** Creates a new Intake_demo. */
-  private TalonFX Feeder = new TalonFX(Constants.Intake.FeederID);
+  private TalonFX Feeder = new TalonFX(Constants.Intake.FeederID, "Drivetrain");
   private TalonFX pivotLeft = new TalonFX(Constants.Intake.PivotLeftID);
   private TalonFX pivotRight = new TalonFX(Constants.Intake.PivotRightID);
 
@@ -93,7 +94,7 @@ public class Intake extends SubsystemBase {
   }  
 
   public void feed(){
-    Feeder.setControl(feederRequest.withVelocity(55));
+    Feeder.setControl(feederRequest.withVelocity(45));
     
   } 
 

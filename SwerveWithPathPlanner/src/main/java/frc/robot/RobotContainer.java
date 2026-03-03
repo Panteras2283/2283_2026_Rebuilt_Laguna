@@ -56,18 +56,18 @@ public class RobotContainer {
     //Subsystems
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final Intake s_Intake;
-    public final Kicker s_Kicker = new Kicker();
+   // public final Kicker s_Kicker = new Kicker();
     //public final ShooterSubsystem s_Shooter = new ShooterSubsystem(30, "Shooter");
-    public final Spindexer s_Spindexer = new Spindexer();
-    public final TurretSubsystem s_Turret = new TurretSubsystem(25, "Turret");
-    public final Shooter s_Shooter = new Shooter(Constants.Shooter.motorID, Constants.Shooter.motor2ID, "Shooter");
+    //public final Spindexer s_Spindexer = new Spindexer();
+    //public final TurretSubsystem s_Turret = new TurretSubsystem(25, "Turret");
+    //public final Shooter s_Shooter = new Shooter(Constants.Shooter.motorID, Constants.Shooter.motor2ID, "Shooter");
 
 //public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter, ()->drivetrain.getState().Pose,()->drivetrain.getState().Speeds);
 
 
-    public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter,
+   /*  public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter,
     ()->drivetrain.getState().Pose,
-    ()->drivetrain.getState().Speeds, operator, s_Kicker, s_Spindexer);
+    ()->drivetrain.getState().Speeds, operator, s_Kicker, s_Spindexer);*/
     
     public final VisionSubsystem s_Vision;
     
@@ -106,7 +106,7 @@ public class RobotContainer {
             )
         );
 
-        superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
+        //superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
       //s_Spindexer.setDefaultCommand(new SpindexerDefaultCommand(s_Spindexer, s_Intake, superstructure, s_Kicker));
       // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -142,16 +142,16 @@ public class RobotContainer {
             )
         );
 
-        operator.leftBumper().onTrue(new InstantCommand(superstructure::toggleIdle));
-        operator.rightBumper().onTrue(new InstantCommand(superstructure::toggleShooting));
+       // operator.leftBumper().onTrue(new InstantCommand(superstructure::toggleIdle));
+        //operator.rightBumper().onTrue(new InstantCommand(superstructure::toggleShooting));
 
-        operator.pov(180).onTrue(new InstantCommand(()-> s_Intake.Down()));
-        operator.pov(180).onFalse(new InstantCommand(()-> s_Intake.stop()));
+       /* operator.pov(180).onTrue(new InstantCommand(()-> s_Intake.Down()));
+        operator.pov(180).onFalse(new InstantCommand(()-> s_Intake.stop()));*/
 
         operator.pov(90).onTrue(new InstantCommand(()-> s_Intake.feed()));
         operator.pov(90).onFalse(new InstantCommand(()-> s_Intake.stop()));
 
-        operator.pov(270).onTrue(new InstantCommand(()-> s_Intake.up()));
+       // operator.pov(270).onTrue(new InstantCommand(()-> s_Intake.up()));
 
         operator.pov(0).onTrue(new InstantCommand(()-> s_Intake.outake()));
         operator.pov(0).onFalse(new InstantCommand(()-> s_Intake.stop()));
