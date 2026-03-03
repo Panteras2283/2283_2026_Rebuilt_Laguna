@@ -21,17 +21,13 @@ import frc.robot.Utils.ShootingTables;
 
 public class Intake extends SubsystemBase {
  /** Creates a new Intake_demo. */
-  private TalonFX Feeder = new TalonFX(Constants.Intake.FeederID, "Drivetrain");
+  private TalonFX Feeder = new TalonFX(Constants.Intake.FeederID);
   private TalonFX pivotLeft = new TalonFX(Constants.Intake.PivotLeftID);
   private TalonFX pivotRight = new TalonFX(Constants.Intake.PivotRightID);
 
   private final MotionMagicVoltage leftPivotRequest = new MotionMagicVoltage(0);
   private final MotionMagicVoltage rightPivotRequest = new MotionMagicVoltage(0);
   private final VelocityVoltage feederRequest = new VelocityVoltage(0); 
-
-  public boolean feeding = false; 
-
-  public boolean outake = false;
 
   private double intakeTargetRPM = 0;
   
@@ -85,6 +81,10 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("FeederCurrent", Feeder.getStatorCurrent().getValueAsDouble());
   }
 
+  public void setPosition(double posLeft, double posRight){
+    pivotLeft.setControl(leftPivotRequest.withPosition(posLeft));
+    pivotRight.setControl(rightPivotRequest.withPosition(posRight));
+  }
 
 
   public void Down(){
@@ -94,7 +94,7 @@ public class Intake extends SubsystemBase {
   }  
 
   public void feed(){
-    Feeder.setControl(feederRequest.withVelocity(45));
+    Feeder.setControl(feederRequest.withVelocity(55));
     
   } 
 
@@ -109,8 +109,6 @@ public class Intake extends SubsystemBase {
   } 
 
   public void stop(){
-    outake = false;
     Feeder.set(0);
-    feeding = false;
   }
 }

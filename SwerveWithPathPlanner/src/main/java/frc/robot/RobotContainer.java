@@ -52,19 +52,15 @@ public class RobotContainer {
     //Subsystems
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final Intake s_Intake;
-    //public final Kicker s_Kicker = new Kicker();
-   // public final Climber s_Climber;
-    //public final ShooterSubsystem s_Shooter = new ShooterSubsystem(30, "Shooter");
-    //public final Spindexer s_Spindexer = new Spindexer();
-    //public final TurretSubsystem s_Turret = new TurretSubsystem(25, "Turret");
-    //public final Shooter s_Shooter = new Shooter(Constants.Shooter.motorID, Constants.Shooter.motor2ID, "Shooter");
+    public final Kicker s_Kicker = new Kicker();
+    //public final Climber s_Climber;
+    public final Spindexer s_Spindexer = new Spindexer();
+    public final TurretSubsystem s_Turret = new TurretSubsystem(25, "Turret");
+    public final Shooter s_Shooter = new Shooter(Constants.Shooter.motorID, Constants.Shooter.motor2ID, "Shooter");
 
-//public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter, ()->drivetrain.getState().Pose,()->drivetrain.getState().Speeds);
-
-
-    /*public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter,
+    public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter,
     ()->drivetrain.getState().Pose,
-    ()->drivetrain.getState().Speeds, operator, s_Kicker, s_Spindexer);*/
+    ()->drivetrain.getState().Speeds, operator, s_Kicker, s_Spindexer);
     
     public final VisionSubsystem s_Vision;
     
@@ -83,6 +79,8 @@ public class RobotContainer {
         //s_Climber = new Climber();
 
         //s_Climber.setDefaultCommand(new ClimberDefault(s_Climber));
+
+        
         
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
@@ -106,8 +104,8 @@ public class RobotContainer {
             )
         );
 
-       // superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
-      //s_Spindexer.setDefaultCommand(new SpindexerDefaultCommand(s_Spindexer, s_Intake, superstructure, s_Kicker));
+        superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
+        s_Intake.setDefaultCommand(new IntakeDefault(s_Intake));
       // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
         final var idle = new SwerveRequest.Idle();
@@ -143,8 +141,8 @@ public class RobotContainer {
         );
 
             /*Turret */
-       // operator.leftBumper().onTrue(new InstantCommand(superstructure::toggleIdle));
-       // operator.rightBumper().onTrue(new InstantCommand(superstructure::toggleShooting));
+       operator.leftBumper().onTrue(new InstantCommand(superstructure::toggleIdle));
+       operator.rightBumper().onTrue(new InstantCommand(superstructure::toggleShooting));
 
             /*Intake */
        operator.pov(180).whileTrue(s_Intake.startEnd(s_Intake::Down, s_Intake::stop));
@@ -180,13 +178,6 @@ public class RobotContainer {
         );
 
         
-      
-
-       /* 
-        joystick.y().onTrue(new InstantCommand(()-> s_Spindexer.SpinWI(-0.4)));
-        joystick.y().onFalse(new InstantCommand(()-> s_Spindexer.stop()));
-        joystick.y().onTrue(new InstantCommand(() -> s_Intake.feed(-0.70)));
-        joystick.y().onFalse(new InstantCommand(() -> s_Intake.stop()));*/
 
         
 
