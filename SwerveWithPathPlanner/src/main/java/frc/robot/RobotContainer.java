@@ -51,7 +51,7 @@ public class RobotContainer {
 
     //Subsystems
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    //public final Intake s_Intake;
+    public final Intake s_Intake;
     //public final Kicker s_Kicker = new Kicker();
    // public final Climber s_Climber;
     //public final ShooterSubsystem s_Shooter = new ShooterSubsystem(30, "Shooter");
@@ -78,7 +78,7 @@ public class RobotContainer {
         
         
         //Subsystems
-        //s_Intake = new Intake();
+        s_Intake = new Intake();
         s_Vision = new VisionSubsystem(drivetrain);
         //s_Climber = new Climber();
 
@@ -147,19 +147,19 @@ public class RobotContainer {
        // operator.rightBumper().onTrue(new InstantCommand(superstructure::toggleShooting));
 
             /*Intake */
-       // operator.pov(180).whileTrue(s_Intake.startEnd(s_Intake::Down, s_Intake::stop));
+       operator.pov(180).whileTrue(s_Intake.startEnd(s_Intake::Down, s_Intake::stop));
 
-        //operator.pov(90).whileTrue(s_Intake.startEnd(s_Intake::feed, s_Intake::stop));
-       // operator.pov(0).whileTrue(s_Intake.startEnd(s_Intake::outake, s_Intake::stop));
+       operator.pov(90).whileTrue(s_Intake.startEnd(s_Intake::feed, s_Intake::stop));
+       operator.pov(0).whileTrue(s_Intake.startEnd(s_Intake::outake, s_Intake::stop));
 
-        //operator.pov(270).onTrue(s_Intake.runOnce(s_Intake::up));
+       operator.pov(270).onTrue(s_Intake.runOnce(s_Intake::up));
             
             /*Climber */
        //operator.leftStick().whileTrue(s_Climber.fullDownCommand());
         //operator.leftStick().onFalse(s_Climber.getDefaultCommand());
         //operator.rightStick().onTrue(new InstantCommand(()-> s_Climber.resetEncoders(), s_Climber));
         //operator.rightStick().onFalse(s_Climber.getDefaultCommand());
-
+        
         //operator.y().onTrue(new Climb(s_Climber));
         //operator.y().onFalse(s_Climber.getDefaultCommand());
 
