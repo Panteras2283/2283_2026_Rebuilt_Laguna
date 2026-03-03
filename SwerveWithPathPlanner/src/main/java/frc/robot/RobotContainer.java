@@ -25,11 +25,7 @@ import frc.robot.commands.*;
 import frc.robot.generated.TunerConstants;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Superstructure;
-import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.Constants;
@@ -56,7 +52,8 @@ public class RobotContainer {
     //Subsystems
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final Intake s_Intake;
-   // public final Kicker s_Kicker = new Kicker();
+    //public final Kicker s_Kicker = new Kicker();
+   // public final Climber s_Climber;
     //public final ShooterSubsystem s_Shooter = new ShooterSubsystem(30, "Shooter");
     //public final Spindexer s_Spindexer = new Spindexer();
     //public final TurretSubsystem s_Turret = new TurretSubsystem(25, "Turret");
@@ -65,7 +62,7 @@ public class RobotContainer {
 //public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter, ()->drivetrain.getState().Pose,()->drivetrain.getState().Speeds);
 
 
-   /*  public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter,
+    /*public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter,
     ()->drivetrain.getState().Pose,
     ()->drivetrain.getState().Speeds, operator, s_Kicker, s_Spindexer);*/
     
@@ -83,6 +80,9 @@ public class RobotContainer {
         //Subsystems
         s_Intake = new Intake();
         s_Vision = new VisionSubsystem(drivetrain);
+        //s_Climber = new Climber();
+
+        //s_Climber.setDefaultCommand(new ClimberDefault(s_Climber));
         
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
@@ -106,7 +106,7 @@ public class RobotContainer {
             )
         );
 
-        //superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
+       // superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
       //s_Spindexer.setDefaultCommand(new SpindexerDefaultCommand(s_Spindexer, s_Intake, superstructure, s_Kicker));
       // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -142,19 +142,26 @@ public class RobotContainer {
             )
         );
 
+            /*Turret */
        // operator.leftBumper().onTrue(new InstantCommand(superstructure::toggleIdle));
-        //operator.rightBumper().onTrue(new InstantCommand(superstructure::toggleShooting));
+       // operator.rightBumper().onTrue(new InstantCommand(superstructure::toggleShooting));
 
-       /* operator.pov(180).onTrue(new InstantCommand(()-> s_Intake.Down()));
-        operator.pov(180).onFalse(new InstantCommand(()-> s_Intake.stop()));*/
+            /*Intake */
+       operator.pov(180).whileTrue(s_Intake.startEnd(s_Intake::Down, s_Intake::stop));
 
-        operator.pov(90).onTrue(new InstantCommand(()-> s_Intake.feed()));
-        operator.pov(90).onFalse(new InstantCommand(()-> s_Intake.stop()));
+       operator.pov(90).whileTrue(s_Intake.startEnd(s_Intake::feed, s_Intake::stop));
+       operator.pov(0).whileTrue(s_Intake.startEnd(s_Intake::outake, s_Intake::stop));
 
-       // operator.pov(270).onTrue(new InstantCommand(()-> s_Intake.up()));
-
-        operator.pov(0).onTrue(new InstantCommand(()-> s_Intake.outake()));
-        operator.pov(0).onFalse(new InstantCommand(()-> s_Intake.stop()));
+       operator.pov(270).onTrue(s_Intake.runOnce(s_Intake::up));
+            
+            /*Climber */
+       //operator.leftStick().whileTrue(s_Climber.fullDownCommand());
+        //operator.leftStick().onFalse(s_Climber.getDefaultCommand());
+        //operator.rightStick().onTrue(new InstantCommand(()-> s_Climber.resetEncoders(), s_Climber));
+        //operator.rightStick().onFalse(s_Climber.getDefaultCommand());
+        
+        //operator.y().onTrue(new Climb(s_Climber));
+        //operator.y().onFalse(s_Climber.getDefaultCommand());
 
 
         

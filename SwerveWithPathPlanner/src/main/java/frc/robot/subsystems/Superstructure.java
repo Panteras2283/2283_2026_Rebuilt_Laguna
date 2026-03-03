@@ -141,10 +141,6 @@ public class Superstructure extends SubsystemBase {
       turret, shooter, robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, "Turret", turretTargetPub
     );
 
-    isTurretLockedOn = runAimingLoop(
-      turret, shooter, robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, "Turret", turretTargetPub
-    ); 
-
     }
     public void handleOFF(){
       turret.setTargetAngle(new Rotation2d(0));

@@ -29,7 +29,7 @@ public class Intake extends SubsystemBase {
   private final MotionMagicVoltage rightPivotRequest = new MotionMagicVoltage(0);
   private final VelocityVoltage feederRequest = new VelocityVoltage(0); 
 
-  public boolean feeding = false;
+  public boolean feeding = false; 
 
   public boolean outake = false;
 
