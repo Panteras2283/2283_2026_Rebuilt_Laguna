@@ -14,6 +14,7 @@ public class IntakeDefault extends Command {
   /** Creates a new IntakeDefault. */
   public IntakeDefault(Intake s_Intake) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.s_Intake = s_Intake;
     addRequirements(s_Intake);
   }
 

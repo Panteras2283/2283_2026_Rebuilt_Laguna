@@ -99,7 +99,7 @@ public class TurretSubsystem extends SubsystemBase {
     targetRotations = MathUtil.inputModulus(targetRotations, -0.5, 0.5);
     targetRotations = MathUtil.clamp(targetRotations, SOFT_LIMIT_BWD_ROT, SOFT_LIMIT_FWD_ROT);
 
-    turretController.setSetpoint(targetRotations, ControlType.kMAXMotionPositionControl);
+    turretController.setSetpoint(-targetRotations, ControlType.kMAXMotionPositionControl);
   }
 
   public Rotation2d getCurrentAngle(){
