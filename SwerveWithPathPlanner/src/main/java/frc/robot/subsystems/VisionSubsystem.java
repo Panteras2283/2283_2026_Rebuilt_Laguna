@@ -42,11 +42,11 @@ public class VisionSubsystem extends SubsystemBase {
 
     
     private static final Transform3d kRobotToCam1 = new Transform3d(
-        new Translation3d (-0.35306,-0.3175,0.5207), 
+        new Translation3d(-0.35306, 0.3175, 0.5207), 
         new Rotation3d(0,0,Math.PI).rotateBy(new Rotation3d(0,Math.toRadians(-45),0))
     );
     private static final Transform3d kRobotToCam2 = new Transform3d(
-        new Translation3d (0.29972,0.32004,0.5207), 
+        new Translation3d(0.29972, -0.32004, 0.5207), 
         new Rotation3d(0,0,0).rotateBy( new Rotation3d(0,Math.toRadians(-45),0))
     );
 

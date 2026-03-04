@@ -40,14 +40,14 @@ public class TurretSubsystem extends SubsystemBase {
 
 
   // Check with CAD
-  private static final double GEAR_RATIO = 26.25;
+  private static final double GEAR_RATIO = 23.31;
 
   private static final double SOFT_LIMIT_FWD_ROT = 0.48;
   private static final double SOFT_LIMIT_BWD_ROT = -0.48;
 
-  private static final double AIM_TOLERANCE_DEG = 1.5;
+  private static final double AIM_TOLERANCE_DEG = 0.1;
 
-  private static final double kP = 7.5;
+  private static final double kP = 22;
   private static final double kI = 0.0;
   private static final double kD = 0.0;
   private static final double kFF = 12/380;
