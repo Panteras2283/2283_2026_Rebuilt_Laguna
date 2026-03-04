@@ -181,11 +181,11 @@ public class Superstructure extends SubsystemBase {
 
       if (locked) {
         kicker.Kick(0.50);
-        if (spindexer.jammed) {
-            spindexer.SpinCCW();
-        } else {
+        //if (spindexer.jammed) {
+            //spindexer.SpinCCW();
+        //} else {
             spindexer.SpinCW();
-        }
+        //}
     } else {
         kicker.stop();
         spindexer.stop();

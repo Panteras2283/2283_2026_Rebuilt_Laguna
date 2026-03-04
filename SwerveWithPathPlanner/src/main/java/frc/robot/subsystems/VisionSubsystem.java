@@ -35,7 +35,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     private final PhotonCamera photon1; 
     private final PhotonCamera photon2;
-    private PhotonPoseEstimator photonPoseEstimator1;
+    private PhotonPoseEstimator photonPoseEstimator1; 
     private PhotonPoseEstimator photonPoseEstimator2;
     private static final String kPhotonCameraName1 = "arducam_left";
     private static final String kPhotonCameraName2 = "arducam_right";
