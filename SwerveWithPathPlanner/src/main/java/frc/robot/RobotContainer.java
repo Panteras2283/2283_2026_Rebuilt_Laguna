@@ -58,9 +58,9 @@ public class RobotContainer {
     public final TurretSubsystem s_Turret = new TurretSubsystem(25, "Turret");
     public final Shooter s_Shooter = new Shooter(Constants.Shooter.motorID, Constants.Shooter.motor2ID, "Shooter");
 
-    public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter,
+   /*  public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter,
     ()->drivetrain.getState().Pose,
-    ()->drivetrain.getState().Speeds, operator, s_Kicker, s_Spindexer);
+    ()->drivetrain.getState().Speeds, operator, s_Kicker, s_Spindexer);*/
     
     public final VisionSubsystem s_Vision;
     
@@ -104,7 +104,7 @@ public class RobotContainer {
             )
         );
 
-        superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
+        //superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
         s_Intake.setDefaultCommand(new IntakeDefault(s_Intake));
       // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -141,8 +141,8 @@ public class RobotContainer {
         );
 
             /*Turret */
-       operator.leftBumper().onTrue(new InstantCommand(superstructure::toggleIdle));
-       operator.rightBumper().onTrue(new InstantCommand(superstructure::toggleShooting));
+       /*operator.leftBumper().onTrue(new InstantCommand(superstructure::toggleIdle));
+       operator.rightBumper().onTrue(new InstantCommand(superstructure::toggleShooting));*/
 
             /*Intake */
        operator.pov(180).onTrue(new InstantCommand(()->s_Intake.Down()));
@@ -152,6 +152,14 @@ public class RobotContainer {
        operator.pov(0).whileTrue(s_Intake.startEnd(s_Intake::outake, s_Intake::stop));
 
        operator.pov(270).onTrue(new InstantCommand(()->s_Intake.up()));
+
+       operator.x().onTrue(new InstantCommand(()->s_Spindexer.SpinCCW()));
+       operator.x().onFalse(new InstantCommand(()->s_Spindexer.stop()));
+
+       operator.rightBumper().onTrue(new SimpleShoot(s_Shooter, s_Kicker, s_Spindexer));
+       operator.rightBumper().onFalse(new InstantCommand(()->s_Shooter.stop()));
+       operator.rightBumper().onFalse(new InstantCommand(()->s_Kicker.stop()));
+       operator.rightBumper().onFalse(new InstantCommand(()->s_Spindexer.stop()));
             
             /*Climber */
        //operator.leftStick().whileTrue(s_Climber.fullDownCommand());
