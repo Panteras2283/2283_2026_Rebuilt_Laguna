@@ -106,6 +106,14 @@ public class RobotContainer {
 
         //superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
         s_Intake.setDefaultCommand(new IntakeDefault(s_Intake));
+
+        s_Turret.setDefaultCommand(
+            new RunCommand(() -> {
+                // Read left X axis. Adjust to getLeftY() if you prefer up/down instead of left/right
+                double joystickVal = operator.getLeftX(); 
+                s_Turret.setTargetAngle(Rotation2d.fromDegrees(joystickVal * 160.0));
+            }, s_Turret)
+        );
       // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
         final var idle = new SwerveRequest.Idle();
@@ -156,10 +164,15 @@ public class RobotContainer {
        operator.x().onTrue(new InstantCommand(()->s_Spindexer.SpinCCW()));
        operator.x().onFalse(new InstantCommand(()->s_Spindexer.stop()));
 
-       operator.rightBumper().onTrue(new SimpleShoot(s_Shooter, s_Kicker, s_Spindexer));
-       operator.rightBumper().onFalse(new InstantCommand(()->s_Shooter.stop()));
-       operator.rightBumper().onFalse(new InstantCommand(()->s_Kicker.stop()));
-       operator.rightBumper().onFalse(new InstantCommand(()->s_Spindexer.stop()));
+       operator.rightBumper().toggleOnTrue(new SimpleShoot(s_Shooter, s_Kicker, s_Spindexer, 2000));
+       operator.rightBumper().toggleOnFalse(new InstantCommand(()->s_Shooter.stop()));
+       operator.rightBumper().toggleOnFalse(new InstantCommand(()->s_Kicker.stop()));
+       operator.rightBumper().toggleOnFalse(new InstantCommand(()->s_Spindexer.stop()));
+
+       operator.leftBumper().toggleOnTrue(new SimpleShoot(s_Shooter, s_Kicker, s_Spindexer, 6000));
+       operator.leftBumper().toggleOnFalse(new InstantCommand(()->s_Shooter.stop()));
+       operator.leftBumper().toggleOnFalse(new InstantCommand(()->s_Kicker.stop()));
+       operator.leftBumper().toggleOnFalse(new InstantCommand(()->s_Spindexer.stop()));
             
             /*Climber */
        //operator.leftStick().whileTrue(s_Climber.fullDownCommand());

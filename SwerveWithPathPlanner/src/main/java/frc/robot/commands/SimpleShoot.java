@@ -12,12 +12,14 @@ public class SimpleShoot extends Command {
 private Shooter s_Shooter;
 private Kicker s_Kicker;
 private Spindexer s_Spindexer;
+private double power;
 
   /** Creates a new SimpleShoot. */
-  public SimpleShoot(Shooter s_Shooter, Kicker s_Kicker, Spindexer s_Spindexer) {
+  public SimpleShoot(Shooter s_Shooter, Kicker s_Kicker, Spindexer s_Spindexer, double power) {
     this.s_Shooter = s_Shooter;
     this.s_Kicker = s_Kicker;
     this.s_Spindexer = s_Spindexer;
+    this.power = power;
 
     addRequirements(s_Shooter, s_Kicker, s_Spindexer);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,7 +32,7 @@ private Spindexer s_Spindexer;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_Shooter.setRPM(false, 2000);
+    s_Shooter.setRPM(false, power);
     s_Kicker.Kick(0.5);
     s_Spindexer.SpinCW();
   }

@@ -52,8 +52,8 @@ public class TurretSubsystem extends SubsystemBase {
   private static final double kD = 0.0;
   private static final double kFF = 12/380;
 
-  private static final double maxVel_RPM = 1300;
-  private static final double maxAcc_RPMps = 10000;
+  private static final double maxVel_RPM = 900;
+  private static final double maxAcc_RPMps = 6000;
 
   public TurretSubsystem(int canId, String Turret) {
      this.Turret = Turret;
