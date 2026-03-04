@@ -211,12 +211,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         voltage = RobotController.getBatteryVoltage();
 
-        if(voltage <= 10.5){
+       /* if(voltage <= 10.5){
             kSlipCurrent = Amps.of(60);
         }
         else{
             kSlipCurrent = Amps.of(120);
-        }
+        }*/
     }
 
     private void startSimThread() {

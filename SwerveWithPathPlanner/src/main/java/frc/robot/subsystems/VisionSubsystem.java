@@ -42,12 +42,12 @@ public class VisionSubsystem extends SubsystemBase {
 
     
     private static final Transform3d kRobotToCam1 = new Transform3d(
-        new Translation3d (-0.28575,0.3429,0.5334), 
+        new Translation3d (-0.35306,0.3175,0.5207), 
         new Rotation3d(0,0,Math.PI).rotateBy(new Rotation3d(0,Math.toRadians(-45),0))
     );
     private static final Transform3d kRobotToCam2 = new Transform3d(
-        new Translation3d (0.3302,-0.3683,0.3683), 
-        new Rotation3d(0,0,Math.PI).rotateBy(new Rotation3d(0,Math.toRadians(-45),0))
+        new Translation3d (0.29972,0.32004,0.5207), 
+        new Rotation3d(0,0,Math.PI).rotateBy( new Rotation3d(0,Math.toRadians(-45),0))
     );
 
   
@@ -92,9 +92,9 @@ public class VisionSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        updateLimelight();
-       // updatePhotonVision(photonPoseEstimator1, photon1);
-       // updatePhotonVision(photonPoseEstimator2, photon2);
+       // updateLimelight();
+       updatePhotonVision(photonPoseEstimator1, photon1);
+       updatePhotonVision(photonPoseEstimator2, photon2);
 
     }
 

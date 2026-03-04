@@ -37,7 +37,7 @@ public class Superstructure extends SubsystemBase {
   private final Supplier<Pose2d> poseSupplier;
   private final Supplier<ChassisSpeeds> speedSupplier;
 
-  private final Translation2d TURRET_OFFSET = new Translation2d(-0.28, 0.9);
+  private final Translation2d TURRET_OFFSET = new Translation2d(0.28, -0.9);
   private final Translation2d BLUE_TARGET = new Translation2d(4.554, 4.068);
   private final Translation2d RED_TARGET = new Translation2d(11.9, 4);
 
@@ -171,9 +171,10 @@ public class Superstructure extends SubsystemBase {
       shooter.setRPM(true, 1650);
       //shooter.setTargetRPM(true, solution.effectiveDistance());
 
-      boolean shooterReady = shooter.isReadyToFire();
+      //boolean shooterReady = shooter.isReadyToFire();
       boolean turretLocked = Math.abs(turret.getErrorDegrees()) < 2.0;
-      boolean locked = turretLocked && shooterReady;
+      //boolean locked = turretLocked && shooterReady;
+      boolean locked = turretLocked;
 
 
       SmartDashboard.putBoolean("Superstructure-Locked", locked);
