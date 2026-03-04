@@ -42,12 +42,12 @@ public class VisionSubsystem extends SubsystemBase {
 
     
     private static final Transform3d kRobotToCam1 = new Transform3d(
-        new Translation3d (-0.35306,0.3175,0.5207), 
+        new Translation3d (-0.35306,-0.3175,0.5207), 
         new Rotation3d(0,0,Math.PI).rotateBy(new Rotation3d(0,Math.toRadians(-45),0))
     );
     private static final Transform3d kRobotToCam2 = new Transform3d(
         new Translation3d (0.29972,0.32004,0.5207), 
-        new Rotation3d(0,0,Math.PI).rotateBy( new Rotation3d(0,Math.toRadians(-45),0))
+        new Rotation3d(0,0,0).rotateBy( new Rotation3d(0,Math.toRadians(-45),0))
     );
 
   
@@ -192,14 +192,14 @@ public class VisionSubsystem extends SubsystemBase {
         // Trust scales with distance, even for multi-tag
         if (count >= 2){
             // Start at 0.1m trust, add more uncertainty as distance increases
-            xyStds = 1 + (1 * avgDist * avgDist); 
+            xyStds = 0.1 + (0.1 * avgDist * avgDist); 
         } else {
             // Single tag is much less trustworthy
-            xyStds = 5 + (5 * avgDist * avgDist);
+            xyStds = 0.5 + (0.1 * avgDist * avgDist);
         }
 
         // Use a massive number for rotation to trust the Pigeon (Gyro) exclusively
-        double degStds = 999.0; 
+        double degStds = 9999999.0; 
 
         return VecBuilder.fill(xyStds, xyStds, Units.degreesToRadians(degStds));
     }
