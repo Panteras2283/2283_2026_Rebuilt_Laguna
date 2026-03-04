@@ -45,15 +45,15 @@ public class TurretSubsystem extends SubsystemBase {
   private static final double SOFT_LIMIT_FWD_ROT = 0.48;
   private static final double SOFT_LIMIT_BWD_ROT = -0.48;
 
-  private static final double AIM_TOLERANCE_DEG = 0.1;
+  private static final double AIM_TOLERANCE_DEG = 0.01;
 
-  private static final double kP = 22;
+  private static final double kP = 7.5;
   private static final double kI = 0.0;
   private static final double kD = 0.0;
   private static final double kFF = 12/380;
 
   private static final double maxVel_RPM = 1300;
-  private static final double maxAcc_RPMps = 1000;
+  private static final double maxAcc_RPMps = 10000;
 
   public TurretSubsystem(int canId, String Turret) {
      this.Turret = Turret;
@@ -100,6 +100,7 @@ public class TurretSubsystem extends SubsystemBase {
     targetRotations = MathUtil.clamp(targetRotations, SOFT_LIMIT_BWD_ROT, SOFT_LIMIT_FWD_ROT);
 
     turretController.setSetpoint(targetRotations, ControlType.kMAXMotionPositionControl);
+    //turretController.setSetpoint(targetRotations, ControlType.kPosition);
   }
 
   public Rotation2d getCurrentAngle(){

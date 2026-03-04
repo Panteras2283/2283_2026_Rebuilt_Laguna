@@ -74,6 +74,7 @@ public class Superstructure extends SubsystemBase {
     this.kicker = kicker;
     this.spindexer = spindexer;
 
+
     
     var table = NetworkTableInstance.getDefault().getTable("Superstructure");
     turretTargetPub = table.getStructTopic("Turret", Pose2d.struct).publish();
@@ -168,13 +169,12 @@ public class Superstructure extends SubsystemBase {
         turret.setTargetAngle(targetAngle);
       }
 
-      shooter.setRPM(true, 2700);
+      shooter.setRPM(true, 3450);
       //shooter.setTargetRPM(true, solution.effectiveDistance());
 
-      //boolean shooterReady = shooter.isReadyToFire();
+      boolean shooterReady = shooter.isReadyToFire();
       boolean turretLocked = Math.abs(turret.getErrorDegrees()) < 2.0;
-      //boolean locked = turretLocked && shooterReady;
-      boolean locked = turretLocked;
+      boolean locked = turretLocked && shooterReady;
 
 
       SmartDashboard.putBoolean("Superstructure-Locked", locked);
