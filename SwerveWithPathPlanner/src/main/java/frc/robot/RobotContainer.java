@@ -111,7 +111,7 @@ public class RobotContainer {
             new RunCommand(() -> {
                 // Read left X axis. Adjust to getLeftY() if you prefer up/down instead of left/right
                 double joystickVal = operator.getLeftX(); 
-                s_Turret.setTargetAngle(Rotation2d.fromDegrees(joystickVal * 160.0));
+                s_Turret.setTargetAngle(Rotation2d.fromDegrees(joystickVal * -160.0));
             }, s_Turret)
         );
       // Idle while the robot is disabled. This ensures the configured
