@@ -103,8 +103,12 @@ public class Constants {
         public static final int FeederID = 31;
         public static final double LeftFeedPos = 0;
         public static final double RightFeedPos = -0;
-        public static final double LeftUpPos = 14;
-        public static final double RightUpPos = -14;
+        public static final double LeftUpPos = 16;
+        public static final double RightUpPos = -16;
+        public static final double LeftShakeUpPos = 8;
+        public static final double RightShakeUpPos = -8;
+        public static final double LeftShakeDownPos = 4;
+        public static final double RightShakeDownPos = -4;
          
     }
 

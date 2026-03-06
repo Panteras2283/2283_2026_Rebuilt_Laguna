@@ -108,6 +108,14 @@ public class Intake extends SubsystemBase {
     
   } 
 
+  public double getRightPosition() {
+    return pivotRight.getPosition().getValueAsDouble();
+  }
+
+  public double getLeftPosition(){
+    return pivotLeft.getPosition().getValueAsDouble();
+  }
+
   public void stop(){
     Feeder.set(0);
   }
