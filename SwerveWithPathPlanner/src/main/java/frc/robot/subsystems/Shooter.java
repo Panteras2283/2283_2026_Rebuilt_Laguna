@@ -43,7 +43,7 @@ public class Shooter extends SubsystemBase {
 
   
   
-  private static final double RPM_TOLERANCE_PERCENT = 0.1;
+  private static final double RPM_TOLERANCE_PERCENT = 0.15;
 
   public Shooter(int flywheelCanID, int flywheelCanID2, String Shooter) {
     this.Shooter = Shooter;

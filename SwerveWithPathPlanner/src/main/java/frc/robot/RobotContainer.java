@@ -160,8 +160,8 @@ public class RobotContainer {
 
        operator.pov(270).onTrue(new InstantCommand(()->s_Intake.up()));
 
-       operator.a().toggleOnTrue(new ShakeFeeder(s_Intake));
-       operator.a().toggleOnFalse(s_Intake.getDefaultCommand());
+       operator.a().onTrue(new ShakeFeeder(s_Intake).repeatedly());
+       operator.a().onFalse(s_Intake.getDefaultCommand());
 
        /*Spindexer */
        operator.x().onTrue(new InstantCommand(()->s_Spindexer.SpinCCW()));
