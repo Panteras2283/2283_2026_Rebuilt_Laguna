@@ -39,6 +39,7 @@ public class VisionSubsystem extends SubsystemBase {
     private PhotonPoseEstimator photonPoseEstimator2;
     private static final String kPhotonCameraName1 = "arducam_left";
     private static final String kPhotonCameraName2 = "arducam_right";
+    private final boolean kUseLimelight = true;
 
     
     private static final Transform3d kRobotToCam1 = new Transform3d(
@@ -58,7 +59,7 @@ public class VisionSubsystem extends SubsystemBase {
 
         SmartDashboard.putBoolean("arducam_left", true);
         SmartDashboard.putBoolean("arducam_right", true);
-
+        SmartDashboard.putBoolean("limelight-three", kUseLimelight);
         //Initialize cameras 
         photon1 = new PhotonCamera(kPhotonCameraName1);
         photon2 = new PhotonCamera(kPhotonCameraName2);

@@ -193,7 +193,7 @@ public class Superstructure extends SubsystemBase {
         turret.setTargetAngle(targetAngle);
       }
 
-      //shooter.setRPM(true, 2400);
+      //shooter.setRPM(true, 3400);
       shooter.setTargetRPM(true, solution.effectiveDistance());
 
       boolean shooterReady = shooter.isReadyToFire();
