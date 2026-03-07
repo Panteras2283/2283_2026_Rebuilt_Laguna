@@ -45,6 +45,7 @@ public class Superstructure extends SubsystemBase {
   private final Translation2d RED_NSRTARGET = new Translation2d(13.84, 6.31);
   private final Translation2d RED_NSLTARGET = new Translation2d(13.84, 2.07);
   private final double middle_y = 4.00;
+  private Translation2d currentTarget = BLUE_TARGET;
 
   private final CommandXboxController operator;
 
@@ -107,6 +108,31 @@ public class Superstructure extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    Pose2d robotPose = poseSupplier.get();
+    ChassisSpeeds robotSpeeds = speedSupplier.get();
+    
+    operatorOffset = operator.getLeftX();
+
+    var alliance = DriverStation.getAlliance();
+
+
+    if(alliance.isPresent() && alliance.get() == Alliance.Blue){
+      if((robotPose.getX() >= BLUE_TARGET.getX()) && robotPose.getY() >= middle_y){
+        currentTarget = BLUE_NSLTARGET;
+      }else if((robotPose.getX() >= BLUE_TARGET.getX()) && robotPose.getY() < middle_y){
+        currentTarget = BLUE_NSRTARGET;
+      }else{
+        currentTarget = BLUE_TARGET;
+      }
+    }else{
+      if((robotPose.getX() <= RED_TARGET.getX()) && robotPose.getY() >= middle_y){
+        currentTarget = RED_NSRTARGET;
+      }else if((robotPose.getX() <= RED_TARGET.getX()) && robotPose.getY() < middle_y){
+        currentTarget = RED_NSLTARGET;
+      }else{
+        currentTarget = RED_TARGET;
+      }
+    }
 
     States state = States.OFF;
     if(wantsShoot){
@@ -132,32 +158,8 @@ public class Superstructure extends SubsystemBase {
     }
 
 
-    Pose2d robotPose = poseSupplier.get();
-    ChassisSpeeds robotSpeeds = speedSupplier.get();
-    
-    operatorOffset = operator.getLeftX();
+   
 
-    var alliance = DriverStation.getAlliance();
-
-    Translation2d currentTarget;
-
-    if(alliance.isPresent() && alliance.get() == Alliance.Blue){
-      if((robotPose.getX() >= BLUE_TARGET.getX()) && robotPose.getY() >= middle_y){
-        currentTarget = BLUE_NSLTARGET;
-      }else if((robotPose.getX() >= BLUE_TARGET.getX()) && robotPose.getY() < middle_y){
-        currentTarget = BLUE_NSRTARGET;
-      }else{
-        currentTarget = BLUE_TARGET;
-      }
-    }else{
-      if((robotPose.getX() <= RED_TARGET.getX()) && robotPose.getY() >= middle_y){
-        currentTarget = RED_NSRTARGET;
-      }else if((robotPose.getX() <= RED_TARGET.getX()) && robotPose.getY() < middle_y){
-        currentTarget = RED_NSLTARGET;
-      }else{
-        currentTarget = RED_TARGET;
-      }
-    }
     
 
     isTurretLockedOn = runAimingLoop(
