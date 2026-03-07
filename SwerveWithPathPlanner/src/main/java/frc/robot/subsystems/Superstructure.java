@@ -218,25 +218,22 @@ public class Superstructure extends SubsystemBase {
     }
 
     private AimingSolution calculateAiming(){
-    Pose2d robotPose = poseSupplier.get();
-    ChassisSpeeds robotSpeeds = speedSupplier.get();
+      Pose2d robotPose = poseSupplier.get();
+      ChassisSpeeds robotSpeeds = speedSupplier.get();
 
-    Translation2d currentTarget = BLUE_TARGET;
-    var alliance = DriverStation.getAlliance();
-    if(alliance.isPresent() && alliance.get() == Alliance.Red){
-      currentTarget = RED_TARGET;
+      // Use the class-level currentTarget that was properly updated in periodic()!
+      // Notice we are NOT declaring "Translation2d currentTarget = ..." here.
+      double rawDistance = robotPose.getTranslation().getDistance(currentTarget);
+      double estimatedExitVel = ShootingTables.ExitVelocityMap.get(rawDistance);
+      
+      AimingSolution solution = ShootingPhysics.calculateAimingSolution(
+          robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, estimatedExitVel
+      );
+
+      turretTargetPub.set(solution.virtualTarget());
+      
+      return solution;
     }
-    double rawDistance = robotPose.getTranslation().getDistance(currentTarget);
-    double estimatedExitVel = ShootingTables.ExitVelocityMap.get(rawDistance);
-    AimingSolution solution = ShootingPhysics.calculateAimingSolution(
-        robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, estimatedExitVel
-    );
-
-    turretTargetPub.set(solution.virtualTarget());
-    
-    return solution;
-  }
-
 
     private boolean runAimingLoop(TurretSubsystem turret, Shooter shooter, Pose2d robotPose, ChassisSpeeds robotSpeeds, Translation2d offset, Translation2d targetLocation, String sideName, StructPublisher<Pose2d> publisher){
       double rawDistance = robotPose.getTranslation().getDistance(targetLocation);
