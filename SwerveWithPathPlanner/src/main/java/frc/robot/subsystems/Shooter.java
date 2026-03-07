@@ -58,7 +58,7 @@ public class Shooter extends SubsystemBase {
     TalonFXConfiguration cfg = new TalonFXConfiguration();
     cfg.CurrentLimits.StatorCurrentLimit = 150.0;
     cfg.CurrentLimits.StatorCurrentLimitEnable = true;
-    cfg.Slot0.kP = 0.60;
+    cfg.Slot0.kP = 1.0;
     cfg.Slot0.kV = 0.12;
     cfg.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 

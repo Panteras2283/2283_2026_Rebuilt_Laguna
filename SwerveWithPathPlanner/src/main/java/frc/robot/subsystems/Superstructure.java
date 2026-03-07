@@ -40,6 +40,11 @@ public class Superstructure extends SubsystemBase {
   private final Translation2d TURRET_OFFSET = new Translation2d(-0.173, 0.17);
   private final Translation2d BLUE_TARGET = new Translation2d(4.554, 4.068);
   private final Translation2d RED_TARGET = new Translation2d(11.9, 4);
+  private final Translation2d BLUE_NSRTARGET = new Translation2d(2.78, 2.07);
+  private final Translation2d BLUE_NSLTARGET = new Translation2d(2.78, 6.25);
+  private final Translation2d RED_NSRTARGET = new Translation2d(13.84, 6.31);
+  private final Translation2d RED_NSLTARGET = new Translation2d(13.84, 2.07);
+  private final double middle_y = 4.00;
 
   private final CommandXboxController operator;
 
@@ -132,11 +137,28 @@ public class Superstructure extends SubsystemBase {
     
     operatorOffset = operator.getLeftX();
 
-    Translation2d currentTarget = BLUE_TARGET;
     var alliance = DriverStation.getAlliance();
-    if(alliance.isPresent() && alliance.get() == Alliance.Red){
-      currentTarget = RED_TARGET;
+
+    Translation2d currentTarget;
+
+    if(alliance.isPresent() && alliance.get() == Alliance.Blue){
+      if((robotPose.getX() >= BLUE_TARGET.getX()) && robotPose.getY() >= middle_y){
+        currentTarget = BLUE_NSLTARGET;
+      }else if((robotPose.getX() >= BLUE_TARGET.getX()) && robotPose.getY() < middle_y){
+        currentTarget = BLUE_NSRTARGET;
+      }else{
+        currentTarget = BLUE_TARGET;
+      }
+    }else{
+      if((robotPose.getX() <= RED_TARGET.getX()) && robotPose.getY() >= middle_y){
+        currentTarget = RED_NSRTARGET;
+      }else if((robotPose.getX() <= RED_TARGET.getX()) && robotPose.getY() < middle_y){
+        currentTarget = RED_NSLTARGET;
+      }else{
+        currentTarget = RED_TARGET;
+      }
     }
+    
 
     isTurretLockedOn = runAimingLoop(
       turret, shooter, robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, "Turret", turretTargetPub
@@ -147,7 +169,7 @@ public class Superstructure extends SubsystemBase {
       turret.setTargetAngle(new Rotation2d(0));
       shooter.stop();
       kicker.stop();
-      kicker.stop();
+      spindexer.stop();
     }
 
     public void handleIDLE(){
