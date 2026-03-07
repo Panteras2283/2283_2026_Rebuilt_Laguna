@@ -175,7 +175,7 @@ public class Superstructure extends SubsystemBase {
     public void handleIDLE(){
       AimingSolution solution = calculateAiming();
       turret.setTargetAngle(solution.turretAngle());
-      shooter.setRPM(false, IDLERPM);
+      //shooter.setRPM(false, IDLERPM);
 
       spindexer.stop();
       kicker.stop();
@@ -206,7 +206,7 @@ public class Superstructure extends SubsystemBase {
         //if (spindexer.jammed) {
             //spindexer.SpinCCW();
         //} else {
-            spindexer.SpinCW();
+            spindexer.SpinCW(); 
         //}
     } else {
         kicker.stop();
@@ -264,7 +264,8 @@ public class Superstructure extends SubsystemBase {
       boolean shooterAtSpeed = shooter.isReadyToFire();
       
 
-      boolean locked = turretAtTarget && shooterAtSpeed;
+      //boolean locked = turretAtTarget && shooterAtSpeed;
+      boolean locked = turretAtTarget;
       SmartDashboard.putBoolean(sideName + "/Locked", locked);
 
       SmartDashboard.putNumber(sideName + "/Aim/Dist_Effective", solution.effectiveDistance());
