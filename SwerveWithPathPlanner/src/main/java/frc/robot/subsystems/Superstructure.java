@@ -193,8 +193,8 @@ public class Superstructure extends SubsystemBase {
         turret.setTargetAngle(targetAngle);
       }
 
-      //shooter.setRPM(true, 3400);
-      shooter.setTargetRPM(true, solution.effectiveDistance());
+      shooter.setRPM(true, 3400);
+      //shooter.setTargetRPM(true, solution.effectiveDistance());
 
       boolean shooterReady = shooter.isReadyToFire();
       boolean turretLocked = Math.abs(turret.getErrorDegrees()) < 2.0;
@@ -204,7 +204,7 @@ public class Superstructure extends SubsystemBase {
       SmartDashboard.putBoolean("Superstructure-Locked", locked);
 
       if (locked) {
-        kicker.Kick(0.50);
+        kicker.Kick(0.85);
         //if (spindexer.jammed) {
             //spindexer.SpinCCW();
         //} else {
@@ -221,8 +221,6 @@ public class Superstructure extends SubsystemBase {
       Pose2d robotPose = poseSupplier.get();
       ChassisSpeeds robotSpeeds = speedSupplier.get();
 
-      // Use the class-level currentTarget that was properly updated in periodic()!
-      // Notice we are NOT declaring "Translation2d currentTarget = ..." here.
       double rawDistance = robotPose.getTranslation().getDistance(currentTarget);
       double estimatedExitVel = ShootingTables.ExitVelocityMap.get(rawDistance);
       

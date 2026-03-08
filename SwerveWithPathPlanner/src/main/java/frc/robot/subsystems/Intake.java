@@ -90,11 +90,11 @@ public class Intake extends SubsystemBase {
   public void Down(){
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftFeedPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightFeedPos));
-    Feeder.setControl(feederRequest.withVelocity(55));
+    Feeder.setControl(feederRequest.withVelocity(60));
   }  
 
   public void feed(){
-    Feeder.setControl(feederRequest.withVelocity(55));
+    Feeder.setControl(feederRequest.withVelocity(60));
     
   } 
 

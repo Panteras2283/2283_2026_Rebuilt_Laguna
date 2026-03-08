@@ -21,7 +21,7 @@ public class IntakeDefault extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    s_Intake.setPosition(Constants.Intake.LeftUpPos, Constants.Intake.RightUpPos);
+    s_Intake.setPosition(Constants.Intake.LeftFeedPos, Constants.Intake.RightFeedPos);
     s_Intake.stop();
   }
 
