@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Utils.ShootingPhysics.AimingSolution;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -40,7 +42,7 @@ public class TurretSubsystem extends SubsystemBase {
 
 
   // Check with CAD
-  private static final double GEAR_RATIO = 23.31;
+  private static final double GEAR_RATIO = 23.34;
 
   private static final double SOFT_LIMIT_FWD_ROT = 0.48;
   private static final double SOFT_LIMIT_BWD_ROT = -0.48;
@@ -108,10 +110,6 @@ public class TurretSubsystem extends SubsystemBase {
     return Rotation2d.fromRotations(rotations);
   }
 
-  public double getErrorDegrees(){
-    return 1.0;
-  }
-
   public void resetPosition(){
     turretEncoder.setPosition(0);
   }
@@ -120,6 +118,5 @@ public class TurretSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber(Turret + "/AngleDeg", getCurrentAngle().getDegrees());
-    SmartDashboard.putNumber(Turret + "/ErrorDeg", getErrorDegrees());
   }
 }

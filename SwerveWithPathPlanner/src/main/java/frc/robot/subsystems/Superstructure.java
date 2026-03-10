@@ -37,7 +37,8 @@ public class Superstructure extends SubsystemBase {
   private final Supplier<Pose2d> poseSupplier;
   private final Supplier<ChassisSpeeds> speedSupplier;
 
-  private final Translation2d TURRET_OFFSET = new Translation2d(-0.173, 0.17);
+  private final Translation2d TURRET_OFFSET = new Translation2d(-0.15, 0.185);
+
   private final Translation2d BLUE_TARGET = new Translation2d(4.554, 4.068);
   private final Translation2d RED_TARGET = new Translation2d(11.9, 4);
   private final Translation2d BLUE_NSRTARGET = new Translation2d(2.78, 2.07);
@@ -94,6 +95,14 @@ public class Superstructure extends SubsystemBase {
     wantsShoot = !wantsShoot;
   }
 
+  public double getErrorDegrees(){
+    Rotation2d rotations = turret.getCurrentAngle();
+    AimingSolution solution = calculateAiming();
+    Rotation2d targetAngle = solution.turretAngle();
+    Rotation2d errorDeg = rotations.minus(targetAngle);
+    return errorDeg.getDegrees();
+  }
+
   /*public Superstructure(TurretSubsystem turret, ShooterSubsystem shooter, Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier) {
     this.turret = turret;
     this.shooter = shooter;   
@@ -144,6 +153,7 @@ public class Superstructure extends SubsystemBase {
     }
 
     SmartDashboard.putString("Superstructure-state", state.toString());
+    SmartDashboard.putNumber(turret + "/ErrorDeg", getErrorDegrees());
 
     switch (state){
       case OFF:
@@ -169,7 +179,7 @@ public class Superstructure extends SubsystemBase {
     }
     public void handleOFF(){
       turret.setTargetAngle(new Rotation2d(0));
-      shooter.stop();
+      shooter.setRPM(false, 0);
       kicker.stop();
       spindexer.stop();
     }
@@ -193,11 +203,11 @@ public class Superstructure extends SubsystemBase {
         turret.setTargetAngle(targetAngle);
       }
 
-      shooter.setRPM(true, 3400);
+      shooter.setRPM(true, 2520);
       //shooter.setTargetRPM(true, solution.effectiveDistance());
 
       boolean shooterReady = shooter.isReadyToFire();
-      boolean turretLocked = Math.abs(turret.getErrorDegrees()) < 2.0;
+      boolean turretLocked = Math.abs(getErrorDegrees()) < 2.0;
       boolean locked = turretLocked && shooterReady;
 
 
@@ -257,7 +267,7 @@ public class Superstructure extends SubsystemBase {
       
 
 
-      boolean turretAtTarget = Math.abs(turret.getErrorDegrees()) < 2.0;
+      boolean turretAtTarget = Math.abs(getErrorDegrees()) < 2.0;
       boolean shooterAtSpeed = shooter.isReadyToFire();
       
 
