@@ -162,7 +162,7 @@ public class VisionSubsystem extends SubsystemBase {
 
         if (estimate.tagCount >= 2) {
             // High trust if multiple tags are visible
-            xyStds = 0.2;
+            xyStds = 0.05;
             degStds = 3;
         } else {
             // Scale trust based on distance to the single tag

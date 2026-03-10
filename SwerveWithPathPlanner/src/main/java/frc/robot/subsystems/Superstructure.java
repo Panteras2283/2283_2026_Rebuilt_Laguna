@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.math.geometry.Rotation2d;
 
+import java.lang.Thread.State;
 import java.util.function.Supplier;
 
 
@@ -54,6 +55,8 @@ public class Superstructure extends SubsystemBase {
 
   public boolean wantsIDLE = false;
   public boolean wantsShoot = false;
+  public boolean shooting = false;
+  public boolean idle = false;
 
   //public boolean shooting = false;
 
@@ -178,6 +181,8 @@ public class Superstructure extends SubsystemBase {
 
     }
     public void handleOFF(){
+      shooting = false;
+      idle = false;
       turret.setTargetAngle(new Rotation2d(0));
       shooter.setRPM(false, 0);
       kicker.stop();
@@ -185,6 +190,8 @@ public class Superstructure extends SubsystemBase {
     }
 
     public void handleIDLE(){
+      shooting = false;
+      idle = true;
       AimingSolution solution = calculateAiming();
       turret.setTargetAngle(solution.turretAngle());
       //shooter.setRPM(false, IDLERPM);
@@ -196,6 +203,8 @@ public class Superstructure extends SubsystemBase {
     private void handleSHOOTING(){
       AimingSolution solution = calculateAiming();
       Rotation2d targetAngle = solution.turretAngle();
+      idle = false;
+      shooting = true;
       if(Math.abs(operatorOffset) > 0.05) {
         targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
         turret.setTargetAngle(targetAngle);
@@ -203,8 +212,8 @@ public class Superstructure extends SubsystemBase {
         turret.setTargetAngle(targetAngle);
       }
 
-      shooter.setRPM(true, 2520);
-      //shooter.setTargetRPM(true, solution.effectiveDistance());
+      //shooter.setRPM(true, 2820);
+      shooter.setTargetRPM(true, solution.effectiveDistance());
 
       boolean shooterReady = shooter.isReadyToFire();
       boolean turretLocked = Math.abs(getErrorDegrees()) < 2.0;
@@ -274,6 +283,8 @@ public class Superstructure extends SubsystemBase {
       //boolean locked = turretAtTarget && shooterAtSpeed;
       boolean locked = turretAtTarget;
       SmartDashboard.putBoolean(sideName + "/Locked", locked);
+      SmartDashboard.putBoolean("Shooting", shooting);
+      SmartDashboard.putBoolean("Idle", idle);
 
       SmartDashboard.putNumber(sideName + "/Aim/Dist_Effective", solution.effectiveDistance());
       SmartDashboard.putNumber(sideName + "/Aim/Target_Angle", solution.turretAngle().plus(Rotation2d.fromDegrees(operatorOffset * 10)).getDegrees());
