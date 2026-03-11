@@ -195,7 +195,7 @@ public class Superstructure extends SubsystemBase {
       AimingSolution solution = calculateAiming();
       turret.setTargetAngle(solution.turretAngle());
       //shooter.setRPM(false, IDLERPM);
-
+      shooter.stop();
       spindexer.stop();
       kicker.stop();
     }
@@ -207,32 +207,33 @@ public class Superstructure extends SubsystemBase {
       shooting = true;
       if(Math.abs(operatorOffset) > 0.05) {
         targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
-        turret.setTargetAngle(targetAngle);
+        turret.setTargetAngle(targetAngle.minus(Rotation2d.fromDegrees(2)));
       } else {
-        turret.setTargetAngle(targetAngle);
+        turret.setTargetAngle(targetAngle.minus(Rotation2d.fromDegrees(2)));
       }
 
-      //shooter.setRPM(true, 2820);
-      shooter.setTargetRPM(true, solution.effectiveDistance());
+      shooter.setRPM(true, 2400);
+      //shooter.setTargetRPM(true, solution.effectiveDistance());
 
       boolean shooterReady = shooter.isReadyToFire();
       boolean turretLocked = Math.abs(getErrorDegrees()) < 2.0;
-      boolean locked = turretLocked && shooterReady;
+      //boolean locked = turretLocked && shooterReady;
+      boolean locked = turretLocked;
 
 
       SmartDashboard.putBoolean("Superstructure-Locked", locked);
 
-      if (locked) {
+      //if (locked) {
         kicker.Kick(0.85);
         //if (spindexer.jammed) {
             //spindexer.SpinCCW();
         //} else {
             spindexer.SpinCW(); 
         //}
-    } else {
-        kicker.stop();
-        spindexer.stop();
-    }
+    //} else {
+       // kicker.stop();
+       // spindexer.stop();
+    //}
       
     }
 

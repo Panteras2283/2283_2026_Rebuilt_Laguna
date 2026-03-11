@@ -6,11 +6,15 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.jar.Attributes.Name;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -85,6 +89,9 @@ public class RobotContainer {
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
+
+        NamedCommands.registerCommand("Feed", new InstantCommand(()-> s_Intake.Down()));
+        NamedCommands.registerCommand("toggleShoot", new InstantCommand(()-> superstructure.toggleShooting()));
 
         configureBindings();
 
