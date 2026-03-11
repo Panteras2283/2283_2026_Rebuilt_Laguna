@@ -248,6 +248,9 @@ public class Superstructure extends SubsystemBase {
           robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, estimatedExitVel
       );
 
+      Rotation2d fixedAngle = solution.turretAngle().plus(Rotation2d.fromDegrees(8));
+      solution = new AimingSolution(fixedAngle, solution.effectiveDistance(), solution.virtualTarget());
+
       turretTargetPub.set(solution.virtualTarget());
       
       return solution;
