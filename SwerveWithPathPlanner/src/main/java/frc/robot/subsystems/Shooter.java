@@ -69,7 +69,7 @@ public class Shooter extends SubsystemBase {
 
     private void configureFlywheel2(){
     TalonFXConfiguration cfg2 = new TalonFXConfiguration();
-    cfg2.CurrentLimits.StatorCurrentLimit = 100.0;
+    cfg2.CurrentLimits.StatorCurrentLimit = 150.0;
     cfg2.CurrentLimits.StatorCurrentLimitEnable = true;
     cfg2.Slot0.kP = 0.33;
     cfg2.Slot0.kI = 0;
