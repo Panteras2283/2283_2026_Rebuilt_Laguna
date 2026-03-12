@@ -57,6 +57,7 @@ public class Superstructure extends SubsystemBase {
   public boolean wantsShoot = false;
   public boolean shooting = false;
   public boolean idle = false;
+  private boolean hasSpunUp = false;
 
   //public boolean shooting = false;
 
@@ -183,6 +184,7 @@ public class Superstructure extends SubsystemBase {
     public void handleOFF(){
       shooting = false;
       idle = false;
+      hasSpunUp = false;
       turret.setTargetAngle(new Rotation2d(0));
       shooter.setRPM(false, 0);
       kicker.stop();
@@ -192,6 +194,7 @@ public class Superstructure extends SubsystemBase {
     public void handleIDLE(){
       shooting = false;
       idle = true;
+      hasSpunUp = false;
       AimingSolution solution = calculateAiming();
       turret.setTargetAngle(solution.turretAngle());
       //shooter.setRPM(false, IDLERPM);
@@ -217,23 +220,27 @@ public class Superstructure extends SubsystemBase {
 
       boolean shooterReady = shooter.isReadyToFire();
       boolean turretLocked = Math.abs(getErrorDegrees()) < 2.0;
+
+      if (shooterReady) {
+          hasSpunUp = true;
+      }
       //boolean locked = turretLocked && shooterReady;
-      boolean locked = turretLocked;
+      boolean locked = turretLocked && hasSpunUp;
 
 
       SmartDashboard.putBoolean("Superstructure-Locked", locked);
 
-      //if (locked) {
+      if (locked) {
         kicker.Kick(0.85);
         //if (spindexer.jammed) {
             //spindexer.SpinCCW();
         //} else {
             spindexer.SpinCW(); 
         //}
-    //} else {
-       // kicker.stop();
-       // spindexer.stop();
-    //}
+      } else {
+        kicker.stop();
+        spindexer.stop();
+      }
       
     }
 
