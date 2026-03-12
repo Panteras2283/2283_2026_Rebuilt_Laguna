@@ -59,6 +59,7 @@ public class Shooter extends SubsystemBase {
     cfg.CurrentLimits.StatorCurrentLimit = 150.0;
     cfg.CurrentLimits.StatorCurrentLimitEnable = true;
     cfg.Slot0.kP = 1.0;
+    cfg.Slot0.kI = 0;
     cfg.Slot0.kV = 0.12;
     cfg.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
@@ -71,6 +72,7 @@ public class Shooter extends SubsystemBase {
     cfg2.CurrentLimits.StatorCurrentLimit = 100.0;
     cfg2.CurrentLimits.StatorCurrentLimitEnable = true;
     cfg2.Slot0.kP = 0.33;
+    cfg2.Slot0.kI = 0;
     cfg2.Slot0.kV = 0.12;
 
     FlywheelLeft.getConfigurator().apply(cfg2);
