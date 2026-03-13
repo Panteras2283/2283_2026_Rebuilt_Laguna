@@ -56,8 +56,8 @@ public class Intake extends SubsystemBase {
     cfgMm.Slot0.kV = 0.12;       
     cfgMm.Slot0.kS = 0.2;
 
-    cfgMm.MotionMagic.MotionMagicCruiseVelocity = 150;
-    cfgMm.MotionMagic.MotionMagicAcceleration = 150;
+    cfgMm.MotionMagic.MotionMagicCruiseVelocity = 180;
+    cfgMm.MotionMagic.MotionMagicAcceleration = 230;
     cfgMm.MotionMagic.MotionMagicJerk = 0;
 
     cfgMm.CurrentLimits.StatorCurrentLimit = 60.0;

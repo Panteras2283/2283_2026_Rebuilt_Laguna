@@ -215,8 +215,8 @@ public class Superstructure extends SubsystemBase {
         turret.setTargetAngle(targetAngle.minus(Rotation2d.fromDegrees(2)));
       }
 
-      //shooter.setRPM(true, 2400);
-      shooter.setTargetRPM(true, solution.effectiveDistance());
+      shooter.setRPM(true, 3000);
+      //shooter.setTargetRPM(true, solution.effectiveDistance());
 
       boolean shooterReady = shooter.isReadyToFire();
       boolean turretLocked = Math.abs(getErrorDegrees()) < 2.0;
@@ -296,10 +296,12 @@ public class Superstructure extends SubsystemBase {
       SmartDashboard.putBoolean(sideName + "/Locked", locked);
       SmartDashboard.putBoolean("Shooting", shooting);
       SmartDashboard.putBoolean("Idle", idle);
+      SmartDashboard.putBoolean("hasSpunUp", hasSpunUp);
 
       SmartDashboard.putNumber(sideName + "/Aim/Dist_Effective", solution.effectiveDistance());
       SmartDashboard.putNumber(sideName + "/Aim/Target_Angle", solution.turretAngle().plus(Rotation2d.fromDegrees(operatorOffset * 10)).getDegrees());
       SmartDashboard.putNumber(sideName + "/Aim/RPM/_Top", targetRPM);
+      
 
       return locked;
   }

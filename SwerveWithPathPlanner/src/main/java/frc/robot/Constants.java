@@ -105,10 +105,10 @@ public class Constants {
         public static final double RightFeedPos = -0;
         public static final double LeftUpPos = 16;
         public static final double RightUpPos = -16;
-        public static final double LeftShakeUpPos = 6;
-        public static final double RightShakeUpPos = -6;
-        public static final double LeftShakeDownPos = 4;
-        public static final double RightShakeDownPos = -4;
+        public static final double LeftShakeUpPos = 7.5;
+        public static final double RightShakeUpPos = -7.5;
+        public static final double LeftShakeDownPos = 2;
+        public static final double RightShakeDownPos = -2;
          
     }
 

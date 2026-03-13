@@ -53,6 +53,7 @@ public class Spindexer extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Spindexer vel", SpindexerEncoder.getVelocity());
     double SpindexerRPM = SpindexerEncoder.getVelocity();
     
     double SpindexerCurrent = SpindexerMotor.getOutputCurrent(); 
