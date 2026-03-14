@@ -68,6 +68,7 @@ public class RobotContainer {
     
     public final VisionSubsystem s_Vision;
     
+    
 
 
     /* Path follower */
@@ -173,6 +174,12 @@ public class RobotContainer {
        /*Spindexer */
        operator.x().onTrue(new InstantCommand(()->s_Spindexer.SpinCCW()));
        operator.x().onFalse(new InstantCommand(()->s_Spindexer.stop()));
+
+       /*Shooter */
+       operator.y().onTrue(new ShootOveride(s_Shooter, s_Spindexer, superstructure, s_Kicker));
+       operator.y().onFalse(new InstantCommand(()->s_Shooter.stop()));
+       operator.y().onFalse(new InstantCommand(()->s_Kicker.stop()));
+       operator.y().onFalse(new InstantCommand(()->s_Spindexer.stop()));
 
 
             

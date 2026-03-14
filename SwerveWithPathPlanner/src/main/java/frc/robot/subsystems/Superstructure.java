@@ -58,6 +58,7 @@ public class Superstructure extends SubsystemBase {
   public boolean shooting = false;
   public boolean idle = false;
   private boolean hasSpunUp = false;
+  public AimingSolution solution;
 
   //public boolean shooting = false;
 
@@ -244,7 +245,7 @@ public class Superstructure extends SubsystemBase {
       
     }
 
-    private AimingSolution calculateAiming(){
+    public AimingSolution calculateAiming(){
       Pose2d robotPose = poseSupplier.get();
       ChassisSpeeds robotSpeeds = speedSupplier.get();
 
