@@ -5,41 +5,24 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Utils.ShootingPhysics.AimingSolution;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+// CTRE Imports
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.revrobotics.RelativeEncoder;
-
-import com.revrobotics.sim.SparkMaxSim;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkFlex;
-import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.config.SparkFlexConfig;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.ClosedLoopConfig;
-
-
 
 public class TurretSubsystem extends SubsystemBase {
   /** Creates a new Turret. */
 
-  private final SparkFlex turretMotor;
+  private final TalonFX turretMotor;
   private final String Turret;
-  private final RelativeEncoder turretEncoder;
-  private final SparkClosedLoopController turretController;
-  private final SparkFlexConfig turretConfig = new SparkFlexConfig();
-
+  
+  // Motion Magic control request
+  private final MotionMagicVoltage positionRequest = new MotionMagicVoltage(0);
 
   // Check with CAD
   private static final double GEAR_RATIO = 23.34;
@@ -49,50 +32,56 @@ public class TurretSubsystem extends SubsystemBase {
 
   private static final double AIM_TOLERANCE_DEG = 0.06;
 
-  private static final double kP = 12.5;
+  // IMPORTANT: These values will need to be retuned for Phoenix 6 / Kraken!
+  private static final double kP = 12.5; 
   private static final double kI = 0.0;
   private static final double kD = 1.5;
-  private static final double kFF = 12/380;
+  private static final double kFF = 12.0/380.0; // Acts as kV in Phoenix 6
 
-  private static final double maxVel_RPM = 900;
-  private static final double maxAcc_RPMps = 6000;
+  // REV was in RPM, Phoenix 6 needs RPS (Rotations per second)
+  private static final double maxVel_RPS = 900.0 / 60.0; 
+  private static final double maxAcc_RPSps = 6000.0 / 60.0; 
 
   public TurretSubsystem(int canId, String Turret) {
      this.Turret = Turret;
 
-     this.turretMotor = new SparkFlex(canId, MotorType.kBrushless);
-     this.turretEncoder = turretMotor.getEncoder();
-     this.turretController = turretMotor.getClosedLoopController();
+     this.turretMotor = new TalonFX(canId);
 
      configureTurret();
   }
 
-  
-
   private void configureTurret(){
-    SparkFlexConfig config = new SparkFlexConfig();
+    TalonFXConfiguration config = new TalonFXConfiguration();
 
-    config.encoder.positionConversionFactor(1.0/GEAR_RATIO);
-    config.encoder.velocityConversionFactor(1.0/GEAR_RATIO);
-    config.softLimit.forwardSoftLimitEnabled(true);
-    config.softLimit.forwardSoftLimit(SOFT_LIMIT_FWD_ROT);
-    config.softLimit.reverseSoftLimitEnabled(true);
-    config.softLimit.reverseSoftLimit(SOFT_LIMIT_BWD_ROT);
-    config.closedLoop.maxMotion.cruiseVelocity(maxVel_RPM);
-    config.closedLoop.maxMotion.maxAcceleration(maxAcc_RPMps);
-    config.closedLoop.maxMotion.allowedProfileError(0.01);
-    config.closedLoop.feedForward.kV(kFF);
-    config.closedLoop.pid(kP, kI, kD);
-    config.idleMode(IdleMode.kBrake);
-    config.smartCurrentLimit(60);
-    config.voltageCompensation(12.0);
+    // Configure Gear Ratio (1 motor rotation = 1/23.34 mechanism rotations)
+    config.Feedback.SensorToMechanismRatio = GEAR_RATIO;
+    
+    // Soft Limits
+    config.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+    config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = SOFT_LIMIT_FWD_ROT;
+    config.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = SOFT_LIMIT_BWD_ROT;
+    
+    // Motion Magic (Cruise velocity & Acceleration)
+    config.MotionMagic.MotionMagicCruiseVelocity = maxVel_RPS;
+    config.MotionMagic.MotionMagicAcceleration = maxAcc_RPSps;
 
+    // PID & FeedForward
+    config.Slot0.kP = kP;
+    config.Slot0.kI = kI;
+    config.Slot0.kD = kD;
+    config.Slot0.kV = kFF; 
 
+    // Current limit & Voltage Comp
+    config.CurrentLimits.StatorCurrentLimit = 60;
+    config.CurrentLimits.StatorCurrentLimitEnable = true;
 
-    turretMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // Apply configuration
+    turretMotor.getConfigurator().apply(config);
+    turretMotor.setNeutralMode(NeutralModeValue.Brake);
 
-    turretEncoder.setPosition(0);
-
+    // Reset position to 0 on boot
+    turretMotor.setPosition(0);
   }
 
   public void setTargetAngle(Rotation2d targetAngle){
@@ -101,17 +90,18 @@ public class TurretSubsystem extends SubsystemBase {
     targetRotations = MathUtil.inputModulus(targetRotations, -0.5, 0.5);
     targetRotations = MathUtil.clamp(targetRotations, SOFT_LIMIT_BWD_ROT, SOFT_LIMIT_FWD_ROT);
 
-    turretController.setSetpoint(targetRotations, ControlType.kMAXMotionPositionControl);
-    //turretController.setSetpoint(targetRotations, ControlType.kPosition);
+    // Send control request to the TalonFX
+    turretMotor.setControl(positionRequest.withPosition(targetRotations));
   }
 
   public Rotation2d getCurrentAngle(){
-    double rotations = turretEncoder.getPosition();
+    // Read position using Phoenix 6 API (already converted to mechanism rotations by the config)
+    double rotations = turretMotor.getPosition().getValueAsDouble();
     return Rotation2d.fromRotations(rotations);
   }
 
   public void resetPosition(){
-    turretEncoder.setPosition(0);
+    turretMotor.setPosition(0);
   }
 
   @Override
