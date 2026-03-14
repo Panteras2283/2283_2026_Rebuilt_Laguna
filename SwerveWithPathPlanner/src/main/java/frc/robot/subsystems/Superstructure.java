@@ -148,6 +148,21 @@ public class Superstructure extends SubsystemBase {
       }
     }
 
+
+    
+
+
+   
+
+    
+
+    isTurretLockedOn = runAimingLoop(
+      turret, shooter, robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, "Turret", turretTargetPub
+    );
+
+    }
+    
+    public void runStateMachine() {
     States state = States.OFF;
     if(wantsShoot){
       state = States.SHOOTING;
@@ -171,17 +186,7 @@ public class Superstructure extends SubsystemBase {
         handleSHOOTING();
         break;
     }
-
-
-   
-
-    
-
-    isTurretLockedOn = runAimingLoop(
-      turret, shooter, robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, "Turret", turretTargetPub
-    );
-
-    }
+  }    
     public void handleOFF(){
       shooting = false;
       idle = false;

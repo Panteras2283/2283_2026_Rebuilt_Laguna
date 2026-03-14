@@ -112,7 +112,7 @@ public class RobotContainer {
             )
         );
 
-        superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
+        superstructure.setDefaultCommand(new RunCommand(() -> superstructure.runStateMachine(),superstructure, s_Turret, s_Shooter, s_Kicker, s_Spindexer));
         s_Intake.setDefaultCommand(new IntakeDefault(s_Intake));
 
         /*s_Turret.setDefaultCommand(
