@@ -49,7 +49,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   private static final double AIM_TOLERANCE_DEG = 0.01;
 
-  private static final double kP = 12;
+  private static final double kP = 12.5;
   private static final double kI = 0.0;
   private static final double kD = 1.5;
   private static final double kFF = 12/380;
