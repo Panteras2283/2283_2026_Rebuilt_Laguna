@@ -243,6 +243,7 @@ public class Superstructure extends SubsystemBase {
 
       if (locked) {
         kicker.Kick(0.85);
+        leds.RTF();
         //if (spindexer.jammed) {
             //spindexer.SpinCCW();
         //} else {

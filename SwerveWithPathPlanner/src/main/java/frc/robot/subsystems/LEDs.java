@@ -23,37 +23,6 @@ public class LEDs extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  // A helper method that runs the HTTP request in the background (Async)
-  // This prevents the CommandScheduler from getting blocked!
-  private void sendHttpRequestAsync(String targetUrl) {
-    CompletableFuture.runAsync(() -> {
-      try {
-        URL url = new URL(targetUrl);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        
-        // Add quick timeouts so it gives up gracefully if the LED board is off
-        connection.setConnectTimeout(500); 
-        connection.setReadTimeout(500);
-        connection.setRequestMethod("GET");
-
-        int responseCode = connection.getResponseCode();
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String line;
-        StringBuilder responseContent = new StringBuilder();
-        while((line = reader.readLine()) != null){
-          responseContent.append(line);
-        }
-        reader.close();
-        connection.disconnect();
-
-      } catch (Exception e) {
-        // Optionally print an error if the LEDs fail to respond, without crashing the robot
-        // System.out.println("LED Request failed: " + e.getMessage());
-      }
-    });
-  }
-
   public void Default(){
     var alliance = DriverStation.getAlliance();
 

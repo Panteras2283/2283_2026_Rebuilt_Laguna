@@ -122,6 +122,5 @@ public class Intake extends SubsystemBase {
 
   public void stop(){
     Feeder.set(0);
-    leds.Default();
   }
 }
