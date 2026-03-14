@@ -58,6 +58,7 @@ public class Superstructure extends SubsystemBase {
   public boolean shooting = false;
   public boolean idle = false;
   private boolean hasSpunUp = false;
+  public AimingSolution solution;
 
   //public boolean shooting = false;
 
@@ -147,6 +148,21 @@ public class Superstructure extends SubsystemBase {
       }
     }
 
+
+    
+
+
+   
+
+    
+
+    isTurretLockedOn = runAimingLoop(
+      turret, shooter, robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, "Turret", turretTargetPub
+    );
+
+    }
+    
+    public void runStateMachine() {
     States state = States.OFF;
     if(wantsShoot){
       state = States.SHOOTING;
@@ -170,17 +186,7 @@ public class Superstructure extends SubsystemBase {
         handleSHOOTING();
         break;
     }
-
-
-   
-
-    
-
-    isTurretLockedOn = runAimingLoop(
-      turret, shooter, robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, "Turret", turretTargetPub
-    );
-
-    }
+  }    
     public void handleOFF(){
       shooting = false;
       idle = false;
@@ -215,8 +221,8 @@ public class Superstructure extends SubsystemBase {
         turret.setTargetAngle(targetAngle.minus(Rotation2d.fromDegrees(2)));
       }
 
-      shooter.setRPM(true, 3000);
-      //shooter.setTargetRPM(true, solution.effectiveDistance());
+      //shooter.setRPM(true, 3000);
+      shooter.setTargetRPM(true, solution.effectiveDistance());
 
       boolean shooterReady = shooter.isReadyToFire();
       boolean turretLocked = Math.abs(getErrorDegrees()) < 2.0;
@@ -244,7 +250,7 @@ public class Superstructure extends SubsystemBase {
       
     }
 
-    private AimingSolution calculateAiming(){
+    public AimingSolution calculateAiming(){
       Pose2d robotPose = poseSupplier.get();
       ChassisSpeeds robotSpeeds = speedSupplier.get();
 
@@ -266,43 +272,29 @@ public class Superstructure extends SubsystemBase {
     private boolean runAimingLoop(TurretSubsystem turret, Shooter shooter, Pose2d robotPose, ChassisSpeeds robotSpeeds, Translation2d offset, Translation2d targetLocation, String sideName, StructPublisher<Pose2d> publisher){
       double rawDistance = robotPose.getTranslation().getDistance(targetLocation);
       double estimatedExitVel = ShootingTables.ExitVelocityMap.get(rawDistance);
-      AimingSolution solution = ShootingPhysics.calculateAimingSolution(robotPose, robotSpeeds, offset, targetLocation, estimatedExitVel);
-
-      publisher.set(solution.virtualTarget());
-
-      double targetRPM = ShootingTables.FlywheelMap.get(solution.effectiveDistance());
-
       
+      // FIX 1: We use "this.solution =" instead of "AimingSolution solution ="
+      // This saves the math to the public variable so ShootOveride.java can read it!
+      this.solution = ShootingPhysics.calculateAimingSolution(robotPose, robotSpeeds, offset, targetLocation, estimatedExitVel);
 
-      //turret.setTargetAngle(solution.turretAngle());
+      publisher.set(this.solution.virtualTarget());
 
-      
-
-      
-
-
-      
-
-        
-      
-
+      double targetRPM = ShootingTables.FlywheelMap.get(this.solution.effectiveDistance());
 
       boolean turretAtTarget = Math.abs(getErrorDegrees()) < 2.0;
       boolean shooterAtSpeed = shooter.isReadyToFire();
       
-
-      //boolean locked = turretAtTarget && shooterAtSpeed;
       boolean locked = turretAtTarget;
       SmartDashboard.putBoolean(sideName + "/Locked", locked);
       SmartDashboard.putBoolean("Shooting", shooting);
       SmartDashboard.putBoolean("Idle", idle);
       SmartDashboard.putBoolean("hasSpunUp", hasSpunUp);
 
-      SmartDashboard.putNumber(sideName + "/Aim/Dist_Effective", solution.effectiveDistance());
-      SmartDashboard.putNumber(sideName + "/Aim/Target_Angle", solution.turretAngle().plus(Rotation2d.fromDegrees(operatorOffset * 10)).getDegrees());
+      // FIX 2: Updated references for SmartDashboard
+      SmartDashboard.putNumber(sideName + "/Aim/Dist_Effective", this.solution.effectiveDistance());
+      SmartDashboard.putNumber(sideName + "/Aim/Target_Angle", this.solution.turretAngle().plus(Rotation2d.fromDegrees(operatorOffset * 10)).getDegrees());
       SmartDashboard.putNumber(sideName + "/Aim/RPM/_Top", targetRPM);
       
-
       return locked;
   }
 

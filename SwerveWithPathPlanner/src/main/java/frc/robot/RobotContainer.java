@@ -68,6 +68,7 @@ public class RobotContainer {
     
     public final VisionSubsystem s_Vision;
     
+    
 
 
     /* Path follower */
@@ -111,7 +112,7 @@ public class RobotContainer {
             )
         );
 
-        superstructure.setDefaultCommand(new RunCommand(()->superstructure.periodic(), superstructure));
+        superstructure.setDefaultCommand(new RunCommand(() -> superstructure.runStateMachine(),superstructure, s_Turret, s_Shooter, s_Kicker, s_Spindexer));
         s_Intake.setDefaultCommand(new IntakeDefault(s_Intake));
 
         /*s_Turret.setDefaultCommand(
@@ -173,6 +174,9 @@ public class RobotContainer {
        /*Spindexer */
        operator.x().onTrue(new InstantCommand(()->s_Spindexer.SpinCCW()));
        operator.x().onFalse(new InstantCommand(()->s_Spindexer.stop()));
+
+       /*Shooter */
+       operator.y().whileTrue(new ShootOveride(s_Shooter, s_Spindexer, superstructure, s_Kicker));
 
 
             
