@@ -153,7 +153,7 @@ public class Superstructure extends SubsystemBase {
 
     
 
-
+    SmartDashboard.putNumber("ErrorDeg", getErrorDegrees());
    
 
     
@@ -170,12 +170,14 @@ public class Superstructure extends SubsystemBase {
       state = States.SHOOTING;
     }else if(wantsIDLE){
       state = States.IDLE;
+      //leds.idle();
     }else{
       state = States.OFF;
+      //leds.Default();
     }
 
     SmartDashboard.putString("Superstructure-state", state.toString());
-    SmartDashboard.putNumber(turret + "/ErrorDeg", getErrorDegrees());
+    
 
     switch (state){
       case OFF:
@@ -197,7 +199,7 @@ public class Superstructure extends SubsystemBase {
       shooter.setRPM(false, 0);
       kicker.stop();
       spindexer.stop();
-      leds.Default();
+      //leds.Default();
     }
 
     public void handleIDLE(){
@@ -210,7 +212,7 @@ public class Superstructure extends SubsystemBase {
       shooter.stop();
       spindexer.stop();
       kicker.stop();
-      leds.idle();
+      //leds.idle();
     }
 
     private void handleSHOOTING(){
@@ -218,7 +220,7 @@ public class Superstructure extends SubsystemBase {
       Rotation2d targetAngle = solution.turretAngle();
       idle = false;
       shooting = true;
-      leds.RTF();
+      //leds.RTF();
       if(Math.abs(operatorOffset) > 0.05) {
         targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
         turret.setTargetAngle(targetAngle.minus(Rotation2d.fromDegrees(2)));
@@ -243,7 +245,7 @@ public class Superstructure extends SubsystemBase {
 
       if (locked) {
         kicker.Kick(0.85);
-        leds.RTF();
+        //leds.RTF();
         //if (spindexer.jammed) {
             //spindexer.SpinCCW();
         //} else {
