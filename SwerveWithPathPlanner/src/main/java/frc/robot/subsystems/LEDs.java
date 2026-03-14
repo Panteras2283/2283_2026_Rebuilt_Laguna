@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.io.BufferedReader;
@@ -21,7 +23,10 @@ public class LEDs extends SubsystemBase {
   }
 
   public void Default(){
+    var alliance = DriverStation.getAlliance();
 
+
+    if(alliance.isPresent() && alliance.get() == Alliance.Blue){
     try{
       String targetUrl = "http://10.22.83.100/win&PL=1";
 
@@ -47,6 +52,35 @@ public class LEDs extends SubsystemBase {
 
     }catch (Exception e){
       e.printStackTrace();
+    }
+  }
+    else if(alliance.isPresent() && alliance.get() == Alliance.Red){
+      try{
+      String targetUrl = "http://10.22.83.100/win&PL=2";
+
+      URL url = new URL(targetUrl);
+
+      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+      connection.setRequestMethod("GET");
+
+
+      int responseCode = connection.getResponseCode();
+
+
+      BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+      String line;
+      StringBuilder responseContent = new StringBuilder();
+      while((line = reader.readLine()) != null){
+        responseContent.append(line);
+      }
+      reader.close();
+
+      connection.disconnect();
+
+    }catch (Exception e){
+      e.printStackTrace();
+    }
     }
   }
 
@@ -84,7 +118,7 @@ public class LEDs extends SubsystemBase {
   public void Idle(){
 
     try{
-      String targetUrl = "http://10.22.83.100/win&PL=5";
+      String targetUrl = "http://10.22.83.100/win&PL=4";
 
       URL url = new URL(targetUrl);
 
