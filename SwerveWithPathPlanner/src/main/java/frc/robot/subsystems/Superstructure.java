@@ -33,6 +33,7 @@ public class Superstructure extends SubsystemBase {
   private final Shooter shooter;
   private final Kicker kicker;
   private final Spindexer spindexer;
+  private final LEDs leds; 
   //private final ShooterSubsystem shooter;
 
   private final Supplier<Pose2d> poseSupplier;
@@ -77,7 +78,7 @@ public class Superstructure extends SubsystemBase {
 
   public Superstructure(TurretSubsystem turret, Shooter shooter, 
   Supplier<Pose2d> poseSupplier, Supplier<ChassisSpeeds> speedSupplier, 
-  CommandXboxController operator, Kicker kicker, Spindexer spindexer) {
+  CommandXboxController operator, Kicker kicker, Spindexer spindexer, LEDs leds) {
     this.turret = turret;
     this.poseSupplier = poseSupplier;
     this.speedSupplier = speedSupplier;
@@ -85,6 +86,7 @@ public class Superstructure extends SubsystemBase {
     this.shooter = shooter;
     this.kicker = kicker;
     this.spindexer = spindexer;
+    this.leds = leds;
 
 
     
@@ -195,6 +197,7 @@ public class Superstructure extends SubsystemBase {
       shooter.setRPM(false, 0);
       kicker.stop();
       spindexer.stop();
+      leds.Default();
     }
 
     public void handleIDLE(){
@@ -207,6 +210,7 @@ public class Superstructure extends SubsystemBase {
       shooter.stop();
       spindexer.stop();
       kicker.stop();
+      leds.idle();
     }
 
     private void handleSHOOTING(){
@@ -214,6 +218,7 @@ public class Superstructure extends SubsystemBase {
       Rotation2d targetAngle = solution.turretAngle();
       idle = false;
       shooting = true;
+      leds.RTF();
       if(Math.abs(operatorOffset) > 0.05) {
         targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
         turret.setTargetAngle(targetAngle.minus(Rotation2d.fromDegrees(2)));

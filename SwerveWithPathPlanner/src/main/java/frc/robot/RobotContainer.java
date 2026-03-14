@@ -56,6 +56,7 @@ public class RobotContainer {
     //Subsystems
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     public final Intake s_Intake;
+    public final LEDs s_LEDs = new LEDs();
     public final Kicker s_Kicker = new Kicker();
     //public final Climber s_Climber;
     public final Spindexer s_Spindexer = new Spindexer();
@@ -64,7 +65,7 @@ public class RobotContainer {
 
     public final Superstructure superstructure = new Superstructure(s_Turret, s_Shooter,
     ()->drivetrain.getState().Pose,
-    ()->drivetrain.getState().Speeds, operator, s_Kicker, s_Spindexer);
+    ()->drivetrain.getState().Speeds, operator, s_Kicker, s_Spindexer, s_LEDs);
     
     public final VisionSubsystem s_Vision;
     
@@ -79,7 +80,7 @@ public class RobotContainer {
         
         
         //Subsystems
-        s_Intake = new Intake();
+        s_Intake = new Intake(s_LEDs);
         s_Vision = new VisionSubsystem(drivetrain);
         //s_Climber = new Climber();
 
