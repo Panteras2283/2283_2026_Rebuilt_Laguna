@@ -36,7 +36,7 @@ public class TurretSubsystem extends SubsystemBase {
   private static final double kP = 12.5; 
   private static final double kI = 0.0;
   private static final double kD = 1.5;
-  private static final double kFF = 12.0/380.0; // Acts as kV in Phoenix 6
+  private static final double kFF = (12.0/380.0)*60; // Acts as kV in Phoenix 6
 
   // REV was in RPM, Phoenix 6 needs RPS (Rotations per second)
   private static final double maxVel_RPS = 900.0 / 60.0; 
