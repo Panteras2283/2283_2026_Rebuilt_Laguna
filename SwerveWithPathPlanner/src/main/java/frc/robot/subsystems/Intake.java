@@ -28,12 +28,15 @@ public class Intake extends SubsystemBase {
   private final MotionMagicVoltage leftPivotRequest = new MotionMagicVoltage(0);
   private final MotionMagicVoltage rightPivotRequest = new MotionMagicVoltage(0);
   private final VelocityVoltage feederRequest = new VelocityVoltage(0); 
+  private final LEDs leds;
+
 
   private double intakeTargetRPM = 0;
   
-  public Intake() {
+  public Intake(LEDs leds) {
     configureMotionMagic();
     configureFeeder();
+    this.leds = leds;
   }
 
   private void configureFeeder(){
@@ -91,11 +94,12 @@ public class Intake extends SubsystemBase {
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftFeedPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightFeedPos));
     Feeder.setControl(feederRequest.withVelocity(40));
+    leds.Feed();
   }  
 
   public void feed(){
     Feeder.setControl(feederRequest.withVelocity(40));
-    
+    leds.Feed(); 
   } 
 
   public void up(){
@@ -118,5 +122,6 @@ public class Intake extends SubsystemBase {
 
   public void stop(){
     Feeder.set(0);
+    leds.Default();
   }
 }
