@@ -47,7 +47,7 @@ public class TurretSubsystem extends SubsystemBase {
   private static final double SOFT_LIMIT_FWD_ROT = 0.48;
   private static final double SOFT_LIMIT_BWD_ROT = -0.48;
 
-  private static final double AIM_TOLERANCE_DEG = 0.01;
+  private static final double AIM_TOLERANCE_DEG = 0.06;
 
   private static final double kP = 12;
   private static final double kI = 0.0;
