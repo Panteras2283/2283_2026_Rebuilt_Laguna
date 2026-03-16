@@ -25,7 +25,7 @@ public class TurretSubsystem extends SubsystemBase {
   private final MotionMagicVoltage positionRequest = new MotionMagicVoltage(0);
 
   // Check with CAD
-  private static final double GEAR_RATIO = 23.34;
+  private static final double GEAR_RATIO = 70.02;
 
   private static final double SOFT_LIMIT_FWD_ROT = 0.48;
   private static final double SOFT_LIMIT_BWD_ROT = -0.48;
@@ -36,17 +36,19 @@ public class TurretSubsystem extends SubsystemBase {
   private static final double kP = 14.5; 
   private static final double kI = 0.0;
   private static final double kD = 1.8;
-  private static final double kFF = (13/380.0)*60; // Acts as kV in Phoenix 6
+  private static final double kFF = (13/380.0)*60; // Acts as kV in Phoenix 6$
+
+  private static final double kS = 0.50;
 
   // REV was in RPM, Phoenix 6 needs RPS (Rotations per second)
-  private static final double maxVel_RPS = 900.0 / 60.0; 
-  private static final double maxAcc_RPSps = 6000.0 / 60.0; 
+  private static final double maxVel_RPS = 100; 
+  private static final double maxAcc_RPSps = 2100; 
 
   public TurretSubsystem(int canId, String Turret) {
      this.Turret = Turret;
-
      this.turretMotor = new TalonFX(canId);
 
+     
      configureTurret();
   }
 
@@ -71,6 +73,7 @@ public class TurretSubsystem extends SubsystemBase {
     config.Slot0.kI = kI;
     config.Slot0.kD = kD;
     config.Slot0.kV = kFF; 
+    config.Slot0.kS = kS;
 
     // Current limit & Voltage Comp
     config.CurrentLimits.StatorCurrentLimit = 60;
@@ -106,7 +109,11 @@ public class TurretSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    double turretRPS = turretMotor.getVelocity().getValueAsDouble()*GEAR_RATIO;
+    double turretRPM = turretRPS * 60;
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber(Turret + "/AngleDeg", getCurrentAngle().getDegrees());
+    SmartDashboard.putNumber("/AngleDeg", getCurrentAngle().getDegrees());
+    SmartDashboard.putNumber("TurretRPS", turretRPS);
+
   }
 }
