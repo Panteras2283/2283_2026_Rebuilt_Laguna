@@ -25,7 +25,7 @@ public class TurretSubsystem extends SubsystemBase {
   private final MotionMagicVoltage positionRequest = new MotionMagicVoltage(0);
 
   // Check with CAD
-  private static final double GEAR_RATIO = 70.02;
+  private static final double GEAR_RATIO = 38.889;
 
   private static final double SOFT_LIMIT_FWD_ROT = 0.48;
   private static final double SOFT_LIMIT_BWD_ROT = -0.48;
