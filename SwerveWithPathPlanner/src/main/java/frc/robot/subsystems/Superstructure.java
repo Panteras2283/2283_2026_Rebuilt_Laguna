@@ -189,7 +189,8 @@ public class Superstructure extends SubsystemBase {
         break;
     }
   }    
-    public void handleOFF(){
+  
+public void handleOFF(){
       shooting = false;
       idle = false;
       hasSpunUp = false;
@@ -197,6 +198,9 @@ public class Superstructure extends SubsystemBase {
       shooter.setRPM(false, 0);
       kicker.stop();
       spindexer.stop();
+      
+      // Set LEDs to Alliance Colors
+      leds.Default();
     }
 
     public void handleIDLE(){
@@ -205,10 +209,12 @@ public class Superstructure extends SubsystemBase {
       hasSpunUp = false;
       AimingSolution solution = calculateAiming();
       turret.setTargetAngle(solution.turretAngle());
-      //shooter.setRPM(false, IDLERPM);
       shooter.stop();
       spindexer.stop();
       kicker.stop();
+      
+      // Set LEDs to Idle
+      leds.Idle();
     }
 
     private void handleSHOOTING(){
@@ -216,6 +222,7 @@ public class Superstructure extends SubsystemBase {
       Rotation2d targetAngle = solution.turretAngle();
       idle = false;
       shooting = true;
+      
       if(Math.abs(operatorOffset) > 0.05) {
         targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
         turret.setTargetAngle(targetAngle);
@@ -223,7 +230,6 @@ public class Superstructure extends SubsystemBase {
         turret.setTargetAngle(targetAngle);
       }
 
-      //shooter.setRPM(true, 3000);
       shooter.setTargetRPM(true, solution.effectiveDistance());
 
       boolean shooterReady = shooter.isReadyToFire();
@@ -232,24 +238,23 @@ public class Superstructure extends SubsystemBase {
       if (shooterReady) {
           hasSpunUp = true;
       }
-      //boolean locked = turretLocked && shooterReady;
+      
       boolean locked = turretLocked && hasSpunUp;
-
-
       SmartDashboard.putBoolean("Superstructure-Locked", locked);
 
       if (locked) {
+        // Set LEDs to Ready to Fire
+        leds.RTF();
+        
         kicker.Kick(0.85);
-        //if (spindexer.jammed) {
-            //spindexer.SpinCCW();
-        //} else {
-            spindexer.SpinCW(); 
-        //}
+        spindexer.SpinCW(); 
       } else {
+        // Fallback to Idle LEDs while it aims/spins up
+        leds.Idle();
+        
         kicker.stop();
         spindexer.stop();
       }
-      
     }
 
     public AimingSolution calculateAiming(){
