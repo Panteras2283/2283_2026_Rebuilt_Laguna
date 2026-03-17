@@ -134,13 +134,6 @@ public class RobotContainer {
         joystick.b().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         ));
-
-        joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.5).withVelocityY(0))
-        );
-        joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.5).withVelocityY(0))
-        );
         // reset the field-centric heading on left bumper press
         joystick.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
@@ -205,6 +198,10 @@ public class RobotContainer {
                 joystick
             )
         );
+
+        joystick.pov(0).whileTrue(new Fast_DriveToPose_cmd(drivetrain, Constants.AutopilotConstants.kPathConstraints,()->1, ()->1, joystick, operator));
+
+
 
         
 
