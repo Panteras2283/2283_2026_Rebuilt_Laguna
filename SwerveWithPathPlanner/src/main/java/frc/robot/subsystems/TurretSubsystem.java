@@ -25,24 +25,24 @@ public class TurretSubsystem extends SubsystemBase {
   private final MotionMagicVoltage positionRequest = new MotionMagicVoltage(0);
 
   // Check with CAD
-  private static final double GEAR_RATIO = 38.889;
+  private static final double GEAR_RATIO = 43.75;
 
   private static final double SOFT_LIMIT_FWD_ROT = 0.48;
   private static final double SOFT_LIMIT_BWD_ROT = -0.48;
 
-  private static final double AIM_TOLERANCE_DEG = 0.06;
+  private static final double AIM_TOLERANCE_DEG = 0.08;
 
   // IMPORTANT: These values will need to be retuned for Phoenix 6 / Kraken!
-  private static final double kP = 14.5; 
+  private static final double kP = 5.5; 
   private static final double kI = 0.0;
-  private static final double kD = 1.8;
-  private static final double kFF = (13/380.0)*60; // Acts as kV in Phoenix 6$
+  private static final double kD = 0.1;
+  private static final double kFF = 4.67; // Acts as kV in Phoenix 6$
 
   private static final double kS = 0.50;
 
   // REV was in RPM, Phoenix 6 needs RPS (Rotations per second)
-  private static final double maxVel_RPS = 100; 
-  private static final double maxAcc_RPSps = 2100; 
+  private static final double maxVel_RPS = 2.5; 
+  private static final double maxAcc_RPSps = 25.0; 
 
   public TurretSubsystem(int canId, String Turret) {
      this.Turret = Turret;

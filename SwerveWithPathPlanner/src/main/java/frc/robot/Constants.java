@@ -44,15 +44,18 @@ public class Constants {
             POSES[0][2] = new Pose2d(7, 1.127, Rotation2d.fromDegrees(45)); // Side 1, Slot 2 (Right)
 
             // --- SIDE 2 ---
-            POSES[1][0] = new Pose2d(5.0, 2.0, two);
-            POSES[1][1] = new Pose2d(5.5, 2.5, two);
+            POSES[1][0] = new Pose2d(4.6, 7.4, one);
+            POSES[1][1] = new Pose2d(1.43, 7.31, Rotation2d.fromDegrees(-40));
             POSES[1][2] = new Pose2d(6.0, 3.0, two);
 
              // --- SIDE 3 ---
              POSES[2][0] = new Pose2d(5.0, 2.0, three);
              POSES[2][1] = new Pose2d(5.5, 2.5, three);
              POSES[2][2] = new Pose2d(6.0, 3.0, three);
-
+            
+             
+            
+ 
 
  
        }
