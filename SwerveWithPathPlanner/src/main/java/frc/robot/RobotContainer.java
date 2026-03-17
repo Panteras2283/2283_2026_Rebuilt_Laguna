@@ -92,7 +92,7 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
-        NamedCommands.registerCommand("Feed", new InstantCommand(()-> s_Intake.Down()));
+        NamedCommands.registerCommand("Feed", new RunCommand(()-> s_Intake.Down(), s_Intake));
         NamedCommands.registerCommand("toggleShoot", new InstantCommand(()-> superstructure.toggleShooting()));
 
         configureBindings();

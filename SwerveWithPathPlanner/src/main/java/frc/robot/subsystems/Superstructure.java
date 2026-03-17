@@ -33,7 +33,7 @@ public class Superstructure extends SubsystemBase {
   private final Shooter shooter;
   private final Kicker kicker;
   private final Spindexer spindexer;
-  private final LEDs leds; 
+  private final LEDs leds;
   //private final ShooterSubsystem shooter;
 
   private final Supplier<Pose2d> poseSupplier;
@@ -175,7 +175,7 @@ public class Superstructure extends SubsystemBase {
     }
 
     SmartDashboard.putString("Superstructure-state", state.toString());
-    
+    SmartDashboard.putNumber(turret + "/ErrorDeg", getErrorDegrees());
 
     switch (state){
       case OFF:
@@ -189,8 +189,7 @@ public class Superstructure extends SubsystemBase {
         break;
     }
   }    
-  
-public void handleOFF(){
+    public void handleOFF(){
       shooting = false;
       idle = false;
       hasSpunUp = false;
@@ -198,8 +197,6 @@ public void handleOFF(){
       shooter.setRPM(false, 0);
       kicker.stop();
       spindexer.stop();
-      
-      // Set LEDs to Alliance Colors
       leds.Default();
     }
 
@@ -209,12 +206,11 @@ public void handleOFF(){
       hasSpunUp = false;
       AimingSolution solution = calculateAiming();
       turret.setTargetAngle(solution.turretAngle());
+      //shooter.setRPM(false, IDLERPM);
       shooter.stop();
       spindexer.stop();
       kicker.stop();
-      
-      // Set LEDs to Idle
-      leds.Idle();
+      leds.idle();
     }
 
     private void handleSHOOTING(){
@@ -222,14 +218,14 @@ public void handleOFF(){
       Rotation2d targetAngle = solution.turretAngle();
       idle = false;
       shooting = true;
-      
       if(Math.abs(operatorOffset) > 0.05) {
         targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
-        turret.setTargetAngle(targetAngle);
+        turret.setTargetAngle(targetAngle.minus(Rotation2d.fromDegrees(2)));
       } else {
-        turret.setTargetAngle(targetAngle);
+        turret.setTargetAngle(targetAngle.minus(Rotation2d.fromDegrees(2)));
       }
 
+      //shooter.setRPM(true, 3000);
       shooter.setTargetRPM(true, solution.effectiveDistance());
 
       boolean shooterReady = shooter.isReadyToFire();
@@ -238,23 +234,25 @@ public void handleOFF(){
       if (shooterReady) {
           hasSpunUp = true;
       }
-      
+      //boolean locked = turretLocked && shooterReady;
       boolean locked = turretLocked && hasSpunUp;
+
+
       SmartDashboard.putBoolean("Superstructure-Locked", locked);
 
       if (locked) {
-        // Set LEDs to Ready to Fire
-        leds.RTF();
-        
         kicker.Kick(0.85);
+        //if (spindexer.jammed) {
+            //spindexer.SpinCCW();
+        //} else {
         spindexer.SpinCW(); 
+        //}
+        leds.RTF();
       } else {
-        // Fallback to Idle LEDs while it aims/spins up
-        leds.Idle();
-        
         kicker.stop();
         spindexer.stop();
       }
+      
     }
 
     public AimingSolution calculateAiming(){
