@@ -33,7 +33,7 @@ public class TurretSubsystem extends SubsystemBase {
   private static final double AIM_TOLERANCE_DEG = 0.08;
 
   // IMPORTANT: These values will need to be retuned for Phoenix 6 / Kraken!
-  private static final double kP = 5.5; 
+  private static final double kP = 6.5; 
   private static final double kI = 0.0;
   private static final double kD = 0.1;
   private static final double kFF = 4.67; // Acts as kV in Phoenix 6$

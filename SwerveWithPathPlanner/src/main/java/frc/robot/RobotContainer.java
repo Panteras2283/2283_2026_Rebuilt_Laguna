@@ -87,13 +87,15 @@ public class RobotContainer {
         //s_Climber.setDefaultCommand(new ClimberDefault(s_Climber));
 
         
-        
+        NamedCommands.registerCommand("Feed", new RunCommand(()-> s_Intake.Down(), s_Intake));
+        NamedCommands.registerCommand("toggleShoot", new InstantCommand(()-> superstructure.toggleShooting()));
+        //NamedCommands.registerCommand("ShooterOff", new RunCommand(()-> s_Shooter.stop(), s_Shooter));
+
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
-        NamedCommands.registerCommand("Feed", new RunCommand(()-> s_Intake.Down(), s_Intake));
-        NamedCommands.registerCommand("toggleShoot", new InstantCommand(()-> superstructure.toggleShooting()));
+
 
         configureBindings();
 
