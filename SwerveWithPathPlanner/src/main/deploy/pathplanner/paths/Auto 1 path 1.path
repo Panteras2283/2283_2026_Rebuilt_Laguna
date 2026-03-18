@@ -153,22 +153,15 @@
         "data": {
           "commands": [
             {
-              "type": "deadline",
+              "type": "named",
               "data": {
-                "commands": [
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "toggleShoot"
-                    }
-                  },
-                  {
-                    "type": "wait",
-                    "data": {
-                      "waitTime": 3.5
-                    }
-                  }
-                ]
+                "name": "toggleShoot"
+              }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 3.5
               }
             },
             {
@@ -176,15 +169,15 @@
               "data": {
                 "commands": [
                   {
-                    "type": "named",
-                    "data": {
-                      "name": "shake feeder"
-                    }
-                  },
-                  {
                     "type": "wait",
                     "data": {
                       "waitTime": 1.0
+                    }
+                  },
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "shake feeder"
                     }
                   }
                 ]

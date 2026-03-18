@@ -90,7 +90,7 @@ public class RobotContainer {
         
         NamedCommands.registerCommand("Feed", new RunCommand(()-> s_Intake.Down(), s_Intake));
         NamedCommands.registerCommand("toggleShoot", new InstantCommand(()-> superstructure.toggleShooting()));
-        NamedCommands.registerCommand("shake feeder", new ShakeFeeder(s_Intake));
+        NamedCommands.registerCommand("shake feeder", new ShakeFeeder(s_Intake).repeatedly());
 
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
