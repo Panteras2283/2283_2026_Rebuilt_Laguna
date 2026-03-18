@@ -84,6 +84,11 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("FeederCurrent", Feeder.getStatorCurrent().getValueAsDouble());
   }
 
+  public void setNeutralMode(NeutralModeValue mode) {
+    pivotLeft.setNeutralMode(mode);
+    pivotRight.setNeutralMode(mode);
+  }
+
   public void setPosition(double posLeft, double posRight){
     pivotLeft.setControl(leftPivotRequest.withPosition(posLeft));
     pivotRight.setControl(rightPivotRequest.withPosition(posRight));

@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.*;
 
 import java.util.jar.Attributes.Name;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -89,7 +90,7 @@ public class RobotContainer {
         
         NamedCommands.registerCommand("Feed", new RunCommand(()-> s_Intake.Down(), s_Intake));
         NamedCommands.registerCommand("toggleShoot", new InstantCommand(()-> superstructure.toggleShooting()));
-        //NamedCommands.registerCommand("ShooterOff", new RunCommand(()-> s_Shooter.stop(), s_Shooter));
+        NamedCommands.registerCommand("shake feeder", new ShakeFeeder(s_Intake));
 
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
@@ -131,6 +132,9 @@ public class RobotContainer {
         RobotModeTriggers.disabled().whileTrue(
             drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
+
+        RobotModeTriggers.disabled().onTrue(new InstantCommand(() -> s_Intake.setNeutralMode(NeutralModeValue.Coast)));
+        RobotModeTriggers.disabled().onFalse(new InstantCommand(() -> s_Intake.setNeutralMode(NeutralModeValue.Brake)));
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         joystick.b().whileTrue(drivetrain.applyRequest(() ->

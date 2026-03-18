@@ -34,22 +34,22 @@ public class VisionSubsystem extends SubsystemBase {
     private static final String kLimelightName = "limelight-three";
 
     private final PhotonCamera photon1; 
-    private final PhotonCamera photon2;
+   //private final PhotonCamera photon2;
     private PhotonPoseEstimator photonPoseEstimator1; 
-    private PhotonPoseEstimator photonPoseEstimator2;
+    //private PhotonPoseEstimator photonPoseEstimator2;
     private static final String kPhotonCameraName1 = "arducam_left";
-    private static final String kPhotonCameraName2 = "arducam_right";
+    //private static final String kPhotonCameraName2 = "arducam_right";
     private final boolean kUseLimelight = true;
 
     
     private static final Transform3d kRobotToCam1 = new Transform3d(
-        new Translation3d(-0.35306, 0.3175, 0.5207), 
+        new Translation3d(-0.332, 0.345, 0.53), 
         new Rotation3d(0,0,Math.PI).rotateBy(new Rotation3d(0,Math.toRadians(-45),0))
     );
-    private static final Transform3d kRobotToCam2 = new Transform3d(
+    /*private static final Transform3d kRobotToCam2 = new Transform3d(
         new Translation3d(0.29972, -0.32004, 0.5207), 
         new Rotation3d(0,0,0).rotateBy( new Rotation3d(0,Math.toRadians(-45),0))
-    );
+    );*/
 
   
 
@@ -58,11 +58,11 @@ public class VisionSubsystem extends SubsystemBase {
 
 
         SmartDashboard.putBoolean("arducam_left", true);
-        SmartDashboard.putBoolean("arducam_right", true);
+       // SmartDashboard.putBoolean("arducam_right", true);
         SmartDashboard.putBoolean("limelight-three", kUseLimelight);
         //Initialize cameras 
         photon1 = new PhotonCamera(kPhotonCameraName1);
-        photon2 = new PhotonCamera(kPhotonCameraName2);
+        //photon2 = new PhotonCamera(kPhotonCameraName2);
 
         //Load field layout and set up pose estimator
         AprilTagFieldLayout fieldLayout = null;
@@ -80,11 +80,11 @@ public class VisionSubsystem extends SubsystemBase {
                 kRobotToCam1
             );
             //Estimator for camera 2
-            photonPoseEstimator2 = new PhotonPoseEstimator(
+           /*  photonPoseEstimator2 = new PhotonPoseEstimator(
                 fieldLayout,
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
                 kRobotToCam2
-            );
+            );*/
         }
 
         
@@ -94,7 +94,7 @@ public class VisionSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
        updateLimelight();
-       //updatePhotonVision(photonPoseEstimator1, photon1);
+       updatePhotonVision(photonPoseEstimator1, photon1);
        //updatePhotonVision(photonPoseEstimator2, photon2);
 
     }
