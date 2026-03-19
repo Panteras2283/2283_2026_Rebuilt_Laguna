@@ -194,6 +194,12 @@
           "name": "Feedn't"
         }
       }
+    },
+    {
+      "name": "toggleIdle",
+      "waypointRelativePos": 7.504761904761903,
+      "endWaypointRelativePos": null,
+      "command": null
     }
   ],
   "globalConstraints": {

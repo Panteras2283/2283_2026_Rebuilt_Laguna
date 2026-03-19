@@ -91,7 +91,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("Feed", new RunCommand(()-> s_Intake.Down(), s_Intake));
         NamedCommands.registerCommand("toggleShoot", new InstantCommand(()-> superstructure.toggleShooting()));
         NamedCommands.registerCommand("shake feeder", new ShakeFeeder(s_Intake).repeatedly());
-        NamedCommands.registerCommand("Feedn't", new InstantCommand(()-> s_Intake.stop()));
+        NamedCommands.registerCommand("Feedn't", new InstantCommand(()-> s_Intake.stop(), s_Intake));
+        NamedCommands.registerCommand("toggleIdle", new InstantCommand(()-> superstructure.toggleIdle()));
 
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
