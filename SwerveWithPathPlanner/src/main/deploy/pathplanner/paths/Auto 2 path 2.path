@@ -100,7 +100,7 @@
         "y": 0.6386019971469341
       },
       "prevControl": {
-        "x": 2.6341247035280895,
+        "x": 2.634124703528089,
         "y": 0.6167330899852831
       },
       "nextControl": null,
@@ -150,12 +150,6 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "toggleIdle",
-      "waypointRelativePos": 0.35714285714285665,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
       "name": "Feed",
       "waypointRelativePos": 0.7663817663817559,
       "endWaypointRelativePos": null,
@@ -176,6 +170,12 @@
           "name": "Feedn't"
         }
       }
+    },
+    {
+      "name": "toggleIdle",
+      "waypointRelativePos": 5.499085923217499,
+      "endWaypointRelativePos": null,
+      "command": null
     }
   ],
   "globalConstraints": {

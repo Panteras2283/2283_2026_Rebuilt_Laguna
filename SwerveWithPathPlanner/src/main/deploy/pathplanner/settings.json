@@ -4,9 +4,8 @@
   "holonomicMode": true,
   "pathFolders": [
     "AUTO 1 PATHS",
-    "AutoL Paths",
-    "AutoR Paths",
-    "AUTO 2 PATHS"
+    "AUTO 2 PATHS",
+    "AUTO 3 PATHS"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,

@@ -132,7 +132,7 @@
         "y": 0.6386019971469341
       },
       "prevControl": {
-        "x": 2.6341247035280895,
+        "x": 2.634124703528089,
         "y": 0.6167330899852831
       },
       "nextControl": null,
@@ -197,7 +197,7 @@
     },
     {
       "name": "toggleIdle",
-      "waypointRelativePos": 7.504761904761903,
+      "waypointRelativePos": 7.390615478366866,
       "endWaypointRelativePos": null,
       "command": null
     }
