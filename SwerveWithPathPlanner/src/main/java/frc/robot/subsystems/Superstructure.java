@@ -21,6 +21,7 @@ import frc.robot.Utils.ShootingTables;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
 
 import java.lang.Thread.State;
 import java.util.function.Supplier;
@@ -33,7 +34,7 @@ public class Superstructure extends SubsystemBase {
   private final Shooter shooter;
   private final Kicker kicker;
   private final Spindexer spindexer;
-  private final LEDs leds;
+  private final LEDs leds; 
   //private final ShooterSubsystem shooter;
 
   private final Supplier<Pose2d> poseSupplier;
@@ -49,6 +50,9 @@ public class Superstructure extends SubsystemBase {
   private final Translation2d RED_NSLTARGET = new Translation2d(13.84, 2.07);
   private final double middle_y = 4.00;
   private Translation2d currentTarget = BLUE_TARGET;
+  public boolean wantsUnjam = false;
+  private boolean autoUnjamming = false;
+  private final Timer unjamTimer = new Timer();
 
   private final CommandXboxController operator;
 
@@ -72,7 +76,8 @@ public class Superstructure extends SubsystemBase {
   public enum States{
     OFF,
     IDLE,
-    SHOOTING
+    SHOOTING,
+    UNJAM
   }
 
 
@@ -100,6 +105,10 @@ public class Superstructure extends SubsystemBase {
 
   public void toggleShooting(){
     wantsShoot = !wantsShoot;
+  }
+
+  public void toggleUnjam(boolean unjam) {
+    wantsUnjam = unjam;
   }
 
   public double getErrorDegrees(){
@@ -166,7 +175,16 @@ public class Superstructure extends SubsystemBase {
     
     public void runStateMachine() {
     States state = States.OFF;
-    if(wantsShoot){
+    if(wantsShoot && spindexer.jammed && !autoUnjamming){
+      autoUnjamming = true;
+      unjamTimer.restart();
+    }
+    if(autoUnjamming && unjamTimer.hasElapsed(0.3)){
+      autoUnjamming = false;
+      unjamTimer.stop();
+    }if(wantsUnjam || autoUnjamming){
+      state = States.UNJAM;
+    }else if(wantsShoot){
       state = States.SHOOTING;
     }else if(wantsIDLE){
       state = States.IDLE;
@@ -175,7 +193,7 @@ public class Superstructure extends SubsystemBase {
     }
 
     SmartDashboard.putString("Superstructure-state", state.toString());
-    SmartDashboard.putNumber(turret + "/ErrorDeg", getErrorDegrees());
+    
 
     switch (state){
       case OFF:
@@ -186,6 +204,9 @@ public class Superstructure extends SubsystemBase {
         break;
       case SHOOTING:
         handleSHOOTING();
+        break;
+      case UNJAM:
+        handleUNJAM();
         break;
     }
   }    
@@ -225,6 +246,8 @@ public class Superstructure extends SubsystemBase {
         turret.setTargetAngle(targetAngle);
       }
 
+    
+
       //shooter.setRPM(true, 3000);
       shooter.setTargetRPM(true, solution.effectiveDistance());
 
@@ -239,14 +262,11 @@ public class Superstructure extends SubsystemBase {
 
 
       SmartDashboard.putBoolean("Superstructure-Locked", locked);
+      SmartDashboard.putNumber(turret + "/ErrorDeg", getErrorDegrees());
 
       if (locked) {
         kicker.Kick(0.85);
-        //if (spindexer.jammed) {
-            //spindexer.SpinCCW();
-        //} else {
         spindexer.SpinCW(); 
-        //}
         leds.RTF();
       } else {
         leds.Default();
@@ -255,6 +275,18 @@ public class Superstructure extends SubsystemBase {
       }
       
     }
+
+    private void handleUNJAM() {
+      shooting = false;
+      idle = false;
+      hasSpunUp = false;
+    
+      shooter.stop();
+      kicker.stop();
+      spindexer.SpinCCW(); 
+    
+      leds.Default(); 
+  }
 
     public AimingSolution calculateAiming(){
       Pose2d robotPose = poseSupplier.get();

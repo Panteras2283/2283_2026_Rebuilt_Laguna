@@ -52,17 +52,17 @@ public class Spindexer extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Spindexer vel", SpindexerEncoder.getVelocity());
-    double SpindexerRPM = SpindexerEncoder.getVelocity();
-    
+    double SpindexerRPM = Math.abs(SpindexerEncoder.getVelocity()); // Use Math.abs
     double SpindexerCurrent = SpindexerMotor.getOutputCurrent(); 
     
-    if(SpindexerCurrent > 200 && SpindexerRPM < 20){
-      jammed = true;
-    }else{
-      jammed = false;
+    
+    if(SpindexerCurrent > 200 && SpindexerRPM < 20) {
+        jammed = true;
+    } else {
+        jammed = false;
     }
+
+    SmartDashboard.putBoolean("Spindexer Jammed", jammed);
   }
 
   

@@ -174,8 +174,8 @@ public class RobotContainer {
        operator.a().onFalse(s_Intake.getDefaultCommand());
 
        /*Spindexer */
-       operator.x().onTrue(new InstantCommand(()->s_Spindexer.SpinCCW()));
-       operator.x().onFalse(new InstantCommand(()->s_Spindexer.stop()));
+       operator.x().onTrue(new InstantCommand(()->superstructure.toggleUnjam(true)));
+       operator.x().onFalse(new InstantCommand(()->superstructure.toggleUnjam(false)));
 
        /*Shooter */
        operator.y().whileTrue(new ShootOveride(s_Shooter, s_Spindexer, superstructure, s_Kicker));
