@@ -136,7 +136,7 @@ public class RobotContainer {
         );
 
         RobotModeTriggers.disabled().onTrue(new InstantCommand(() -> s_Intake.setNeutralMode(NeutralModeValue.Coast)));
-        RobotModeTriggers.disabled().onFalse(new InstantCommand(() -> s_Intake.setNeutralMode(NeutralModeValue.Brake)));
+  
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         joystick.b().whileTrue(drivetrain.applyRequest(() ->

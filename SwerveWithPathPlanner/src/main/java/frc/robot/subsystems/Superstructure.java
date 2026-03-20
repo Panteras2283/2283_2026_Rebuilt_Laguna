@@ -249,6 +249,7 @@ public class Superstructure extends SubsystemBase {
         //}
         leds.RTF();
       } else {
+        leds.Default();
         kicker.stop();
         spindexer.stop();
       }

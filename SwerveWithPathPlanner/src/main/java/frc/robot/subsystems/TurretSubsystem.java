@@ -33,7 +33,7 @@ public class TurretSubsystem extends SubsystemBase {
   private static final double AIM_TOLERANCE_DEG = 0.08;
 
   // IMPORTANT: These values will need to be retuned for Phoenix 6 / Kraken!
-  private static final double kP = 6.5; 
+  private static final double kP = 7; 
   private static final double kI = 0.0;
   private static final double kD = 0.1;
   private static final double kFF = 4.67; // Acts as kV in Phoenix 6$
@@ -111,8 +111,9 @@ public class TurretSubsystem extends SubsystemBase {
   public void periodic() {
     double turretRPS = turretMotor.getVelocity().getValueAsDouble()*GEAR_RATIO;
     double turretRPM = turretRPS * 60;
+    double turretAngle = turretMotor.getPosition().getValueAsDouble();
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("/AngleDeg", getCurrentAngle().getDegrees());
+    SmartDashboard.putNumber("AngleDeg", turretMotor.getPosition().getValueAsDouble()*GEAR_RATIO);
     SmartDashboard.putNumber("TurretRPS", turretRPS);
 
   }
