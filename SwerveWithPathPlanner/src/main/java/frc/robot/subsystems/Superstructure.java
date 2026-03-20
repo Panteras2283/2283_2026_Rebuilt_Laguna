@@ -220,9 +220,9 @@ public class Superstructure extends SubsystemBase {
       shooting = true;
       if(Math.abs(operatorOffset) > 0.05) {
         targetAngle = targetAngle.plus(Rotation2d.fromDegrees(operatorOffset * 10));
-        turret.setTargetAngle(targetAngle.minus(Rotation2d.fromDegrees(2)));
+        turret.setTargetAngle(targetAngle);
       } else {
-        turret.setTargetAngle(targetAngle.minus(Rotation2d.fromDegrees(2)));
+        turret.setTargetAngle(targetAngle);
       }
 
       //shooter.setRPM(true, 3000);
@@ -267,7 +267,7 @@ public class Superstructure extends SubsystemBase {
           robotPose, robotSpeeds, TURRET_OFFSET, currentTarget, estimatedExitVel
       );
 
-      Rotation2d fixedAngle = solution.turretAngle().plus(Rotation2d.fromDegrees(8));
+      Rotation2d fixedAngle = solution.turretAngle();
       solution = new AimingSolution(fixedAngle, solution.effectiveDistance(), solution.virtualTarget());
 
       turretTargetPub.set(solution.virtualTarget());
