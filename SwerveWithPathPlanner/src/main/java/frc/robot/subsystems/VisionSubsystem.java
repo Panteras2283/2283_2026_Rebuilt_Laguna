@@ -44,8 +44,9 @@ public class VisionSubsystem extends SubsystemBase {
     
     private static final Transform3d kRobotToCam1 = new Transform3d(
         new Translation3d(-0.332, 0.345, 0.53), 
-        new Rotation3d(0,0,Math.PI).rotateBy(new Rotation3d(0,Math.toRadians(-45),0))
+        new Rotation3d(0, Math.toRadians(-45), Math.PI) 
     );
+
     /*private static final Transform3d kRobotToCam2 = new Transform3d(
         new Translation3d(0.29972, -0.32004, 0.5207), 
         new Rotation3d(0,0,0).rotateBy( new Rotation3d(0,Math.toRadians(-45),0))
@@ -193,10 +194,20 @@ public class VisionSubsystem extends SubsystemBase {
         // Trust scales with distance, even for multi-tag
         if (count >= 2){
             // Start at 0.1m trust, add more uncertainty as distance increases
-            xyStds = 0.1 + (0.1 * avgDist * avgDist); 
+            xyStds = 0.1 + (0.05 * avgDist * avgDist); 
         } else {
-            // Single tag is much less trustworthy
-            xyStds = 0.5 + (0.1 * avgDist * avgDist);
+            // Single tag: Extract ambiguity
+            double ambiguity = estimate.targetsUsed.get(0).getPoseAmbiguity();
+
+            // If ambiguity is high (> 0.2) or invalid (-1), the tag could be flipped.
+            if (ambiguity > 0.2 || ambiguity == -1.0) {
+                // Set a massive standard deviation to mathematically ignore this translation
+                xyStds = 100.0; 
+            } else {
+                // Single tag is less trustworthy. 
+                // Scale base trust by distance AND penalize it based on how ambiguous it is.
+                xyStds = 0.5 + (0.15 * avgDist * avgDist) + (ambiguity * 10.0);
+            }
         }
 
         // Use a massive number for rotation to trust the Pigeon (Gyro) exclusively
