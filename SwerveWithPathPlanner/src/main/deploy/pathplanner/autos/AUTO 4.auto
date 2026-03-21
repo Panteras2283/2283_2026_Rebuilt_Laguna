@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Auto 4 path 1"
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -51,13 +57,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of Auto 1 path 1"
+            "pathName": "Auto 4 path 2"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Feedn't"
+            "pathName": "Auto 4 path 3"
           }
         },
         {
@@ -73,7 +79,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.5
+                  "waitTime": 0.5
                 }
               },
               {
