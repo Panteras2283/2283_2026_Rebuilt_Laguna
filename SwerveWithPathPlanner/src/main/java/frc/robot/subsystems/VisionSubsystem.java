@@ -94,8 +94,8 @@ public class VisionSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-       //updateLimelight();
-       updatePhotonVision(photonPoseEstimator1, photon1);
+       updateLimelight();
+       //updatePhotonVision(photonPoseEstimator1, photon1);
        //updatePhotonVision(photonPoseEstimator2, photon2);
 
     }
