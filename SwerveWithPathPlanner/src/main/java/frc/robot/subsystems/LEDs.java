@@ -71,4 +71,8 @@ public class LEDs extends SubsystemBase {
   public void RTF() {
     setPreset(5);
   }
+
+  public void Antijam(){
+    setPreset(6);
+  }
 }

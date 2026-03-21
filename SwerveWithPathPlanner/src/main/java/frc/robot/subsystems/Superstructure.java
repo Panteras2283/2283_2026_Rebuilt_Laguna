@@ -285,7 +285,7 @@ public class Superstructure extends SubsystemBase {
       kicker.stop();
       spindexer.SpinCCW(); 
     
-      leds.Default(); 
+      leds.Antijam(); 
   }
 
     public AimingSolution calculateAiming(){
