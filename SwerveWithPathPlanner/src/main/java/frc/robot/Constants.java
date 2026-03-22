@@ -117,6 +117,7 @@ public class Constants {
 
     public static final class Kicker {
         public static final int KickermotorID = 26;
+        public static final int RollerID = 32;
     }
 
     public static final class Shooter{
