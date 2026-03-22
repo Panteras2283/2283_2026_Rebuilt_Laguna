@@ -65,15 +65,15 @@
     {
       "anchor": {
         "x": 6.406833095577745,
-        "y": 2.6477280858676204
+        "y": 2.534150268336315
       },
       "prevControl": {
         "x": 6.756176890156918,
-        "y": 2.660666744926109
+        "y": 2.5470889273948036
       },
       "nextControl": {
         "x": 6.157004387136053,
-        "y": 2.6384751707401497
+        "y": 2.524897353208844
       },
       "isLocked": false,
       "linkedName": null
@@ -81,27 +81,27 @@
     {
       "anchor": {
         "x": 4.414279600570612,
-        "y": 2.6477280858676204
+        "y": 2.534150268336315
       },
       "prevControl": {
         "x": 4.6637258900347645,
-        "y": 2.6643578384985664
+        "y": 2.550780020967261
       },
       "nextControl": {
         "x": 4.16483331110646,
-        "y": 2.6310983332366744
+        "y": 2.517520515705369
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.234150268336314,
-        "y": 2.6477280858676204
+        "x": 2.493756708407871,
+        "y": 2.534150268336315
       },
       "prevControl": {
-        "x": 2.4611401144614278,
-        "y": 2.5429635415021856
+        "x": 2.7203024934066864,
+        "y": 2.639871634669096
       },
       "nextControl": null,
       "isLocked": false,
@@ -122,7 +122,11 @@
       "rotationDegrees": 62.9814180726821
     },
     {
-      "waypointRelativePos": 4.42643923240937,
+      "waypointRelativePos": 3.9917355371900873,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 4.537190082644631,
       "rotationDegrees": -25.33478160169145
     },
     {
@@ -159,10 +163,10 @@
     },
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 2.508231925554758,
-      "maxWaypointRelativePos": 3.76,
+      "minWaypointRelativePos": 2.8000000000000003,
+      "maxWaypointRelativePos": 3.3333333333333295,
       "constraints": {
-        "maxVelocity": 4.0,
+        "maxVelocity": 1.7,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -172,30 +176,7 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Feed",
-      "waypointRelativePos": 1.474679270762985,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Feed"
-        }
-      }
-    },
-    {
-      "name": "Feedn't",
-      "waypointRelativePos": 3.6299797434166186,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Feedn't"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
@@ -206,7 +187,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 37.874983651098354
+    "rotation": 45.00000000000004
   },
   "reversed": false,
   "folder": "AUTO 3 PATHS",

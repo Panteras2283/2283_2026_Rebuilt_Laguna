@@ -8,10 +8,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 
@@ -21,7 +23,8 @@ import frc.robot.Utils.ShootingTables;
 
 public class Intake extends SubsystemBase {
  /** Creates a new Intake_demo. */
-  private TalonFX Feeder = new TalonFX(Constants.Intake.FeederID);
+  private TalonFX FeederRight = new TalonFX(Constants.Intake.FeederRightID);
+  private TalonFX FeederLeft = new TalonFX(Constants.Intake.FeederLeftID);
   private TalonFX pivotLeft = new TalonFX(Constants.Intake.PivotLeftID);
   private TalonFX pivotRight = new TalonFX(Constants.Intake.PivotRightID);
 
@@ -46,8 +49,12 @@ public class Intake extends SubsystemBase {
     cfgF.Slot0.kP = 0.33;
     cfgF.Slot0.kV = 0.12;
 
-    Feeder.getConfigurator().apply(cfgF);
-    Feeder.setNeutralMode(NeutralModeValue.Coast);
+    FeederRight.getConfigurator().apply(cfgF);
+    FeederLeft.getConfigurator().apply(cfgF);
+    FeederRight.setNeutralMode(NeutralModeValue.Coast);
+    FeederLeft.setNeutralMode(NeutralModeValue.Coast);
+
+    FeederLeft.setControl(new Follower(Constants.Intake.FeederRightID, MotorAlignmentValue.Opposed));
     }
 
   private void configureMotionMagic(){
@@ -80,8 +87,8 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("LeftPivotPos", pivotLeft.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("RightPivotPos", pivotRight.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("FeederVel", Feeder.getVelocity().getValueAsDouble()*60);
-    SmartDashboard.putNumber("FeederCurrent", Feeder.getStatorCurrent().getValueAsDouble());
+    SmartDashboard.putNumber("FeederVel", FeederRight.getVelocity().getValueAsDouble()*60);
+    SmartDashboard.putNumber("FeederCurrent", FeederRight.getStatorCurrent().getValueAsDouble());
   }
 
   public void setNeutralMode(NeutralModeValue mode) {
@@ -98,12 +105,12 @@ public class Intake extends SubsystemBase {
   public void Down(){
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftFeedPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightFeedPos));
-    Feeder.setControl(feederRequest.withVelocity(50));
+    FeederRight.setControl(feederRequest.withVelocity(50));
     leds.Feed();
   }  
 
   public void feed(){
-    Feeder.setControl(feederRequest.withVelocity(50));
+    FeederRight.setControl(feederRequest.withVelocity(50));
     leds.Feed(); 
   } 
 
@@ -113,7 +120,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void outake(){
-    Feeder.set(-0.5);
+    FeederRight.set(-0.5);
     
   } 
 
@@ -126,7 +133,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void stop(){
-    Feeder.set(0);
+    FeederRight.set(0);
     leds.Default();
   }
 }
