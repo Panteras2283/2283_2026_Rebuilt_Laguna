@@ -35,6 +35,8 @@ public class Intake extends SubsystemBase {
 
 
   private double intakeTargetRPM = 0;
+
+  public boolean isFeeding = false;
   
   public Intake(LEDs leds) {
     configureMotionMagic();
@@ -104,6 +106,7 @@ public class Intake extends SubsystemBase {
 
 
   public void Down(){
+    isFeeding = true;
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftFeedPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightFeedPos));
     FeederRight.setControl(feederRequest.withVelocity(50));
@@ -111,16 +114,19 @@ public class Intake extends SubsystemBase {
   }  
 
   public void feed(){
+    isFeeding = true;
     FeederRight.setControl(feederRequest.withVelocity(50));
     leds.Feed(); 
   } 
 
   public void up(){
+    isFeeding = false;
     pivotLeft.setControl(leftPivotRequest.withPosition(Constants.Intake.LeftUpPos));
     pivotRight.setControl(rightPivotRequest.withPosition(Constants.Intake.RightUpPos));
   }
 
   public void outake(){
+    isFeeding = false;
     FeederRight.set(-0.5);
     
   } 
@@ -134,6 +140,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void stop(){
+    isFeeding = false;
     FeederRight.set(0);
     leds.Default();
   }

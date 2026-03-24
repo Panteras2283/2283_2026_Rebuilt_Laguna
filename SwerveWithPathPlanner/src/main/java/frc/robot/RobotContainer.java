@@ -39,6 +39,8 @@ public class RobotContainer {
     //Constants
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double FeedingMaxSpeed = 3.5;
+    private double ShootingMaxSpeed = 1.5;
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -99,24 +101,41 @@ public class RobotContainer {
         SmartDashboard.putData("Auto Mode", autoChooser);
 
 
-
+        
         configureBindings();
 
         // Warmup PathPlanner to avoid Java pauses
         FollowPathCommand.warmupCommand().schedule();
     }
-
+    private double getDynamicMaxSpeed() {
+        if (superstructure.shooting || superstructure.wantsShoot) {
+            return ShootingMaxSpeed;
+        } 
+        else if (s_Intake.isFeeding) {
+            return FeedingMaxSpeed;
+        }
+        return MaxSpeed;
+    }
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
+
         drivetrain.setDefaultCommand(
+            drivetrain.applyRequest(() -> {
+                double currentMaxSpeed = getDynamicMaxSpeed();
+                return drive.withVelocityX(-joystick.getLeftY() * currentMaxSpeed) 
+                    .withVelocityY(-joystick.getLeftX() * currentMaxSpeed) 
+                    .withRotationalRate(-joystick.getRightX() * MaxAngularRate); 
+            })
+        );
+        /*drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
                     .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
-        );
+        );*/
 
         superstructure.setDefaultCommand(new RunCommand(() -> superstructure.runStateMachine(),superstructure, s_Turret, s_Shooter, s_Kicker, s_Spindexer));
         s_Intake.setDefaultCommand(new IntakeDefault(s_Intake));
