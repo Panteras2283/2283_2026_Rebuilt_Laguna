@@ -37,17 +37,13 @@ public class Fast_DriveToPose_cmd extends SequentialCommandGroup {
             CommandXboxController operator) {
 
         addCommands(
-            // --- STEP 1: Pathfind to Approach Point ---
-            // DeferredCommand ensures we read the "get()" value only when the command actually starts
+   
             new DeferredCommand(() -> {
-                // 1. Resolve the Suppliers to actual integers NOW
                 int targetSide = sideSupplier.get();
                 int targetSlot = slotSupplier.get();
 
-                // 2. Get the Scoring Pose
                 Pose2d scoringPose = Constants.AutopilotConstants.getPose(targetSide, targetSlot);
 
-                // 4. Return the Pathfind Command
                 return drivetrain.PathfindToPose(scoringPose, constraints, 0.0);
                 
             }, Set.of(drivetrain))
