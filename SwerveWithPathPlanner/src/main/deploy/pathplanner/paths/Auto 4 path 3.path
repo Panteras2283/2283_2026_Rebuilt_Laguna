@@ -25,7 +25,7 @@
       },
       "nextControl": {
         "x": 6.358135024940774,
-        "y": 1.1242270840017856
+        "y": 1.1242270840017858
       },
       "isLocked": false,
       "linkedName": null
@@ -64,15 +64,15 @@
     },
     {
       "anchor": {
-        "x": 6.06334525939177,
+        "x": 6.226,
         "y": 3.4752236135957064
       },
       "prevControl": {
-        "x": 6.101517912267606,
-        "y": 3.7222921234718553
+        "x": 6.2641726528758355,
+        "y": 3.722292123471856
       },
       "nextControl": {
-        "x": 5.966918687589158,
+        "x": 6.1295734281973875,
         "y": 2.851112696148359
       },
       "isLocked": false,
@@ -112,15 +112,15 @@
     },
     {
       "anchor": {
-        "x": 3.288801431127012,
+        "x": 2.9156171735241503,
         "y": 2.031162790697674
       },
       "prevControl": {
-        "x": 3.7593381037567077,
+        "x": 3.386153846153846,
         "y": 2.761305903398926
       },
       "nextControl": {
-        "x": 3.1019378784552725,
+        "x": 2.7287536208524106,
         "y": 1.7412021055173883
       },
       "isLocked": false,
@@ -128,12 +128,12 @@
     },
     {
       "anchor": {
-        "x": 2.9156171735241503,
-        "y": 0.7
+        "x": 2.732253922967189,
+        "y": 0.912
       },
       "prevControl": {
-        "x": 2.8710601005218708,
-        "y": 0.9459972911344137
+        "x": 2.6876968499649094,
+        "y": 1.1579972911344139
       },
       "nextControl": null,
       "isLocked": false,
@@ -162,11 +162,25 @@
       "rotationDegrees": -40.02910241147818
     },
     {
-      "waypointRelativePos": 6.709418837675351,
+      "waypointRelativePos": 6.669509594882728,
       "rotationDegrees": 45.29650212770305
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 5.898717083051972,
+      "maxWaypointRelativePos": 6.762997974341667,
+      "constraints": {
+        "maxVelocity": 3.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
@@ -202,7 +216,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 49.969740728110295
+    "rotation": 57.539701879032464
   },
   "reversed": false,
   "folder": "AUTO 4 PATHS",

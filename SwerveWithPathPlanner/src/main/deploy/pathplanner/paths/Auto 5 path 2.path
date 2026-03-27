@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9263338088445074,
+        "x": 2.706376604850214,
         "y": 6.784465049928674
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.991027104136947,
+        "x": 2.7710699001426535,
         "y": 7.599600570613409
       },
       "isLocked": false,
@@ -50,7 +50,7 @@
     "rotation": 179.9249848960361
   },
   "reversed": false,
-  "folder": null,
+  "folder": "AUTO 5 PATHS",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -72.0720802379928

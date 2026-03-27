@@ -196,7 +196,8 @@ public class RobotContainer {
        operator.x().onFalse(new InstantCommand(()->superstructure.toggleUnjam(false)));
 
        /*Shooter */
-       operator.y().whileTrue(new ShootOveride(s_Shooter, s_Spindexer, superstructure, s_Kicker));
+       operator.y().whileTrue(new ShootOveride(s_Shooter, s_Spindexer, superstructure, s_Kicker, superstructure.solution.effectiveDistance()));
+       operator.rightStick().whileTrue(new ShootOveride(s_Shooter, s_Spindexer, superstructure, s_Kicker, 3200));
 
 
             

@@ -64,16 +64,16 @@
     },
     {
       "anchor": {
-        "x": 6.06334525939177,
-        "y": 4.559015691868759
+        "x": 6.31626248216833,
+        "y": 4.546077032810271
       },
       "prevControl": {
-        "x": 6.303323823109842,
-        "y": 4.31318116975749
+        "x": 6.556241045886402,
+        "y": 4.300242510699002
       },
       "nextControl": {
-        "x": 5.622210700010372,
-        "y": 5.0109148194912345
+        "x": 5.875127922786932,
+        "y": 4.997976160432747
       },
       "isLocked": false,
       "linkedName": null
@@ -112,28 +112,28 @@
     },
     {
       "anchor": {
-        "x": 3.2756776034236803,
-        "y": 5.76231098430813
+        "x": 3.0815977175463622,
+        "y": 5.7364336661911555
       },
       "prevControl": {
-        "x": 3.6948163209706246,
-        "y": 5.427000010270576
+        "x": 3.5007364350933066,
+        "y": 5.401122692153601
       },
       "nextControl": {
-        "x": 3.0804604010629224,
-        "y": 5.918484746196736
+        "x": 2.8863805151856043,
+        "y": 5.892607428079761
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9263338088445074,
-        "y": 6.551569186875891
+        "x": 2.771069900142653,
+        "y": 6.564507845934379
       },
       "prevControl": {
-        "x": 3.029843081312411,
-        "y": 6.292796005706134
+        "x": 2.8745791726105567,
+        "y": 6.305734664764622
       },
       "nextControl": null,
       "isLocked": false,
@@ -166,7 +166,21 @@
       "rotationDegrees": -47.9280413624491
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 5.963538149898713,
+      "maxWaypointRelativePos": 6.806212018906117,
+      "constraints": {
+        "maxVelocity": 3.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
@@ -205,7 +219,7 @@
     "rotation": -67.69379494509232
   },
   "reversed": false,
-  "folder": null,
+  "folder": "AUTO 5 PATHS",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 179.9249848960361
