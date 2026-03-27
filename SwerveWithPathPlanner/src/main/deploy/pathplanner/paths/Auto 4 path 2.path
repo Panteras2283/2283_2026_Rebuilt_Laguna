@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0623,
-        "y": 1.074
+        "x": 2.6416833095577745,
+        "y": 1.479614835948646
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9480679785330945,
-        "y": 0.5546511627906967
+        "x": 2.5099821109123432,
+        "y": 0.6357781753130587
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Auto 4 path 2 start"
     },
     {
       "anchor": {
@@ -53,7 +53,7 @@
   "folder": "AUTO 4 PATHS",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.028031125697
+    "rotation": 74.57783868126141
   },
   "useDefaultConstraints": false
 }

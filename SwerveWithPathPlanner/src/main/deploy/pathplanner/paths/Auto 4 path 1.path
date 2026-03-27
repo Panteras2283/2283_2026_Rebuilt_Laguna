@@ -33,15 +33,15 @@
     {
       "anchor": {
         "x": 7.519557774607703,
-        "y": 1.1949643366619125
+        "y": 1.3334704830053659
       },
       "prevControl": {
         "x": 7.15395868248806,
-        "y": 0.8651877284227513
+        "y": 1.0036938747662045
       },
       "nextControl": {
         "x": 7.777752303762322,
-        "y": 1.4278601997146938
+        "y": 1.5663663460581472
       },
       "isLocked": false,
       "linkedName": null
@@ -52,12 +52,12 @@
         "y": 2.941683309557775
       },
       "prevControl": {
-        "x": 7.7665696454166895,
-        "y": 2.838761696720698
+        "x": 7.786180338814768,
+        "y": 2.964489689480726
       },
       "nextControl": {
-        "x": 7.130148114500368,
-        "y": 3.1039373346024965
+        "x": 7.117996422182468,
+        "y": 2.907334525939177
       },
       "isLocked": false,
       "linkedName": null
@@ -65,31 +65,31 @@
     {
       "anchor": {
         "x": 5.738837209302326,
-        "y": 2.745080500894454
+        "y": 2.6315026833631485
       },
       "prevControl": {
         "x": 6.647459749552772,
-        "y": 2.9722361359570666
+        "y": 2.858658318425761
       },
       "nextControl": {
         "x": 5.496301584265991,
-        "y": 2.68444659463537
+        "y": 2.5708687771040646
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.874579172610556,
-        "y": 2.462952924393724
+        "x": 2.980518783542039,
+        "y": 2.29076923076923
       },
       "prevControl": {
-        "x": 3.1851069900142646,
-        "y": 2.644094151212554
+        "x": 3.2910466009457475,
+        "y": 2.47191045758806
       },
       "nextControl": {
-        "x": 2.658634447385947,
-        "y": 2.336985168012702
+        "x": 2.76457405831743,
+        "y": 2.164801474388208
       },
       "isLocked": false,
       "linkedName": null
@@ -105,12 +105,16 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Auto 4 path 2 start"
     }
   ],
   "rotationTargets": [
     {
       "waypointRelativePos": 0.8216432865731464,
+      "rotationDegrees": 180.0
+    },
+    {
+      "waypointRelativePos": 1.2148760330578519,
       "rotationDegrees": 180.0
     },
     {
@@ -130,21 +134,7 @@
       "rotationDegrees": 33.737651267068095
     }
   ],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 3.8406482106684576,
-      "maxWaypointRelativePos": 4.796758946657667,
-      "constraints": {
-        "maxVelocity": 3.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
