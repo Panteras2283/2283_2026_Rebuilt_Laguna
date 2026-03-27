@@ -164,16 +164,16 @@ public class VisionSubsystem extends SubsystemBase {
         if (estimate.tagCount >= 2) {
             // High trust if multiple tags are visible
             xyStds = 0.05;
-            degStds = 9999999;
+            degStds = 3;
         } else {
             // Scale trust based on distance to the single tag
             double dist = estimate.avgTagDist;
             if (dist > 4.0) {
                  xyStds = 1.0; 
-                 degStds = 9999999;
+                 degStds = 10;
             } else {
                  xyStds = 0.5 + (0.1 * dist);
-                 degStds =  9999999;
+                 degStds =  5 + (2* dist);
             }
         }
         return VecBuilder.fill(xyStds, xyStds, Units.degreesToRadians(degStds));
