@@ -32,8 +32,8 @@ private double power;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_Shooter.setRPM(false, power);
-    s_Kicker.Kick(0.5);
+    s_Shooter.setRPM(true, power);
+    s_Kicker.Kick(0.85);
     s_Spindexer.SpinCW();
   }
 

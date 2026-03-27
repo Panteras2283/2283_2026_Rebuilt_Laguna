@@ -14,14 +14,12 @@ public class ShootOveride extends Command {
   private Spindexer s_Spindexer;
   private Superstructure s_Superstructure;
   private Kicker s_Kicker;
-  private double RPM;
   /** Creates a new ShootOveride. */
-  public ShootOveride(Shooter s_Shooter, Spindexer s_Spindexer, Superstructure s_Superstructure, Kicker s_Kicker, double RPM) {
+  public ShootOveride(Shooter s_Shooter, Spindexer s_Spindexer, Superstructure s_Superstructure, Kicker s_Kicker) {
     this.s_Shooter = s_Shooter;
     this.s_Kicker = s_Kicker;
     this.s_Spindexer = s_Spindexer;
     this.s_Superstructure = s_Superstructure;
-    this.RPM = RPM;
     addRequirements(s_Kicker, s_Shooter, s_Spindexer, s_Superstructure);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -33,7 +31,7 @@ public class ShootOveride extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_Shooter.setTargetRPM(true, RPM);
+    s_Shooter.setTargetRPM(true, s_Superstructure.solution.effectiveDistance());
     s_Kicker.Kick(0.85);
     s_Spindexer.SpinCW();
   }
