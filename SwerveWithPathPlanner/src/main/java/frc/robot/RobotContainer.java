@@ -197,7 +197,9 @@ public class RobotContainer {
 
        /*Shooter */
        operator.y().whileTrue(new ShootOveride(s_Shooter, s_Spindexer, superstructure, s_Kicker));
-       //operator.start().whileTrue(new SimpleShoot(s_Shooter, s_Kicker, s_Spindexer, 3200));
+
+       /*Robot Unjam*/
+       operator.start().whileTrue(new RobotUnjam(s_Intake, s_Spindexer));
 
 
             

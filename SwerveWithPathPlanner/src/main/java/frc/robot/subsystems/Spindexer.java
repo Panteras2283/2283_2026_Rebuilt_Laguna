@@ -84,6 +84,10 @@ public class Spindexer extends SubsystemBase {
     this.setVelocity(-1000);
   }
 
+  public void Spin(double speed){
+    this.setVelocity(speed);
+  }
+
   public void stop(){
     SpindexerMotor.set(0);
   }
