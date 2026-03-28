@@ -77,7 +77,7 @@ public class Spindexer extends SubsystemBase {
   }
 
   public void SpinCW(){
-    this.setVelocity(4000);
+    this.setVelocity(4500);
   }
 
   public void SpinCCW(){
