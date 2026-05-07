@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.85847080971734,
-        "y": 0.6922843262372067
+        "x": 4.863331201539728,
+        "y": 0.6737853872632501
       },
       "isLocked": false,
       "linkedName": "Auto 4 path 2 end"
@@ -143,7 +143,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.6694214876033056,
-      "rotationDegrees": -173.4622834323869
+      "rotationDegrees": 180.0
     },
     {
       "waypointRelativePos": 1.4,
