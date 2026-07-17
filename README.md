@@ -30,7 +30,7 @@
 <!-- 🎥 MATCH / REVEAL VIDEO — replace VIDEO_ID with your YouTube video ID -->
 <div align="center">
 
-[![Watch Hurakán in action](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
+[![Watch Hurakán in action](https://img.youtube.com/vi/ZNziPRv8LTk/maxresdefault.jpg)](https://youtu.be/ZNziPRv8LTk)
 
 *Click above to watch our robot in action*
 
@@ -125,9 +125,9 @@ Just like a video game — two "players," two very different jobs. **Player 1** 
 
 ### 🐾 Team 2283 — Panteras
 
-*Built by students. Driven by passion.*
+*Pantera No Cualquiera.*
 
 <!-- Swap in your team's real links -->
-[Website](#) • [Instagram](#) • [X / Twitter](#)
+[Instagram](https://www.instagram.com/panterasup/) 
 
 </div>
