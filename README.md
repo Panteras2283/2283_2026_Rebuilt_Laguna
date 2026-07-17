@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- 🖼️ TEAM LOGO — replace src with your logo file, e.g. media/2283-logo.png -->
-<img src="media/2283-logo.png" alt="Team 2283 Panteras Logo" width="180"/>
+<img src="media/2283-logo.png" alt="Team 2283 Panteras Logo" width="280"/>
 
 # 🌀 HURAKÁN
 ### FRC Team 2283 — Panteras | 2026 Season "REBUILT" | Laguna Regional
@@ -32,7 +32,7 @@
 
 [![Watch Hurakán in action](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
 
-*Click above to watch our robot reveal / match highlights*
+*Click above to watch our robot in action*
 
 </div>
 
