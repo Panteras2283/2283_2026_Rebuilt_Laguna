@@ -30,7 +30,9 @@
 <!-- 🎥 MATCH / REVEAL VIDEO — replace VIDEO_ID with your YouTube video ID -->
 <div align="center">
 
-[![Watch Hurakán in action](https://img.youtube.com/vi/ZNziPRv8LTk/maxresdefault.jpg)](https://www.youtube.com/watch?v=ZNziPRv8LTk)
+<a href="https://www.youtube.com/watch?v=ZNziPRv8LTk">
+  <img src="https://img.youtube.com/vi/ZNziPRv8LTk/maxresdefault.jpg" alt="Watch Hurakán in action" width="400"/>
+</a>
 
 *Click above to watch our robot in action*
 
