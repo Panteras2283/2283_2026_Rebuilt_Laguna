@@ -24,7 +24,7 @@
 <p align="center">
   <img src="media/robot-front.jpg" alt="Hurakán front view" width="32%"/>
   <img src="media/robot-action.jpg" alt="Hurakán on the field" width="32%"/>
-  <img src="media/robot-team.jpg" alt="Team 2283 with Hurakán" width="32%"/>
+  <img src="media/robot-action-2.jpg" alt="Hurakán on the field 2" width="32%"/>
 </p>
 
 <!-- 🎥 MATCH / REVEAL VIDEO — replace VIDEO_ID with your YouTube video ID -->
