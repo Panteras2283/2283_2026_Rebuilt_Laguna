@@ -136,7 +136,7 @@ public class Superstructure extends SubsystemBase {
     Pose2d robotPose = poseSupplier.get();
     ChassisSpeeds robotSpeeds = speedSupplier.get();
     
-    operatorOffset = operator.getLeftX();
+    operatorOffset = -operator.getLeftX();
 
     var alliance = DriverStation.getAlliance();
 
