@@ -121,7 +121,7 @@ public class RobotContainer {
 
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() -> {
-                double currentMaxSpeed = getDynamicMaxSpeed();
+                double currentMaxSpeed = getDynamicMaxSpeed()/*0.575*/;
                 return drive.withVelocityX(-joystick.getLeftY() * currentMaxSpeed) 
                     .withVelocityY(-joystick.getLeftX() * currentMaxSpeed) 
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate); 
