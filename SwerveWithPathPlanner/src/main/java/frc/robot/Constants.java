@@ -111,7 +111,7 @@ public class Constants {
         public static final double RightUpPos = -16;
         public static final double LeftShakeUpPos = 7.5;
         public static final double RightShakeUpPos = -7.5;
-        public static final double LeftShakeDownPos = 2;
+        public static final double LeftShakeDownPos = 1.5;
         public static final double RightShakeDownPos = -2;
          
     }
